@@ -4,10 +4,18 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
+    screens: {
+      sm: '320px',   // phones
+      md: '900px',   // tablets
+      lg: '1100px',  // laptops
+      xl: '1280px',  // desktops
+      '2xl': '1536px', // large screens
+    },
     extend: {
       fontFamily: {
         youngserif: ['Young_Serif', 'serif'],
         zalando: ['Zalando_Sans_Expanded', 'sans-serif'],
+        outfit: ['Outfit', 'sans-serif'],
       },
       backgroundImage: {
         "nexastay-gradient":
@@ -82,7 +90,7 @@ module.exports = {
             content: '""',
             position: "absolute",
             inset: "-2px",
-            padding: "2px",
+            padding: "4px",
             background: "radial-gradient(141.56% 141.56% at 50% -7.74%, #2DD4BF 0%, #0EA5E9 50.96%, #D946EF 100%)",
             "border-radius": "inherit",
             mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
@@ -91,9 +99,10 @@ module.exports = {
             "-webkit-mask-composite": "xor",
             opacity: "0",
             transition: "opacity 0.2s ease-in-out",
+            "z-index": "1",
           },
           "&:hover::before": {
-            opacity: "30",
+            opacity: "35",
           },
         },
       });

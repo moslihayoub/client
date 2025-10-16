@@ -55,12 +55,15 @@ import ColSystem from "../svgs/colored/ColSystem";
 import CliSun from "../svgs/clicked/CliSun";
 import CliMoon from "../svgs/clicked/CliMoon";
 import CliSystem from "../svgs/clicked/CliSystem";
+import ColSide from "../svgs/colored/ColSide";
+import Sidebar from "./Sidebar";
 
 interface NavbarProps {
     iconVariant?: "white" | "transparent"; // optional prop, defaults to transparent
     logoColor?: "normal" | "white"; // optional prop, defaults to normal
     background?: "white" | "transparent"; // optional prop, defaults to transparent
     profileImg?: string; // optional prop, defaults to empty string
+    setIsMobileMenu?: (isOpen: boolean) => void; // optional prop, defaults to empty function
 }
 
 interface NavItem {
@@ -75,17 +78,19 @@ interface NavItem {
     img?: string;
 }
 
-export default function Navbar({ 
-    iconVariant = "transparent", 
-    logoColor = "normal", 
+export default function Navbar({
+    iconVariant = "transparent",
+    logoColor = "normal",
     background = "transparent",
-    profileImg = ""
+    profileImg = "",
+    setIsMobileMenu = (isOpen: boolean) => {}
 }: NavbarProps) {
     const [isLanguagePopupOpen, setIsLanguagePopupOpen] = useState(false);
     const [currentLanguage, setCurrentLanguage] = useState('fr'); // Default to French
     const [isAppModePopupOpen, setIsAppModePopupOpen] = useState(false);
     const [currentAppMode, setCurrentAppMode] = useState('system'); // Default to System
     const [pressedItems, setPressedItems] = useState<Set<string>>(new Set());
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleLanguageChanging = () => {
         setIsLanguagePopupOpen(!isLanguagePopupOpen);
@@ -219,70 +224,94 @@ export default function Navbar({
 
     // Determine background class
     const backgroundClass = background === "white" ? "bg-white" : "bg-transparent";
-    
-    return (
-        <nav className={`w-full h-[80px] flex fixed items-center justify-between ${backgroundClass} px-[36px] py-[18px] opacity-100`}>
-            {/* Left: Logo */}
-            <div className="flex items-center gap-2">
-                {logoColor === "normal" ? <NexaLogo /> : <WhiteNexaLogo />}
-            </div>
 
-            {/* Right: Icons */}
-            <div className="flex items-center gap-[24px]">
-                {navItems.map((item) => {
-                    const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, size, onClick, img } = item;
-                    const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-[34px]";
-                    const isPressed = pressedItems.has(id);
-                    
-                    // Special handling for moon/app mode button
-                    if (id === "moon") {
-                        const currentModeIcons = getCurrentAppModeIcon();
-                        const DefaultIcon = iconVariant === "white" ? currentModeIcons.WhiteIcon : currentModeIcons.TransparentIcon;
-                        const IconToShow = isPressed ? currentModeIcons.ClickedIcon : DefaultIcon;
-                        
+  return (
+        <>
+            <nav className={`z-30 w-full h-[10%] flex fixed items-center justify-between ${backgroundClass} sm:bg-gradient-to-b sm:from-white sm:from-[24.52%] sm:to-transparent sm:backdrop-blur-[2px] px-[36px] py-[18px] opacity-100`}>
+
+                {/* Left: Desktop Logo - Visible on lg and xl devices */}
+      <div className="flex items-center gap-2">
+                    {logoColor === "normal" ? <NexaLogo /> : <WhiteNexaLogo />}
+      </div>
+
+                {/* Desktop: Icons */}
+                <div className="hidden md:flex items-center gap-[24px]">
+                    {navItems.map((item) => {
+                        const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, size, onClick, img } = item;
+                        const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-[34px]";
+                        const isPressed = pressedItems.has(id);
+
+                        // Special handling for moon/app mode button
+                        if (id === "moon") {
+                            const currentModeIcons = getCurrentAppModeIcon();
+                            const DefaultIcon = iconVariant === "white" ? currentModeIcons.WhiteIcon : currentModeIcons.TransparentIcon;
+                            const IconToShow = isPressed ? currentModeIcons.ClickedIcon : DefaultIcon;
+
+                            return (
+                                <button
+                                    key={id}
+                                    className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`}
+                                    onMouseDown={() => handleItemPress(id)}
+                                    onMouseUp={() => handleItemRelease(id, onClick)}
+                                    onTouchStart={() => handleItemPress(id)}
+                                    onTouchEnd={() => handleItemRelease(id, onClick)}
+                                    aria-label={`App Mode: ${currentAppMode}`}
+                                >
+                                    <IconToShow />
+                                    {!isPressed && <currentModeIcons.ColoredIcon />}
+                                </button>
+                            );
+                        }
+
+                        // Regular handling for other buttons
+                        const DefaultIcon = iconVariant === "white" ? WhiteIcon : TransparentIcon;
+                        const IconToShow = isPressed ? ClickedIcon : DefaultIcon;
+
                         return (
-                            <button 
+                            <button
                                 key={id}
                                 className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`}
                                 onMouseDown={() => handleItemPress(id)}
                                 onMouseUp={() => handleItemRelease(id, onClick)}
                                 onTouchStart={() => handleItemPress(id)}
                                 onTouchEnd={() => handleItemRelease(id, onClick)}
-                                aria-label={`App Mode: ${currentAppMode}`}
+                                aria-label={name}
                             >
-                                <IconToShow />
-                                {!isPressed && <currentModeIcons.ColoredIcon />}
-                            </button>
+                                {img ? (
+                                    <img src={img} alt="Profile" className="w-full h-full rounded-full object-cover" />
+                                ) : (
+                                    <>
+                                        <IconToShow />
+                                        {!isPressed && <ColoredIcon />}
+                                    </>
+                                )}
+          </button>
                         );
-                    }
-                    
-                    // Regular handling for other buttons
-                    const DefaultIcon = iconVariant === "white" ? WhiteIcon : TransparentIcon;
-                    const IconToShow = isPressed ? ClickedIcon : DefaultIcon;
-                    
-                    return (
-                        <button 
-                            key={id}
-                            className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`}
-                            onMouseDown={() => handleItemPress(id)}
-                            onMouseUp={() => handleItemRelease(id, onClick)}
-                            onTouchStart={() => handleItemPress(id)}
-                            onTouchEnd={() => handleItemRelease(id, onClick)}
-                            aria-label={name}
-                        >
-                            {img ? (
-                                <img src={img} alt="Profile" className="w-full h-full rounded-full object-cover" />
-                            ) : (
-                                <>
-                                    <IconToShow />
-                                    {!isPressed && <ColoredIcon />}
-                                </>
-                            )}
-                        </button>
-                    );
-                })}
-            </div>
-            
+                    })}
+      </div>
+
+                {/* Mobile: Hamburger Menu */}
+                <button
+                    className="md:hidden w-[34px] h-[34px] flex flex-col justify-center items-center gap-1"
+                    onClick={() => {
+                        setIsMobileMenuOpen(!isMobileMenuOpen);
+                        setIsMobileMenu(!isMobileMenuOpen);
+                    }}
+                    aria-label="Toggle mobile menu"
+                >
+                    <ColSide />
+                </button>
+    </nav>
+
+            {/* Mobile Sidebar */}
+            <Sidebar 
+                isOpen={isMobileMenuOpen} 
+                onClose={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsMobileMenu(false);
+                }} 
+            />
+
             {/* Language Popup */}
             <LanguagePopup
                 isOpen={isLanguagePopupOpen}
@@ -291,13 +320,13 @@ export default function Navbar({
                 currentLanguage={currentLanguage}
             />
 
-            {/* Language Popup */}
+            {/* App Mode Popup */}
             <AppModePopup
                 isOpen={isAppModePopupOpen}
                 onClose={() => setIsAppModePopupOpen(false)}
                 onAppModeChange={handleAppModeChange}
                 currentAppMode={currentAppMode}
             />
-        </nav>
-    );
+        </>
+  );
 }

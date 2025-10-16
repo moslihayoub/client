@@ -3,17 +3,22 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: 'Young_Serif';
-    src: url('./fonts/YoungSerif-Regular.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  @font-face {
-    font-family: 'Zalando_Sans_Expanded';
-    src: url('./fonts/ZalandoSansExpanded-VariableFont_wght.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
-  }
-  
-  
+  font-family: 'Young_Serif';
+  src: url('./fonts/YoungSerif-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Zalando_Sans_Expanded';
+  src: url('./fonts/ZalandoSansExpanded-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Outfit';
+  src: url('./fonts/Outfit-VariableFont_wght.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}

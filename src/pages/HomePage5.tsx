@@ -3,6 +3,7 @@ import DarkAnimatedBg from '../components/DarkAnimatedBg'
 import Navbar from '../components/Navbar'
 import SearchBar from '../components/SearchBar'
 import { useState, useEffect } from 'react'
+import AnimatedGradients from '../components/AnimatedGradients'
 
 interface Video {
     url: string;
@@ -37,7 +38,7 @@ function HomePage5({ input }: { input: Input }) {
                 />
             )}
             {input.type === 'background' && (
-                <DarkAnimatedBg />
+                <AnimatedGradients />
             )}
 
             {/* Top-to-middle gradient shadow overlay */}

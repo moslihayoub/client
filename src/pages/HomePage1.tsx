@@ -12,28 +12,28 @@ export default function HomePage1() {
       <AnimatedGradientBackground />
 
       {/* Foreground content */}
-      <div className="z-10 flex flex-col h-full fixed">
+      <div className="z-10 flex flex-col h-full fixed w-full">
         {/* Navbar */}
         <Navbar logoColor="normal" background="white" iconVariant="transparent" />
 
         {/* Main content */}
-        <div className="flex flex-1">
+        <div className="flex flex-1 h-full">
           {/* Left Section */}
-          <div className='flex flex-col gap-2 w-[50%] justify-center items-center pb-[80px]'>
+          <div className='flex flex-col gap-2 w-[50%] justify-center items-center z-10'>
             <p className="font-youngserif font-normal text-[38px] text-center text-nexastay-gradient">Votre logement idéal!</p>
             <p className="font-zalando text-[18px] text-center">Découvrez notre marketplace intelligente</p>
-            <SearchBar fullscreen={fullscreen} setFullscreen={setFullscreen} width={492} height={294} fullHeight={500} />
+            <SearchBar fullscreen={fullscreen} setFullscreen={setFullscreen} width={80} height={30} fullHeight={60} />
           </div>
 
           {/* Right Section (Banner) */}
-          <div className="w-1/2 h-full flex justify-end items-center overflow-hidden pt-[80px]">
+          <div className="w-[60%] h-full flex justify-end items-center overflow-hidden">
             <img
               src="/images/banner.png"
               alt="Banner"
               className="w-full h-full object-cover"
             />
           </div>
-          <div className="absolute bottom-0 right-0 w-[172px] h-[172px]">
+          <div className="absolute bottom-0 right-0 w-[172px] h-[172px] z-10">
             <img
               src="/images/bot.png"
               alt="Bot"
