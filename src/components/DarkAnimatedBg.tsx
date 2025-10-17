@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import svgPaths from "../svgs/Background/DarkBackSvg";
 
-export default function AnimatedGradientBackground() {
+export default function DarkAnimatedBg() {
   return (
     <div className="bg-[#232324] size-full overflow-hidden z-0 fixed inset-0" data-name="Animated gradients">
       <div className="relative size-full">

@@ -76,50 +76,82 @@ const serviceCards: ServiceCard[] = [
 
 export default function ServiceCards() {
     return (
-        <div className="flex flex-col gap-6 items-center w-[840px] h-[350px] mb-[65px]">
+        <div className="flex flex-col gap-6 items-center w-[80%] sm:w-[95%] md:w-[65%] lg:w-[50%] mx-auto sm:mt-[70%] md:mt-0 lg:mt-0 xl:mt-0 mb-0 sm:mb-[52%] md:mb-0 lg:mb-0 xl:mb-0">
             {/* Header */}
-            <div className="flex flex-col gap-3 items-center text-center">
-                <h1 className="font-zalando font-bold text-white text-[36px] leading-[28px]">
+            <div className="flex flex-col gap-3 items-center text-cente ">
+                <h1 className="font-youngserif font-normal text-white text-5xl sm:text-3xl leading-9">
                     Votre logement idéal!
                 </h1>
-                <p className="font-youngserif font-normal text-white text-[18px] leading-normal">
+                <p className="font-outfit font-normal text-white text-[18px] leading-9 sm:leading-4">
                     Découvrez notre marketplace intelligente
                 </p>
             </div>
 
             {/* Cards Grid */}
-            <div className="flex flex-wrap gap-[18px] items-start justify-center w-full">
+            <div
+                className="
+                grid 
+                grid-cols-2 
+                sm:grid-cols-2 
+                md:grid-cols-3
+                lg:flex 
+                xl:flex
+                gap-3
+                md:gap-y-2
+                justify-items-center 
+                w-full 
+                overflow-x-auto 
+                md:overflow-visible
+                md:justify-center
+                md:items-center
+                md:flex-wrap
+                lg:justify-center
+                lg:items-center
+                lg:flex-wrap
+                xl:justify-center
+                xl:items-center
+                xl:flex-wrap
+            "
+            >
                 {serviceCards.map((card) => (
-                    <div className="hover:p-[5px] rounded-[22px] hover:bg-nexastay-border hover:shadow-nexastay-default transition-all duration-200">
                     <div
                         key={card.id}
-                        className={`card-gradient-border w-[160px] h-[160px] rounded-[22px] overflow-hidden group hover:shadow-card-hover hover:scale-105 transition-all duration-200`}
+                        className="card-gradient-border w-[160px] sm:w-[160px] h-[160px] sm:h-[160px] rounded-[22px] overflow-hidden group hover:shadow-card-hover hover:scale-105 transition-all duration-200"
                         style={{
-                            backgroundColor: card.backgroundColor || 'transparent'
+                            backgroundColor: card.backgroundColor || "transparent",
                         }}
                     >
-                        {/* Background Image with Overlay */}
+                        {/* Background Image */}
                         {card.backgroundImage && (
-                            <>
-                                <img
-                                    src={card.backgroundImage}
-                                    alt={card.title}
-                                    className="absolute inset-0 w-full h-full object-cover"
-                                />
-                            </>
+                            <img
+                                src={card.backgroundImage}
+                                alt={card.title}
+                                className="absolute inset-0 w-full h-full object-center z-0"
+                            />
                         )}
 
                         {/* Content */}
-                        <div className={`relative z-10 h-full flex flex-col gap-[8px] p-[11px] ${card.backgroundColor ? 'justify-start' : 'justify-end'
-                            }`}>
-                            {/* Icon and Title */}
-                            <div className={`flex gap-[3px] items-center ${card.id === 'services' ? ' flex-row' : 'flex-nowrap'
-                                }`}>
+                        <div
+                            className={`relative z-10 h-full flex flex-col gap-[8px] p-[11px] ${
+                                card.backgroundColor ? "justify-start" : "justify-end"
+                            }`}
+                        >
+                            {/* Icon + Title */}
+                            <div
+                                className={`flex gap-[3px] items-center ${
+                                    card.id === "services" ? "flex-row" : "flex-nowrap"
+                                }`}
+                            >
                                 <div className="w-5 h-5 flex items-center justify-center text-[16px]">
                                     <card.icon />
                                 </div>
-                                <h3 className={`font-outfit font-bold text-[14px] leading-[14px] ${card.textColor} ${card.id === 'services' ? 'whitespace-normal' : 'whitespace-nowrap'
-                                    }`}>
+                                <h3
+                                    className={`font-outfit font-bold text-[14px] leading-[14px] ${card.textColor} ${
+                                        card.id === "services"
+                                            ? "whitespace-normal"
+                                            : "whitespace-nowrap"
+                                    }`}
+                                >
                                     {card.title}
                                 </h3>
                             </div>
@@ -129,10 +161,12 @@ export default function ServiceCards() {
                                 <p
                                     className={`font-outfit font-medium text-[11px] leading-[12px] ${card.textColor}`}
                                 >
-                                    {card.description.split('\n').map((line, index) => (
+                                    {card.description.split("\n").map((line, index) => (
                                         <span key={index}>
                                             {line}
-                                            {index < card.description!.split('\n').length - 1 && <br />}
+                                            {index < card.description!.split("\n").length - 1 && (
+                                                <br />
+                                            )}
                                         </span>
                                     ))}
                                 </p>
@@ -140,20 +174,36 @@ export default function ServiceCards() {
 
                             {/* Button */}
                             {card.buttonText && (
-                                <button className={`bg-slate-900 flex gap-2 mt-[25px] items-center justify-center px-[12px] py-[5px] rounded-[10px] w-full ${card.backgroundColor === '#facc15' ? 'bg-slate-900' : 'bg-slate-900'
-                                    }`}>
+                                <button
+                                    className={`bg-slate-900 flex gap-2 mt-[25px] sm:mt-[15px] items-center justify-center px-[15px] py-[5px] rounded-[10px] w-full ${
+                                        card.backgroundColor === "#facc15"
+                                            ? "bg-slate-900"
+                                            : "bg-slate-900"
+                                    }`}
+                                >
                                     <span className="font-outfit font-medium text-white text-[14px] leading-[20px]">
                                         {card.buttonText}
                                     </span>
                                     <div className="w-5 h-5 flex items-center justify-center">
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        <svg
+                                            width="20"
+                                            height="20"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                d="M7 17L17 7M17 7H7M17 7V17"
+                                                stroke="white"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
                                         </svg>
                                     </div>
                                 </button>
                             )}
                         </div>
-                    </div>
                     </div>
                 ))}
             </div>

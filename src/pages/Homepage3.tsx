@@ -60,22 +60,31 @@ const user: User = {
 
 function Homepage3() {
     const [fullscreen, setFullscreen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     return (
         <div className="fixed w-full h-screen overflow-hidden">
             <BgCyan /> 
-            <div className={`z-10 flex flex-col h-full fixed w-full ${fullscreen ? "blur-md" : ""}`}>
-                <Navbar logoColor="normal" background="transparent" iconVariant="transparent" profileImg={user.img} />
+            
+            {/* Responsive Layout */}
+            <div className={`z-10 flex-col h-full fixed w-full ${fullscreen ? "blur-md" : ""}`}>
+                <Navbar logoColor="normal" background="transparent" iconVariant="transparent" profileImg={user.img} setIsMobileMenu={setIsMobileMenuOpen} />
                 
-                {/* Main content area */}
-                <div className="flex-1 flex items-center justify-center px-6 pb-24">
+                {/* Main content area - responsive */}
+                <div className="flex-1 h-full w-full px-4 py-6 md:px-6 md:pb-32 md:py-0 overflow-y-auto md:overflow-visible flex items-center justify-center md:items-center md:justify-center">
                     <ServiceCards />
                 </div>
             </div>
 
-            <div className="fixed z-10 bottom-0 left-0 w-full flex justify-center p-4">
-                <SearchBar fullscreen={fullscreen} setFullscreen={setFullscreen} width={774} fullHeight={500} height={162} />
-            </div>
-            <div className="absolute bottom-0 right-0 w-[172px] h-[172px]">
+            {/* SearchBar Container - Fixed at bottom center */}
+            {!isMobileMenuOpen && (
+                <div className='fixed z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center p-4 mx-0 md:mx-[25%] transition-all duration-500 ease-in-out'
+                    style={{ height: fullscreen ? '70%' : '' }}
+                >
+                        <SearchBar fullscreen={fullscreen} setFullscreen={setFullscreen} width={100} fullHeight={90} height={100} />
+                </div>
+            )}
+            
+            <div className="absolute sm:hidden md:hidden bottom-4 right-4 w-[120px] h-[120px] z-15">
                 <img
                     src="/images/bot.png"
                     alt="Bot"

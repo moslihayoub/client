@@ -9,6 +9,7 @@ import Homepage3 from './pages/Homepage3';
 import VoiceAiVisualizer from './components/VoiceAiVisualizer';
 import BgCyan from './components/BgCyan';
 import AnimatedBg from './components/AnimatedBg';
+import Bg from './components/Bg';
 
 export default function App() {
   return (
@@ -18,15 +19,7 @@ export default function App() {
         <Route path="/homepage2" element={<HomePage2 />} />
         <Route path="/homepage3" element={<Homepage3 />} />
         <Route path="/homepage4" element={<HomePage4 />} />
-        <Route path="/homepage5" element={<HomePage5 input={{
-          type: 'background',
-          videos: [
-            { url: '/videos/stars.mp4' },
-            { url: '/videos/ruisseau.mp4' },
-            { url: '/videos/nejar.mp4' },
-            { url: '/videos/husky.mp4' }
-          ]
-        }} />} />
+        <Route path="/homepage5" element={<HomePage5 input={{type: 'background',videos: [] }} />} />
         <Route path="/bg-video" element={<HomePage5 input={{
           type: 'video',
           videos: [
@@ -38,7 +31,7 @@ export default function App() {
         }} />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/voiceai" element={<VoiceAiVisualizer />} />
-        <Route path="/bg" element={<AnimatedBg />} />
+        <Route path="/bg" element={<Bg />} />
       </Routes>
     </Router>
   );
