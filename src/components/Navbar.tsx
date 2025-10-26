@@ -57,6 +57,7 @@ import CliMoon from "../svgs/clicked/CliMoon";
 import CliSystem from "../svgs/clicked/CliSystem";
 import ColSide from "../svgs/colored/ColSide";
 import Sidebar from "./Sidebar";
+import { Icon } from "lucide-react";
 
 interface NavbarProps {
     iconVariant?: "white" | "transparent"; // optional prop, defaults to transparent
@@ -64,6 +65,8 @@ interface NavbarProps {
     background?: "white" | "transparent"; // optional prop, defaults to transparent
     profileImg?: string; // optional prop, defaults to empty string
     setIsMobileMenu?: (isOpen: boolean) => void; // optional prop, defaults to empty function
+    blur?: boolean; // optional prop, defaults to false
+    Icon?: React.ComponentType; // optional prop, defaults to transparent
 }
 
 interface NavItem {
@@ -83,7 +86,9 @@ export default function Navbar({
     logoColor = "normal",
     background = "transparent",
     profileImg = "",
-    setIsMobileMenu = (isOpen: boolean) => {}
+    setIsMobileMenu = (isOpen: boolean) => {},
+    blur = false,
+    Icon = ColSide
 }: NavbarProps) {
     const [isLanguagePopupOpen, setIsLanguagePopupOpen] = useState(false);
     const [currentLanguage, setCurrentLanguage] = useState('fr'); // Default to French
@@ -227,7 +232,7 @@ export default function Navbar({
 
   return (
         <>
-            <nav className={`z-30 w-full h-[10%] flex fixed items-center justify-between ${backgroundClass} sm:bg-gradient-to-b sm:from-white sm:from-[24.52%] sm:to-transparent sm:backdrop-blur-[2px] px-[36px] py-[18px] opacity-100`}>
+            <nav className={`z-30 w-full h-[10%] flex fixed items-center justify-between ${backgroundClass} sm:bg-gradient-to-b ${blur ? 'sm:from-white sm:from-[24.52%] sm:to-transparent sm:backdrop-blur-[2px]' : ''} px-[36px] py-[18px] opacity-100`}>
 
                 {/* Left: Desktop Logo - Visible on lg and xl devices */}
       <div className="flex items-center gap-2">
@@ -299,7 +304,7 @@ export default function Navbar({
                     }}
                     aria-label="Toggle mobile menu"
                 >
-                    <ColSide />
+                    <Icon />
                 </button>
     </nav>
 

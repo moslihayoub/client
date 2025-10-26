@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import Navbar from "../components/Navbar";
+import SideIcon from "../svgs/gray/SideIcon";
+import MobileSearchbar from "../components/MobileSearchbar";
 
 const images = [
     "/images/bg1.png",
@@ -12,6 +14,12 @@ const images = [
 export default function HomePage4() {
     const [current, setCurrent] = useState(0);
     const [fullscreen, setFullscreen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        setIsMobile(window.innerWidth < 400);
+        console.log(isMobile);
+    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -45,11 +53,30 @@ export default function HomePage4() {
 
             {/* Overlay for content (no global dark tint) */}
             <div className="relative z-10 flex flex-col w-full h-full">
-                <Navbar logoColor="white" background="transparent" iconVariant="white" />
-                <div className="fixed z-10 bottom-0 left-0 w-full flex justify-center p-4">
-                    <SearchBar fullscreen={fullscreen} setFullscreen={setFullscreen} width={774} fullHeight={500} height={162} />
+                <Navbar logoColor="white" background="transparent" iconVariant="white" blur={false} Icon={SideIcon} />
+                <div className='fixed rounded-[22px] z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center p-4 mx-0 md:mx-[25%] transition-all duration-500 ease-in-out bg-gradient-to-b from-transparent sm:from-[24.52%] to-transparent backdrop-blur-[2px]'
+                    style={{ height: fullscreen ? '70%' : '' }}
+                >
+                    {isMobile ? ( 
+                    <MobileSearchbar
+                        fullscreen={fullscreen}
+                        setFullscreen={setFullscreen}
+                        width={100}
+                        fullHeight={90}
+                        height={100}
+                    />
+                    ) : (
+                        <SearchBar
+                            fullscreen={fullscreen}
+                            setFullscreen={setFullscreen}
+                            width={100}
+                        fullHeight={90}
+                        height={100}
+                    />
+                    )}
+
                 </div>
-                <div className="absolute bottom-0 right-0 w-[172px] h-[172px]">
+                <div className="absolute sm:hidden md:hidden bottom-0 right-0 w-[172px] h-[172px]">
                     <img
                         src="/images/bot.png"
                         alt="Bot"
