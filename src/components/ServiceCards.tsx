@@ -76,13 +76,13 @@ const serviceCards: ServiceCard[] = [
 
 export default function ServiceCards() {
     return (
-        <div className="flex flex-col gap-6 items-center w-[80%] sm:w-[95%] md:w-[65%] lg:w-[50%] mx-auto sm:mt-[70%] md:mt-0 lg:mt-0 xl:mt-0 mb-0 sm:mb-[52%] md:mb-0 lg:mb-0 xl:mb-0">
+        <div className="flex flex-col gap-6 items-center w-[80%] sm:w-[95%] md:w-[65%] lg:w-[50%] mx-auto sm:mt-[75%] md:mt-0 lg:mt-0 xl:mt-0 mb-0 sm:mb-[52%] md:mb-0 lg:mb-0 xl:mb-0">
             {/* Header */}
             <div className="flex flex-col gap-3 items-center text-cente ">
-                <h1 className="font-youngserif font-normal text-white text-5xl sm:text-3xl leading-9">
+                <h1 className="font-youngserif font-normal text-black text-5xl sm:text-3xl leading-9">
                     Votre logement idéal!
                 </h1>
-                <p className="font-outfit font-normal text-white text-[18px] leading-9 sm:leading-4">
+                <p className="font-outfit font-normal text-black text-[18px] leading-9 sm:leading-4">
                     Découvrez notre marketplace intelligente
                 </p>
             </div>
@@ -175,7 +175,7 @@ export default function ServiceCards() {
                             {/* Button */}
                             {card.buttonText && (
                                 <button
-                                    className={`bg-slate-900 flex gap-2 mt-[25px] sm:mt-[15px] items-center justify-center px-[15px] py-[5px] rounded-[10px] w-full ${
+                                    className={`bg-slate-900 flex gap-2 mt-[23px] sm:mt-[15px] lg:mt-[20px] items-center justify-center px-[15px] py-[5px] rounded-[10px] w-full ${
                                         card.backgroundColor === "#facc15"
                                             ? "bg-slate-900"
                                             : "bg-slate-900"
