@@ -21,6 +21,8 @@ function HomePage5({ input }: { input: Input }) {
         console.log(isMobile);
     }, []);
 
+    //ok hsjhsjh
+
     return (
         <div className="fixed w-full h-screen overflow-hidden">
             {input.type === 'video' && (
