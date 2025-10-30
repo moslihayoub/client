@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import IcMenu from "../svgs/icons/IcMenu";
 import Bookmark from "../svgs/icons/Bookmark";
 import Historique from "../svgs/icons/Historique";
 import Connect from "../svgs/icons/Connect";
 import More from "../svgs/icons/More";
+import { useSideListing } from "../contexts/SideListingContext";
 
 interface SideListingProps {
   onCollapseChange?: (isCollapsed: boolean) => void;
@@ -11,13 +12,17 @@ interface SideListingProps {
 
 const SideListing: React.FC<SideListingProps> = ({ onCollapseChange }) => {
   const [selectedIcon, setSelectedIcon] = useState('home');
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { isCollapsed, setIsCollapsed } = useSideListing();
 
   const handleCollapseToggle = () => {
     const newCollapsedState = !isCollapsed;
     setIsCollapsed(newCollapsedState);
     onCollapseChange?.(newCollapsedState);
   };
+
+  useEffect(() => {
+    onCollapseChange?.(isCollapsed);
+  }, [isCollapsed, onCollapseChange]);
 
   const iconButtons = [
     { id: 'home', src: '/images/home.png', alt: 'home' },

@@ -7,13 +7,16 @@ import ColServices from "../svgs/icons/ColServices";
 import ColExperiences from "../svgs/icons/ColExperiences";
 import Filtre from "../svgs/icons/Filtre";
 import Zone from "../svgs/icons/Zone";
+import GrListe from "../svgs/icons/GrListe";
 
 interface TabSelectionProps {
   selectedTab: string;
   onTabChange: (tab: string) => void;
+  affichageType: string;
+  setAffichageType: (affichageType: 'parzone' | 'parliste') => void;
 }
 
-const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange }) => {
+const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange, affichageType, setAffichageType }) => {
   return (
     <div className="flex gap-6 items-center justify-between mb-6">
       {/* Left side - Tab buttons */}
@@ -98,12 +101,16 @@ const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange })
         </button>
 
         {/* Show Area Button */}
-        <button className="bg-cyan-500 flex gap-3 items-center justify-center pl-[15px] pr-2 py-1.5 rounded-xl">
+        <button className="bg-cyan-500 flex gap-3 items-center justify-center pl-[15px] pr-2 py-1.5 rounded-xl"
+        onClick={() => {
+          affichageType === 'parzone' ? setAffichageType('parliste') : setAffichageType('parzone');
+        }}>
           <p className="font-medium text-base text-white font-outfit leading-6">
-            Affiche la zone
+            {affichageType === 'parzone' ? 'Affiche la zone' : 'Affiche la liste'}
           </p>
           <div className="w-6 h-6 flex items-center justify-center">
-            <Zone />
+            {affichageType === 'parzone' ? <Zone /> : ''}
+            {affichageType === 'parliste' ? <GrListe /> : ''}
           </div>
         </button>
       </div>

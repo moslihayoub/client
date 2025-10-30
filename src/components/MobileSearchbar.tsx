@@ -59,7 +59,7 @@ function MobileSearchbar({
     <div className={`w-full flex flex-col items-cente gap-4 px-4 transition-all duration-500 ease-in-out `}
     style={{
       width: `${width}%`,
-      height: `${fullscreen ? Math.min(fullHeight, 90) : height}%`,
+      height: `${fullscreen ? fullHeight : height}%`,
       padding: '1px'
     }}
     >
@@ -68,7 +68,7 @@ function MobileSearchbar({
         className={`rounded-[22px] bg-nexastay-border shadow-nexastay-default transition-all duration-500 ease-in-out w-full`}
         style={{
           width: `${width}%`,
-          height: `${fullscreen ? Math.min(fullHeight, 90) : height}%`,
+          height: `${fullscreen ? fullHeight : height}%`,
           padding: '1px'
         }}
       >
