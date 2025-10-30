@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ImageDisplay from '../components/details/ImageDisplay';
 
 export default function TestPage() {
   const [count, setCount] = useState(0);
@@ -17,6 +18,9 @@ export default function TestPage() {
         <p className="text-xl text-gray-300">
           A random test page to experiment with React components
         </p>
+      </div>
+      <div className="flex justify-center items-center p-8 h-auto w-full">
+        <ImageDisplay images={['/images/bg1.png','/images/bg2.png','/images/hotel.png','/images/banner.png','/images/art.png','/images/boy.png']} />
       </div>
 
       {/* Interactive Card */}

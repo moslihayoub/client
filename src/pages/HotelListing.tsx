@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ItemCard from "../components/HoltelCard";
 import { ServiceCardProps, ExperienceCardProps } from "../components/HoltelCard";
 import SideListing from "../components/SideListing";
@@ -8,6 +8,9 @@ import TabSelectionMobile from "../components/TabSelectionMobile";
 import BRButton from "../components/BRButton";
 import MobileSearchbar from "../components/MobileSearchbar";
 import MobileOverlay from "../components/MobileOverlay";
+import { useNavigate } from "react-router-dom";
+import { useSideListing } from "../contexts/SideListingContext";
+import SearchBar from "../components/SearchBar";
 
 // Sample hotel data
 const hotels = [
@@ -292,10 +295,47 @@ const experiences = [
 ];
 
 const HotelListing: React.FC = () => {
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const { isCollapsed: isSidebarCollapsed } = useSideListing();
   const [selectedTab, setSelectedTab] = useState('logement');
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
+  const [selectedAffichageType, setSelectedAffichageType] = useState('parliste');
+  const [fullscreen, setFullscreen] = useState(false);
+  const [isSearchBarVisible, setIsSearchBarVisible] = useState(true);
+  const listRef = useRef<HTMLDivElement>(null);
+  const lastScrollTopRef = useRef(0);
+  const scrollTickingRef = useRef(false);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    const container = listRef.current;
+    if (!container) return;
+
+    const handleScroll = () => {
+      if (scrollTickingRef.current) return;
+      scrollTickingRef.current = true;
+      window.requestAnimationFrame(() => {
+        const currentTop = container.scrollTop;
+        const delta = currentTop - lastScrollTopRef.current;
+        const threshold = 8; // small threshold to avoid flicker
+
+        if (currentTop < 10) {
+          setIsSearchBarVisible(true);
+        } else if (delta > threshold) {
+          // scrolling down → hide
+          setIsSearchBarVisible(false);
+        } else if (delta < -threshold) {
+          // scrolling up → show
+          setIsSearchBarVisible(true);
+        }
+
+        lastScrollTopRef.current = currentTop <= 0 ? 0 : currentTop;
+        scrollTickingRef.current = false;
+      });
+    };
+
+    container.addEventListener('scroll', handleScroll, { passive: true });
+    return () => container.removeEventListener('scroll', handleScroll as EventListener);
+  }, []);
   return (
     <>
       <div className="flex flex-col h-screen">
@@ -308,17 +348,19 @@ const HotelListing: React.FC = () => {
           <div className={`flex-shrink-0 sm:hidden md:block lg:block xl:block  ml-[2%] transition-all duration-300 ease-in-out ${
             isSidebarCollapsed ? 'w-[80px]' : 'w-[22%]'
           }`}>
-            <SideListing onCollapseChange={setIsSidebarCollapsed} />
+            <SideListing />
           </div>
 
           {/* Card listings - Takes remaining width */}
-          <div className="flex-1 overflow-y-auto scrollbar-hide mt-[5%] sm:mt-[15%] md:mt-[5%] lg:mt-[5%] xl:mt-[5%]">
+          <div ref={listRef} className="flex-1 overflow-y-auto scrollbar-hide mt-[5%] sm:mt-[15%] md:mt-[5%] lg:mt-[5%] xl:mt-[5%]">
             <div className="p-6 sm:pt-[28%] md:pt-6 lg:pt-6 xl:pt-6">
               {/* Mobile Tab Selection - Fixed position on small devices */}
               <div className="fixed top-20 left-0 right-0 z-20 sm:block md:hidden lg:hidden xl:hidden px-6 mt-1">
                 <TabSelectionMobile 
                   selectedTab={selectedTab} 
                   onTabChange={setSelectedTab} 
+                  selectedAffichageType={selectedAffichageType}
+                  onAffichageTypeChange={setSelectedAffichageType}
                 />
               </div>
               {/* Header */}
@@ -361,10 +403,13 @@ const HotelListing: React.FC = () => {
                 <TabSelection 
                   selectedTab={selectedTab} 
                   onTabChange={setSelectedTab} 
+                  affichageType={selectedAffichageType}
+                  setAffichageType={setSelectedAffichageType}
                 />
               </div>
 
               {/* Cards Grid */}
+              {selectedAffichageType === 'parliste' && (
               <div className={`grid gap-x-2 gap-y-3 w-full ${
                 isSidebarCollapsed 
                   ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
@@ -373,9 +418,12 @@ const HotelListing: React.FC = () => {
                 {/* Render based on selected tab */}
                 {selectedTab === 'logement' && hotels.map((hotel) => (
                   <ItemCard
+                    onClick={() => navigate(`/details/${hotel.id}`, { state: { hotel } })}
                     key={hotel.id}
+                    id={hotel.id}
                     type="Hotel"
                     hotel={{
+                      id: hotel.id,
                       title: hotel.title,
                       nbLit: hotel.nbLit,
                       nbChambre: hotel.nbChambre,
@@ -390,9 +438,12 @@ const HotelListing: React.FC = () => {
                 ))}
                 {selectedTab === 'service' && services.map((service) => (
                   <ItemCard
+                    onClick={() => navigate(`/details/${service.id}`, { state: { service } })}
                     key={service.id}
+                    id={service.id}
                     type="Service"
                     service={{
+                      id: service.id,
                       title: service.title,
                       type: service.type,
                       rating: service.rating,
@@ -408,8 +459,11 @@ const HotelListing: React.FC = () => {
                 {selectedTab === 'experience' && experiences.map((experience) => (
                   <ItemCard
                     key={experience.id}
+                    id={experience.id}
                     type="Experience"
+                    onClick={() => navigate(`/details/${experience.id}`, { state: { experience } })}
                     experience={{
+                      id: experience.id,
                       title: experience.title,
                       type: experience.type,
                       rating: experience.rating,
@@ -422,7 +476,31 @@ const HotelListing: React.FC = () => {
                   />
                 ))}
               </div>
-
+              )}
+              {/*Searchbar component for desktop - hides on scroll down */}
+              <div className={`fixed sm:hidden md:block lg:block xl:block z-20 bottom-0 left-0 w-[30%] sm:w-full md:w-[50%] flex items-end justify-end p-4 mx-0 md:mx-[25%] transform transition-all duration-500 ease-in-out ${
+                isSearchBarVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
+              }`}
+              style={{ height: fullscreen ? '70%' : undefined, willChange: 'transform, opacity' }}
+              >
+              <SearchBar
+                    fullscreen={fullscreen}
+                    setFullscreen={setFullscreen}
+                    width={100}
+                    fullHeight={90}
+                    height={100}
+                  />
+              </div>
+                
+              {selectedAffichageType === 'parzone' && (
+                <div className="grid gap-x-2 gap-y-3 w-full">
+                  {/* Render Map */}
+                  <div className="w-full h-[480px]">
+                    <img src="/images/carte.png" alt="Map" className="w-full h-full object-cover flex sm:hidden md:hidden lg:flex xl:flex" />
+                    <img src="/images/map-mobile.png" alt="Map" className="w-full h-full object-cover hidden sm:flex md:flex lg:hidden xl:hidden" />  
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
