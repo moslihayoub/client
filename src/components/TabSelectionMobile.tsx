@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import TabSelectionMobilePopup from "./TabSelectionMobilePopup";
+import React from "react";
 import WhHome from "../svgs/icons/white/WhHome";
 import WhTelescope from "../svgs/icons/white/WhTelescope";
 import WhRuler from "../svgs/icons/white/WhRuler";
 import GTelescope from "../svgs/icons/gray/GTelescope";
 import GRuler from "../svgs/icons/gray/GRuler";
 import ParListe from "../svgs/icons/gray/ParListe";
-import AffichageTypePopup from "./AffichageTypePopup";
 import Parzone from "../svgs/icons/gray/Parzone";
 
 interface TabSelectionMobileProps {
@@ -14,11 +12,18 @@ interface TabSelectionMobileProps {
   onTabChange: (tab: string) => void;
   selectedAffichageType: string;
   onAffichageTypeChange: (affichageType: string) => void;
+  onOpenTabPopup: () => void;
+  onOpenAffichagePopup: () => void;
 }
 
-const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({ selectedTab, onTabChange, selectedAffichageType, onAffichageTypeChange }) => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [isAffichageTypePopupOpen, setIsAffichageTypePopupOpen] = useState(false);
+const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({ 
+  selectedTab, 
+  onTabChange, 
+  selectedAffichageType, 
+  onAffichageTypeChange,
+  onOpenTabPopup,
+  onOpenAffichagePopup
+}) => {
   // Dynamic button label and icon based on selectedTab
   const currentTabInfo = {
     logement: {
@@ -48,60 +53,66 @@ const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({ selectedTab, on
 
 
   return (
-    <div className="bg-white border-[1.5px] border-solid cursor-pointer flex gap-2 items-center px-[14px] py-3 rounded-full w-full relative">
+    <div className="bg-white cursor-pointer flex items-center rounded-full w-full relative mt-1"
+      style={{
+        padding: '3% 3.5%',
+        gap: '2%'
+      }}
+    >
       {/* Gradient Border */}
-      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-400 via-blue-500 to-purple-600 p-[1.5px]">
+      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-teal-400 via-blue-500 to-purple-600"
+        style={{
+          padding: '1.5px'
+        }}
+      >
         <div className="bg-white rounded-full h-full w-full"></div>
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex gap-2 items-center w-full">
+      <div className="relative z-10 flex items-center w-full"
+        style={{
+          gap: '2%'
+        }}
+      >
         {/* Dynamic Main Button (Logement / Service / Expérience) */}
         <button
-          onClick={() => setIsPopupOpen(true)}
-          className="flex-1 flex w-[45%] gap-3 items-center justify-center px-6 py-3.5 rounded-full shadow-sm transition-all duration-200 text-white"
+          onClick={onOpenTabPopup}
+          className="flex-[1_0_0] flex items-center justify-center rounded-full shadow-sm transition-all duration-200 text-white"
           style={{
             background: 'radial-gradient(141.56% 141.56% at 50% -7.74%, #2DD4BF 0%, #0EA5E9 50.96%, #D946EF 100%)',
+            padding: '3.5% 6%',
+            gap: '3%',
+            minHeight: '0',
+            minWidth: '0'
           }}
         >
-          <div className="w-6 h-6 flex items-center justify-center">{currentTabInfo.icon}</div>
-          <p className="font-semibold text-lg font-outfit leading-7">{currentTabInfo.label}</p>
+          <div className="flex items-center justify-center" style={{ width: '6%', height: '6%', minWidth: '20px', minHeight: '20px' }}>
+            {currentTabInfo.icon}
+          </div>
+          <p className="font-semibold font-outfit whitespace-nowrap" style={{ fontSize: 'clamp(14px, 4.5vw, 18px)', lineHeight: '1.56' }}>
+            {currentTabInfo.label}
+          </p>
         </button>
 
         {/* "Par liste" tab stays visible always */}
         <button
-          onClick={() => {
-            setIsAffichageTypePopupOpen(true);
+          onClick={onOpenAffichagePopup}
+          className="flex-[1_0_0] flex items-center justify-center rounded-full bg-slate-900 text-white shadow-sm transition-all duration-200"
+          style={{
+            padding: '3.5% 6%',
+            gap: '3%',
+            minHeight: '0',
+            minWidth: '0'
           }}
-          className={`flex-1 flex gap-3 items-center justify-center px-6 py-3.5 rounded-full bg-slate-900 text-white shadow-sm transition-all duration-200 `}
         >
-          <div className="w-6 h-6 flex items-center justify-center">
+          <div className="flex items-center justify-center" style={{ width: '6%', height: '6%', minWidth: '20px', minHeight: '20px' }}>
             {currentAffichageTypeInfo.icon} 
           </div>
-          <p className="font-semibold text-lg font-outfit leading-7 w-auto text-nowrap">{currentAffichageTypeInfo.label}</p>
+          <p className="font-semibold font-outfit whitespace-nowrap" style={{ fontSize: 'clamp(14px, 4.5vw, 18px)', lineHeight: '1.56' }}>
+            {currentAffichageTypeInfo.label}
+          </p>
         </button>
       </div>
-
-      {isPopupOpen && (
-        <TabSelectionMobilePopup
-          selectedTab={selectedTab}
-          onTabChange={(tab) => {
-            onTabChange(tab);
-            setIsPopupOpen(false);
-          }}
-          isOpen={isPopupOpen}
-          onClose={() => setIsPopupOpen(false)}
-        />
-      )}
-
-      {isAffichageTypePopupOpen && (
-        <AffichageTypePopup
-          isOpen={isAffichageTypePopupOpen}
-          onClose={() => setIsAffichageTypePopupOpen(false)}
-          selectedTab={selectedAffichageType}
-          onTabChange={(affichageType) => onAffichageTypeChange(affichageType)}
-        />
-      )}
     </div>
   );
 };

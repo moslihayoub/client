@@ -12,13 +12,15 @@ interface TabSelectionMobilePopupProps {
   onTabChange: (tab: string) => void;
   isOpen: boolean;
   onClose: () => void;
+  position?: { top: number; left: number; width: number };
 }
 
 const TabSelectionMobilePopup: React.FC<TabSelectionMobilePopupProps> = ({
   selectedTab,
   onTabChange,
   isOpen,
-  onClose
+  onClose,
+  position
 }) => {
   if (!isOpen) return null;
 
@@ -45,14 +47,17 @@ const TabSelectionMobilePopup: React.FC<TabSelectionMobilePopupProps> = ({
 
   return (
     <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"
-        onClick={onClose}
-      />
-
-      {/* Popup */}
-      <div className="fixed inset-x-4 top-1/2 -translate-y-1/2 bg-white rounded-[26px] shadow-2xl z-50 p-6 max-w-sm mx-auto">
+      {/* Popup - Positioned directly under TabSelectionMobile */}
+      <div 
+        className="fixed bg-white rounded-[26px] shadow-lg z-50 p-6"
+        style={{
+          top: position ? `${position.top}px` : '50%',
+          left: position ? `calc(${position.left}px + 0.75rem)` : '50%',
+          width: position ? `calc(${position.width}px - 1.5rem)` : 'auto',
+          transform: position ? 'none' : 'translate(-50%, -50%)',
+          overflowY: 'auto'
+        }}
+      >
         <div className="flex flex-col gap-4">
           
 

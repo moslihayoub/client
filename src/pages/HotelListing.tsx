@@ -11,6 +11,8 @@ import MobileOverlay from "../components/MobileOverlay";
 import { useNavigate } from "react-router-dom";
 import { useSideListing } from "../contexts/SideListingContext";
 import SearchBar from "../components/SearchBar";
+import TabSelectionMobilePopup from "../components/TabSelectionMobilePopup";
+import AffichageTypePopup from "../components/AffichageTypePopup";
 
 // Sample hotel data
 const hotels = [
@@ -41,9 +43,9 @@ const hotels = [
     rating: 4.9,
     distancce: 1.2,
     images: [
-      '/images/bg1.png',
       '/images/bg2.png',
-      '/images/bg3.png'
+      '/images/bg3.png',
+      '/images/bg1.png'
     ]
   },
   {
@@ -57,9 +59,9 @@ const hotels = [
     rating: 4.5,
     distancce: 0.8,
     images: [
-      '/images/bg1.png',
+      '/images/bg3.png',
       '/images/bg2.png',
-      '/images/bg3.png'
+      '/images/bg1.png'
     ]
   },
   {
@@ -105,9 +107,9 @@ const hotels = [
     rating: 4.9,
     distancce: 3.1,
     images: [
-      '/images/bg1.png',
+      '/images/bg3.png',
       '/images/bg2.png',
-      '/images/bg3.png'
+      '/images/bg1.png'
     ]
   }
 ];
@@ -124,9 +126,9 @@ const services = [
     maximumPrice: 300,
     status: 'Ouvert',
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/services/service-prop1.png',
+      '/services/service-prop2.png',
+      '/services/service-prop3.png'
     ]
   },
   {
@@ -139,9 +141,7 @@ const services = [
     maximumPrice: 500,
     status: 'Ouvert',
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/services/service-prop2.png',
     ]
   },
   {
@@ -154,9 +154,7 @@ const services = [
     maximumPrice: 250,
     status: 'Ouvert',
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/services/service-prop4.png',
     ]
   },
   {
@@ -169,9 +167,7 @@ const services = [
     maximumPrice: 800,
     status: 'Ouvert',
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/services/service-prop5.png',
     ]
   },
   {
@@ -184,9 +180,8 @@ const services = [
     maximumPrice: 500,
     status: 'Ouvert',
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/services/service-prop2.png',
+      '/services/service-prop4.png',
     ]
   },
   {
@@ -199,9 +194,7 @@ const services = [
     maximumPrice: 120,
     status: 'Ouvert',
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/services/service-prop5.png',
     ]
   }
 ];
@@ -217,9 +210,9 @@ const experiences = [
     price: 350,
     nbPeople: 2,
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/experiences/exp1.png',
+      '/experiences/exp2.png',
+      '/experiences/exp3.png'
     ]
   },
   {
@@ -231,9 +224,8 @@ const experiences = [
     price: 120,
     nbPeople: 4,
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/experiences/exp4.png',
+      '/experiences/exp5.png'
     ]
   },
   {
@@ -245,9 +237,8 @@ const experiences = [
     price: 250,
     nbPeople: 6,
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/experiences/exp2.png',
+      '/experiences/exp4.png',
     ]
   },
   {
@@ -259,9 +250,8 @@ const experiences = [
     price: 850,
     nbPeople: 2,
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/experiences/exp5.png',
+      '/experiences/exp1.png'
     ]
   },
   {
@@ -273,9 +263,9 @@ const experiences = [
     price: 180,
     nbPeople: 4,
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/experiences/exp1.png',
+      '/experiences/exp2.png',
+      '/experiences/exp4.png'
     ]
   },
   {
@@ -287,9 +277,9 @@ const experiences = [
     price: 150,
     nbPeople: 2,
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/experiences/exp3.png',
+      '/experiences/exp4.png',
+      '/experiences/exp5.png'
     ]
   }
 ];
@@ -301,9 +291,14 @@ const HotelListing: React.FC = () => {
   const [selectedAffichageType, setSelectedAffichageType] = useState('parliste');
   const [fullscreen, setFullscreen] = useState(false);
   const [isSearchBarVisible, setIsSearchBarVisible] = useState(true);
+  const [isMobileTabVisible, setIsMobileTabVisible] = useState(true);
   const listRef = useRef<HTMLDivElement>(null);
+  const tabSelectionRef = useRef<HTMLDivElement>(null);
   const lastScrollTopRef = useRef(0);
   const scrollTickingRef = useRef(false);
+  const [isTypeListingPopupOpen, setIsTypeListingPopupOpen] = useState(false);
+  const [isAffTypePopupOpen, setIsAffTypePopupOpen] = useState(false);
+  const [popupPosition, setPopupPosition] = useState<{ top: number; left: number; width: number } | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -320,12 +315,15 @@ const HotelListing: React.FC = () => {
 
         if (currentTop < 10) {
           setIsSearchBarVisible(true);
+          setIsMobileTabVisible(true);
         } else if (delta > threshold) {
           // scrolling down → hide
           setIsSearchBarVisible(false);
+          setIsMobileTabVisible(false);
         } else if (delta < -threshold) {
           // scrolling up → show
           setIsSearchBarVisible(true);
+          setIsMobileTabVisible(true);
         }
 
         lastScrollTopRef.current = currentTop <= 0 ? 0 : currentTop;
@@ -336,6 +334,32 @@ const HotelListing: React.FC = () => {
     container.addEventListener('scroll', handleScroll, { passive: true });
     return () => container.removeEventListener('scroll', handleScroll as EventListener);
   }, []);
+
+  // Calculate popup position when opened
+  useEffect(() => {
+    const updatePosition = () => {
+      if ((isTypeListingPopupOpen || isAffTypePopupOpen) && tabSelectionRef.current) {
+        const rect = tabSelectionRef.current.getBoundingClientRect();
+        setPopupPosition({
+          top: rect.bottom + 8, // 8px gap below the component
+          left: rect.left,
+          width: rect.width
+        });
+      }
+    };
+
+    updatePosition();
+
+    // Update position on scroll or resize
+    window.addEventListener('scroll', updatePosition, true);
+    window.addEventListener('resize', updatePosition);
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
+  }, [isTypeListingPopupOpen, isAffTypePopupOpen]);
+
   return (
     <>
       <div className="flex flex-col h-screen">
@@ -345,22 +369,24 @@ const HotelListing: React.FC = () => {
         {/* Main content area */}
         <div className="flex flex-1 overflow-hidden">
           {/* SideListing - Dynamic width */}
-          <div className={`flex-shrink-0 sm:hidden md:block lg:block xl:block  ml-[2%] transition-all duration-300 ease-in-out ${
-            isSidebarCollapsed ? 'w-[80px]' : 'w-[22%]'
-          }`}>
+          <div className={`flex-shrink-0 sm:hidden md:block lg:block xl:block  ml-[2%] transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-[80px]' : 'w-[22%]'
+            }`}>
             <SideListing />
           </div>
 
           {/* Card listings - Takes remaining width */}
           <div ref={listRef} className="flex-1 overflow-y-auto scrollbar-hide mt-[5%] sm:mt-[15%] md:mt-[5%] lg:mt-[5%] xl:mt-[5%]">
-            <div className="p-6 sm:pt-[28%] md:pt-6 lg:pt-6 xl:pt-6">
+            <div className="p-6 sm:p-3 md:p-6 lg:p-6 xl:p-6 sm:pt-[28%] md:pt-6 lg:pt-6 xl:pt-6">
               {/* Mobile Tab Selection - Fixed position on small devices */}
-              <div className="fixed top-20 left-0 right-0 z-20 sm:block md:hidden lg:hidden xl:hidden px-6 mt-1">
-                <TabSelectionMobile 
-                  selectedTab={selectedTab} 
-                  onTabChange={setSelectedTab} 
+              <div ref={tabSelectionRef} className={`fixed top-20 left-0 right-0 z-20 sm:block md:hidden lg:hidden xl:hidden px-6 mt-1 h-[8%] transform transition-all duration-500 ease-in-out ${isMobileTabVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+                }`}>
+                <TabSelectionMobile
+                  selectedTab={selectedTab}
+                  onTabChange={setSelectedTab}
                   selectedAffichageType={selectedAffichageType}
                   onAffichageTypeChange={setSelectedAffichageType}
+                  onOpenTabPopup={() => setIsTypeListingPopupOpen(true)}
+                  onOpenAffichagePopup={() => setIsAffTypePopupOpen(true)}
                 />
               </div>
               {/* Header */}
@@ -374,21 +400,21 @@ const HotelListing: React.FC = () => {
                   <div className="flex gap-1.5 items-center">
                     <div className="w-6 h-6 flex items-center justify-center">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="#475569" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M15.6947 13.7H15.7037M15.6947 16.7H15.7037M11.9955 13.7H12.0045M11.9955 16.7H12.0045M8.29431 13.7H8.30329M8.29431 16.7H8.30329" stroke="#475569" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="#475569" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M15.6947 13.7H15.7037M15.6947 16.7H15.7037M11.9955 13.7H12.0045M11.9955 16.7H12.0045M8.29431 13.7H8.30329M8.29431 16.7H8.30329" stroke="#475569" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                     <p className="font-bold text-md text-slate-600 font-outfit leading-8">
                       Du 6 au 18 octobre
                     </p>
                   </div>
-                  
+
                   {/* Guest Count */}
                   <div className="flex gap-1.5 items-center">
                     <div className="w-6 h-6 flex items-center justify-center">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="#475569" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M12.0002 14.5C6.99016 14.5 2.91016 17.86 2.91016 22C2.91016 22.28 3.13016 22.5 3.41016 22.5H20.5902C20.8702 22.5 21.0902 22.28 21.0902 22C21.0902 17.86 17.0102 14.5 12.0002 14.5Z" stroke="#475569" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="#475569" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M12.0002 14.5C6.99016 14.5 2.91016 17.86 2.91016 22C2.91016 22.28 3.13016 22.5 3.41016 22.5H20.5902C20.8702 22.5 21.0902 22.28 21.0902 22C21.0902 17.86 17.0102 14.5 12.0002 14.5Z" stroke="#475569" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                     </div>
                     <p className="font-bold text-md text-slate-600 font-outfit leading-8">
@@ -400,9 +426,9 @@ const HotelListing: React.FC = () => {
 
               {/* Tab Selection Component - Desktop only */}
               <div className="sm:hidden md:block lg:block xl:block">
-                <TabSelection 
-                  selectedTab={selectedTab} 
-                  onTabChange={setSelectedTab} 
+                <TabSelection
+                  selectedTab={selectedTab}
+                  onTabChange={setSelectedTab}
                   affichageType={selectedAffichageType}
                   setAffichageType={setSelectedAffichageType}
                 />
@@ -410,94 +436,103 @@ const HotelListing: React.FC = () => {
 
               {/* Cards Grid */}
               {selectedAffichageType === 'parliste' && (
-              <div className={`grid gap-x-2 gap-y-3 w-full ${
-                isSidebarCollapsed 
-                  ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+                <div className={`grid gap-x-[28px] gap-y-3 w-full ${isSidebarCollapsed
+                  ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
                   : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'
-              }`}>
-                {/* Render based on selected tab */}
-                {selectedTab === 'logement' && hotels.map((hotel) => (
-                  <ItemCard
-                    onClick={() => navigate(`/details/${hotel.id}`, { state: { hotel } })}
-                    key={hotel.id}
-                    id={hotel.id}
-                    type="Hotel"
-                    hotel={{
-                      id: hotel.id,
-                      title: hotel.title,
-                      nbLit: hotel.nbLit,
-                      nbChambre: hotel.nbChambre,
-                      nbNuit: hotel.nbNuit,
-                      totalPrice: hotel.totalPrice,
-                      pricePerNight: hotel.pricePerNight,
-                      rating: hotel.rating,
-                      distancce: hotel.distancce,
-                      images: hotel.images
+                  }`}>
+                  {/* Render based on selected tab */}
+                  {selectedTab === 'logement' && hotels.map((hotel) => (
+                    <ItemCard
+                      onClick={() => navigate(`/details/${hotel.id}`, { state: { hotel } })}
+                      key={hotel.id}
+                      id={hotel.id}
+                      type="Hotel"
+                      hotel={{
+                        id: hotel.id,
+                        title: hotel.title,
+                        nbLit: hotel.nbLit,
+                        nbChambre: hotel.nbChambre,
+                        nbNuit: hotel.nbNuit,
+                        totalPrice: hotel.totalPrice,
+                        pricePerNight: hotel.pricePerNight,
+                        rating: hotel.rating,
+                        distancce: hotel.distancce,
+                        images: hotel.images
+                      }}
+                    />
+                  ))}
+                  {selectedTab === 'service' && services.map((service) => (
+                    <ItemCard
+                      onClick={() => navigate(`/details/${service.id}`, { state: { service } })}
+                      key={service.id}
+                      id={service.id}
+                      type="Service"
+                      service={{
+                        id: service.id,
+                        title: service.title,
+                        type: service.type,
+                        rating: service.rating,
+                        nbRating: 10,
+                        distance: service.distance,
+                        minimumPrice: service.minimumPrice,
+                        maximumPrice: service.maximumPrice,
+                        status: service.status as 'Ouvert' | 'Fermé',
+                        images: service.images
+                      }}
+                    />
+                  ))}
+                  {selectedTab === 'experience' && experiences.map((experience) => (
+                    <ItemCard
+                      key={experience.id}
+                      id={experience.id}
+                      type="Experience"
+                      onClick={() => navigate(`/details/${experience.id}`, { state: { experience } })}
+                      experience={{
+                        id: experience.id,
+                        title: experience.title,
+                        type: experience.type,
+                        rating: experience.rating,
+                        nbRating: 10,
+                        distance: experience.distance,
+                        price: experience.price,
+                        nbPeople: experience.nbPeople,
+                        images: experience.images
+                      }}
+                    />
+                  ))}
+                  {/*Searchbar component for desktop - hides on scroll down */}
+                  {/* Fixed SearchBar at bottom center */}
+                  <div
+                    className={`fixed sm:hidden md:block lg:block xl:block z-20 bottom-4 left-1/2 transform -translate-x-1/2 
+      sm:w-[30%] md:w-[50%] lg:w-[45%] 
+      flex items-end justify-center 
+      p-4 transition-all duration-500 ease-in-out
+      ${isSearchBarVisible
+                        ? 'translate-y-0 opacity-100'
+                        : 'translate-y-full opacity-0 pointer-events-none'
+                      }`}
+                    style={{
+                      height: fullscreen ? '70%' : 'auto',
+                      willChange: 'transform, opacity',
                     }}
-                  />
-                ))}
-                {selectedTab === 'service' && services.map((service) => (
-                  <ItemCard
-                    onClick={() => navigate(`/details/${service.id}`, { state: { service } })}
-                    key={service.id}
-                    id={service.id}
-                    type="Service"
-                    service={{
-                      id: service.id,
-                      title: service.title,
-                      type: service.type,
-                      rating: service.rating,
-                      nbRating: 10,
-                      distance: service.distance,
-                      minimumPrice: service.minimumPrice,
-                      maximumPrice: service.maximumPrice,
-                      status: service.status as 'Ouvert' | 'Fermé'  ,
-                      images: service.images
-                    }}
-                  />
-                ))}
-                {selectedTab === 'experience' && experiences.map((experience) => (
-                  <ItemCard
-                    key={experience.id}
-                    id={experience.id}
-                    type="Experience"
-                    onClick={() => navigate(`/details/${experience.id}`, { state: { experience } })}
-                    experience={{
-                      id: experience.id,
-                      title: experience.title,
-                      type: experience.type,
-                      rating: experience.rating,
-                      nbRating: 10,
-                      distance: experience.distance,
-                      price: experience.price,
-                      nbPeople: experience.nbPeople,
-                      images: experience.images
-                    }}
-                  />
-                ))}
-              </div>
+                  >
+                    <SearchBar
+                      fullscreen={fullscreen}
+                      setFullscreen={setFullscreen}
+                      width={100}
+                      fullHeight={90}
+                      height={100}
+                    />
+                  </div>
+                </div>
               )}
-              {/*Searchbar component for desktop - hides on scroll down */}
-              <div className={`fixed sm:hidden md:block lg:block xl:block z-20 bottom-0 left-0 w-[30%] sm:w-full md:w-[50%] flex items-end justify-end p-4 mx-0 md:mx-[25%] transform transition-all duration-500 ease-in-out ${
-                isSearchBarVisible ? 'translate-y-0 opacity-100' : 'translate-y-full opacity-0 pointer-events-none'
-              }`}
-              style={{ height: fullscreen ? '70%' : undefined, willChange: 'transform, opacity' }}
-              >
-              <SearchBar
-                    fullscreen={fullscreen}
-                    setFullscreen={setFullscreen}
-                    width={100}
-                    fullHeight={90}
-                    height={100}
-                  />
-              </div>
-                
+
               {selectedAffichageType === 'parzone' && (
                 <div className="grid gap-x-2 gap-y-3 w-full">
                   {/* Render Map */}
                   <div className="w-full h-[480px]">
                     <img src="/images/carte.png" alt="Map" className="w-full h-full object-cover flex sm:hidden md:hidden lg:flex xl:flex" />
-                    <img src="/images/map-mobile.png" alt="Map" className="w-full h-full object-cover hidden sm:flex md:flex lg:hidden xl:hidden" />  
+                    <img src="/images/map-mobile.png" alt="Map" className="w-full h-full object-cover hidden sm:flex md:flex lg:hidden xl:hidden" />
                   </div>
                 </div>
               )}
@@ -505,14 +540,49 @@ const HotelListing: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="fixed sm:hidden md:hidden lg:block xl:block z-20 bottom-4 right-4 w-[172px] h-[172px]">
-        <img
-          src="/images/bot.png"
-          alt="Bot"
-          className="w-full h-full animate-float"
-        />
-      </div>
       <BRButton onClick={() => setIsMobileSearchOpen(true)} />
+
+      {/* Tab Selection Popup */}
+      {isTypeListingPopupOpen && (
+        <>
+          {/* Backdrop - Full page shadow */}
+          <div
+            className="fixed h-screen w-screen inset-0 bg-black/50 z-40 transition-opacity duration-300"
+            onClick={() => setIsTypeListingPopupOpen(false)}
+          />
+          <TabSelectionMobilePopup
+            selectedTab={selectedTab}
+            onTabChange={(tab) => {
+              setSelectedTab(tab);
+              setIsTypeListingPopupOpen(false);
+            }}
+            isOpen={isTypeListingPopupOpen}
+            onClose={() => setIsTypeListingPopupOpen(false)}
+            position={popupPosition || undefined}
+          />
+        </>
+      )}
+
+      {/* Affichage Type Popup */}
+      {isAffTypePopupOpen && (
+        <>
+          {/* Backdrop - Full page shadow */}
+          <div
+            className="fixed h-screen w-screen inset-0 bg-black/50 z-40 transition-opacity duration-300"
+            onClick={() => setIsAffTypePopupOpen(false)}
+          />
+          <AffichageTypePopup
+            isOpen={isAffTypePopupOpen}
+            onClose={() => setIsAffTypePopupOpen(false)}
+            selectedTab={selectedAffichageType}
+            onTabChange={(affichageType) => {
+              setSelectedAffichageType(affichageType);
+              setIsAffTypePopupOpen(false);
+            }}
+            position={popupPosition || undefined}
+          />
+        </>
+      )}
 
       {/* Mobile Search Overlay */}
       {isMobileSearchOpen && (

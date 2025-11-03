@@ -71,11 +71,10 @@ function Homepage3() {
 
     return (
         <div className="fixed w-full h-screen overflow-hidden">
-            <BgCyan />
 
             {/* Responsive Layout */}
             <div className={`z-10 flex-col h-full fixed w-full ${fullscreen ? "blur-md" : ""}`}>
-                <Navbar logoColor="normal" background="transparent" blur={true} iconVariant="transparent" profileImg={user.img} setIsMobileMenu={setIsMobileMenuOpen} />
+                <Navbar logoColor="normal" background={"white"} blur={false} iconVariant="transparent" profileImg={user.img} setIsMobileMenu={setIsMobileMenuOpen} />
 
                 {/* Main content area - responsive */}
                 <div className="flex-1 h-full w-full px-4 py-6 md:px-6 md:pb-32 md:py-0 overflow-y-auto md:overflow-visible flex items-center justify-center md:items-center md:justify-center">
