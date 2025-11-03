@@ -57,7 +57,10 @@ import CliMoon from "../svgs/clicked/CliMoon";
 import CliSystem from "../svgs/clicked/CliSystem";
 import ColSide from "../svgs/colored/ColSide";
 import Sidebar from "./Sidebar";
-import { Icon } from "lucide-react";
+import Assistant from "../svgs/white/Assistant";
+import Plus from "../svgs/white/Plus";
+import TrPlus from "../svgs/transparent/TrPlus";
+import TrAssistant from "../svgs/transparent/TrAssistant";
 
 interface NavbarProps {
     iconVariant?: "white" | "transparent"; // optional prop, defaults to transparent
@@ -86,7 +89,7 @@ export default function Navbar({
     logoColor = "normal",
     background = "transparent",
     profileImg = "",
-    setIsMobileMenu = (isOpen: boolean) => {},
+    setIsMobileMenu = (isOpen: boolean) => { },
     blur = false,
     Icon = ColSide
 }: NavbarProps) {
@@ -96,6 +99,7 @@ export default function Navbar({
     const [currentAppMode, setCurrentAppMode] = useState('system'); // Default to System
     const [pressedItems, setPressedItems] = useState<Set<string>>(new Set());
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [currentActiveItem, setCurrentActiveItem] = useState('heart');
 
     const handleLanguageChanging = () => {
         setIsLanguagePopupOpen(!isLanguagePopupOpen);
@@ -120,6 +124,7 @@ export default function Navbar({
     const handleItemPress = (itemId: string) => {
         // Show pressed state
         setPressedItems(prev => new Set(prev).add(itemId));
+        setCurrentActiveItem(itemId);
     };
 
     const handleItemRelease = (itemId: string, originalOnClick?: () => void) => {
@@ -136,7 +141,8 @@ export default function Navbar({
         if (originalOnClick) {
             originalOnClick();
         }
-    };
+        
+        };
 
     // Get current app mode icon based on currentAppMode
     const getCurrentAppModeIcon = () => {
@@ -167,7 +173,7 @@ export default function Navbar({
     };
 
     // Navigation items configuration
-    const navItems: NavItem[] = [
+    const middleNavItems: NavItem[] = [
         {
             id: "heart",
             name: "Heart",
@@ -205,6 +211,19 @@ export default function Navbar({
             size: "normal",
             onClick: handleLanguageChanging
         },
+    ];
+
+    const rightNavItems: NavItem[] = [
+        {
+            id: "moon",
+            name: "Moon",
+            TransparentIcon: TrMoon,
+            WhiteIcon: Moon,
+            ColoredIcon: ColMoon,
+            ClickedIcon: CliMoon,
+            size: "normal",
+            onClick: handleAppModeChanging
+        },
         {
             id: "profile",
             name: "Profile",
@@ -216,32 +235,41 @@ export default function Navbar({
             img: profileImg
         },
         {
-            id: "moon",
-            name: "Moon",
-            TransparentIcon: TrMoon,
-            WhiteIcon: Moon,
-            ColoredIcon: ColMoon,
-            ClickedIcon: CliMoon,
-            size: "normal",
-            onClick: handleAppModeChanging
+            id: "assistant",
+            name: "Assistant",
+            TransparentIcon: TrAssistant,
+            WhiteIcon: Assistant,
+            ColoredIcon: ColBell,
+            ClickedIcon: Assistant,
+            size: "large"
+        },
+        {
+            id: "more",
+            name: "More",
+            TransparentIcon: TrPlus,
+            WhiteIcon: Plus,
+            ColoredIcon: ColBell,
+            ClickedIcon: Plus,
+            size: "normal"
         }
-    ];
+    ]
 
     // Determine background class
     const backgroundClass = background === "white" ? "bg-white" : "bg-transparent";
 
-  return (
+    return (
         <>
-            <nav className={`z-30 w-full h-[10%] flex fixed items-center justify-between ${backgroundClass} sm:bg-gradient-to-b ${blur ? 'sm:from-white sm:from-[24.52%] sm:to-transparent sm:backdrop-blur-[2px]' : ''} px-[36px] py-[18px] opacity-100`}>
+            <nav className={`z-30 w-full h-[10%] flex fixed items-center justify-between ${backgroundClass} sm:bg-gradient-to-b ${blur ? 'sm:from-white sm:from-[24.52%] sm:to-transparent sm:backdrop-blur-[2px]' : ''} px-[36px] py-[14px] opacity-100`}>
 
                 {/* Left: Desktop Logo - Visible on lg and xl devices */}
-      <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 justify-start">
                     {logoColor === "normal" ? <NexaLogo /> : <WhiteNexaLogo />}
-      </div>
+                </div>
 
                 {/* Desktop: Icons */}
-                <div className="hidden md:flex items-center gap-[24px]">
-                    {navItems.map((item) => {
+                {/* Middle Icons */}
+                <div className="hidden md:flex items-center gap-[57px] justify-center h-full">
+                    {middleNavItems.map((item) => {
                         const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, size, onClick, img } = item;
                         const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-[34px]";
                         const isPressed = pressedItems.has(id);
@@ -275,7 +303,7 @@ export default function Navbar({
                         return (
                             <button
                                 key={id}
-                                className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`}
+                                className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95 h-full w-[48px] flex items-center justify-center ${id === currentActiveItem ? `border-b-2 ${background === "white" ? "border-black" : "border-white"}` : ''}`}
                                 onMouseDown={() => handleItemPress(id)}
                                 onMouseUp={() => handleItemRelease(id, onClick)}
                                 onTouchStart={() => handleItemPress(id)}
@@ -290,11 +318,35 @@ export default function Navbar({
                                         {!isPressed && <ColoredIcon />}
                                     </>
                                 )}
-          </button>
+                            </button>
                         );
                     })}
-      </div>
+                </div>
 
+                {/* Right Icons */}
+                <div className="hidden md:flex items-center gap-[24px] justify-end">
+                    {rightNavItems.map((item) => {
+                        const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, size, onClick, img } = item;
+                        const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-[34px]";
+                        const isPressed = pressedItems.has(id);
+
+                        const DefaultIcon = iconVariant === "white" ? WhiteIcon : TransparentIcon;
+                        const IconToShow = isPressed ? ClickedIcon : DefaultIcon;
+
+                        return (
+                            <button key={id} className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`} onMouseDown={() => handleItemPress(id)} onMouseUp={() => handleItemRelease(id, onClick)} onTouchStart={() => handleItemPress(id)} onTouchEnd={() => handleItemRelease(id, onClick)} aria-label={name}>
+                                {img ? (
+                                    <img src={img} alt="Profile" className="w-full h-full rounded-full object-cover" />
+                                ) : (
+                                    <>
+                                        <IconToShow />
+                                        {!isPressed && <ColoredIcon />}
+                                    </>
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
                 {/* Mobile: Hamburger Menu */}
                 <button
                     className="md:hidden w-[34px] h-[34px] flex flex-col justify-center items-center gap-1"
@@ -306,15 +358,15 @@ export default function Navbar({
                 >
                     <Icon />
                 </button>
-    </nav>
+            </nav>
 
             {/* Mobile Sidebar */}
-            <Sidebar 
-                isOpen={isMobileMenuOpen} 
+            <Sidebar
+                isOpen={isMobileMenuOpen}
                 onClose={() => {
                     setIsMobileMenuOpen(false);
                     setIsMobileMenu(false);
-                }} 
+                }}
             />
 
             {/* Language Popup */}
@@ -333,5 +385,5 @@ export default function Navbar({
                 currentAppMode={currentAppMode}
             />
         </>
-  );
+    );
 }

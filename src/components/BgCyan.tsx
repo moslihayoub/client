@@ -3,7 +3,7 @@ import svgPaths from "../svgs/Background/CyanBack";
 
 export default function BgCyan() {
   return (
-    <div className="bg-white size-full z-0 fixed inset-0" data-name="BgCyan">
+    <div className="block sm:hidden md:block lg:block xl:block bg-white size-full z-0 fixed inset-0" data-name="BgCyan">
       <div className="relative size-full">
         {/* First animated gradient layer - Bright and fast */}
         <motion.div

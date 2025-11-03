@@ -11,12 +11,13 @@ import LaveLinge from '../svgs/Tags/LaveLinge';
 import Cafetiere from '../svgs/Tags/Cafetiere';
 import Jaccouzi from '../svgs/Tags/Jaccouzi';
 import Balcon from '../svgs/Tags/Balcon';
+import { HoteInfoProps } from '../components/details/Hote';
 
 interface HotelDetailWrapperProps {
   hotelData?: any;
 }
 
-const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: propHotelData }) => {
+const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: propHotelData }: HotelDetailWrapperProps) => {
   const location = useLocation();
   const { hotelId } = useParams<{ hotelId: string }>();
 
@@ -24,7 +25,7 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
   const hotelData = propHotelData || location.state?.hotel || location.state?.service || location.state?.experience;
 
   // Default description
-  const defaultDescription = "Plongez dans l'envoûtement d'un riad marocain traditionnel, où chaque coin respire l'authenticité. Imaginez-vous vous détendre au bord d'une piscine scintillante, entouré de chambres somptueusement décorées qui allient confort moderne et touches artisanales.";
+  const defaultDescription = "Plongez dans l'envoûtement d'un riad marocain traditionnel, où chaque coin respire l'authenticité. Imaginez-vous vous détendre au bord d'une piscine scintillante, entouré de chambres somptueusement décorées qui allient confort moderne et touches artisanales.\n \n Ne manquez pas la terrasse sur le toit, un véritable havre de paix, offrant une vue panoramique à couper le souffle sur les toits de Marrakech, surtout au coucher du soleil. Ce riad est l'endroit idéal pour vivre une expérience inoubliable, mêlant luxe et culture.";
 
   // Mock avis data
   const defaultAvis = [
@@ -74,10 +75,9 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
   const hoteInfo = {
     name: 'Fatima Bennani',
     userImg: '/images/boy.png',
-    description: 'Passionnée de l\'hospitalité marocaine depuis 15 ans, je suis ravie de partager ma culture avec mes invités.',
-    anciennete: 5
+    description: 'Bienvenue dans ce superbe appartement de standing au cœur d’un domaine golfique, avec vue imprenable sur le golf depuis le jardin privé.\n\n Entièrement meublé et équipé, l’appartement offre 2 chambres confortables, un salon lumineux avec Smart TV, 2 salles de bain et une cuisine. Climatisation et Wi-Fi Fibre sont à disposition pour un séjour tout confort.\n\n Accès libre aux piscines, jardins et golf. À 5 min de l’aéroport, 8 min de M Avenue et 3 min de Carrefour. Parking gratuit sécurisé 24h/24.',
+    anciennete: 10
   };
-
   return (
     <Details
       title={title}
@@ -93,4 +93,3 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
 };
 
 export default HotelDetailWrapper;
-

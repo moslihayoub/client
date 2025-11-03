@@ -22,6 +22,7 @@ interface DetailsProps {
 
 function Details({ title, description, tags, rating, nbRating, avis, hoteInfo, images }: DetailsProps) {
     const { isCollapsed: isSidebarCollapsed } = useSideListing();
+    const [showAllAvis, setShowAllAvis] = useState(false);
     const desc1 = "Un restaurant convivial offrant une vue imprenable sur la place des Saveurs."
     const desc2 = "Un restaurant chaleureux avec une vue magnifique sur la place des Saveurs."
     const desc3 = "Un restaurant convivial offrant une vue imprenable sur la place des Saveurs."
@@ -41,7 +42,7 @@ function Details({ title, description, tags, rating, nbRating, avis, hoteInfo, i
 
                 {/* Content area */}
                 <div className="flex-1 overflow-y-auto scrollbar-hide mt-[5%] sm:mt-[15%] md:mt-[10%] lg:mt-[5%] xl:mt-[5%]">
-                    <div className="flex flex-col items-center justify-center px-5 pb-10">
+                    <div className="flex flex-col items-center justify-center pl-8 pr-5 pb-24 w-full sm:w-full md:w-full lg:w-[95%] xl:w-[95%]">
                         {/* Breadcrumb */}
                         <div className="flex flex-row gap-2 items-center justify-start w-full mb-5">
                             <span className="text-sm font-outfit">
@@ -104,16 +105,16 @@ function Details({ title, description, tags, rating, nbRating, avis, hoteInfo, i
                                 </p>
                             </div>
                         </div>
-                        <div className='w-full'>
+                        <div className='w-full mb-10'>
                             <ImageDisplay images={images} />
                         </div>
-                        <div className="flex flex-col gap-5 items-start justify-center w-full">
-                            <div className="flex flex-col gap-3 items-start justify-center w-full">
+                        <div className="flex flex-col gap-5 items-start justify-center w-full mb-8">
+                            <div className="flex flex-col gap-3 items-start justify-center w-full mb-8">
                                 <p className="text-2xl font-bold">A propos de ce lieu</p>
                                 <p className="text-normal text-gray-500 whitespace-pre-line">{description}</p>
                             </div>
 
-                            <div className="flex flex-col gap-3 items-start justify-center w-full">
+                            <div className="flex flex-col gap-3 items-start justify-center w-full mb-8">
                                 <p className="text-2xl font-bold">Ce que cet endroit offre</p>
                                 <div className="flex flex-wrap gap-2">
                                     {tags.map((tag) => (
@@ -122,21 +123,26 @@ function Details({ title, description, tags, rating, nbRating, avis, hoteInfo, i
                                 </div>
                             </div>
 
-                            <div className="flex flex-col gap-3 items-start justify-center w-full">
+                            <div className="flex flex-col gap-3 items-start justify-center w-full mb-8">
                                 <p className='text-2xl font-bold'>Découvrez les {avis.length} avis</p>
                                 <div className="grid grid-cols-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-y-5 items-start justify-center w-full">
-                                    {avis.slice(0, 8).map((avis) => (
+                                    {avis.slice(0, showAllAvis ? avis.length : 8).map((avis) => (
                                         <Avis key={avis.name} name={avis.name} userImg={avis.userImg} rating={avis.rating} comment={avis.comment} date={avis.date} like={avis.like} dislike={avis.dislike} />
                                     ))}
                                     {avis.length > 8 && (
-                                        <div className="sm:col-span-2 md:col-span-1 lg:col-span-1 flex flex-col gap-3 items-center justify-center w-full h-full">
-                                            <button className="w-[80%] h-[48px] flex flex-col gap-4 items-center justify-center bg-slate-200 rounded-[12px] group">
+                                        <div className="sm:col-span-2 md:col-span-2 lg:col-span-1 flex flex-col gap-3 items-center justify-center w-full h-full">
+                                            <button 
+                                                onClick={() => setShowAllAvis(!showAllAvis)}
+                                                className="w-[80%] h-[48px] flex flex-col gap-4 items-center justify-center bg-slate-200 rounded-[12px] group"
+                                            >
                                                 <div className="flex flex-row gap-2 items-center justify-center text-center">
-                                                    <p className="text-sm text-gray-500 mt-1">Afficher les {avis.length - 8} avis supplémentaires</p>
+                                                    <p className="font-normal text-slate-700 font-outfit">
+                                                        {showAllAvis ? 'Afficher moins' : `Afficher les ${avis.length - 8} avis supplémentaires`}
+                                                    </p>
                                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                        <path opacity="0.5" d="M22 10.5V12C22 16.714 22 19.071 20.535 20.535C19.072 22 16.714 22 12 22C7.286 22 4.929 22 3.464 20.535C2 19.072 2 16.714 2 12C2 7.286 2 4.929 3.464 3.464C4.93 2 7.286 2 12 2H13.5" stroke="#334155" stroke-width="1.5" stroke-linecap="round" />
-                                                        <path d="M19 8C20.6569 8 22 6.65685 22 5C22 3.34315 20.6569 2 19 2C17.3431 2 16 3.34315 16 5C16 6.65685 17.3431 8 19 8Z" stroke="#334155" stroke-width="1.5" />
-                                                        <path d="M7 14H16M7 17.5H13" stroke="#334155" stroke-width="1.5" stroke-linecap="round" />
+                                                        <path opacity="0.5" d="M22 10.5V12C22 16.714 22 19.071 20.535 20.535C19.072 22 16.714 22 12 22C7.286 22 4.929 22 3.464 20.535C2 19.072 2 16.714 2 12C2 7.286 2 4.929 3.464 3.464C4.93 2 7.286 2 12 2H13.5" stroke="#334155" strokeWidth="1.5" strokeLinecap="round" />
+                                                        <path d="M19 8C20.6569 8 22 6.65685 22 5C22 3.34315 20.6569 2 19 2C17.3431 2 16 3.34315 16 5C16 6.65685 17.3431 8 19 8Z" stroke="#334155" strokeWidth="1.5" />
+                                                        <path d="M7 14H16M7 17.5H13" stroke="#334155" strokeWidth="1.5" strokeLinecap="round" />
                                                     </svg>
                                                 </div>
                                             </button>
@@ -145,43 +151,43 @@ function Details({ title, description, tags, rating, nbRating, avis, hoteInfo, i
                                 </div>
                             </div>
 
-                            <div className='flex flex-col gap-3 items-start justify-center w-full'>
+                            <div className='flex flex-col gap-3 items-start justify-center w-full mb-8'>
                                 <p className='text-2xl font-bold'>Où vous serez</p>
                                 {/* map des images */}
                                 <div className='flex flex-row gap-2 items-center justify-center w-full h-[480px]'>
-                                    <img src={'/images/carte.png'} alt='Image 1' className='w-[80%] h-full object-cover rounded-[12px]' />
+                                    <img src={'/images/carte.png'} alt='Image 1' className='w-full h-full object-cover rounded-[12px]' />
                                 </div>
                             </div>
 
-                            <div className='flex flex-col gap-3 items-start justify-center w-full'>
+                            <div className='flex flex-col gap-3 items-start justify-center w-full mb-8'>
                                 <Hote name={hoteInfo.name} userImg={hoteInfo.userImg} description={hoteInfo.description} anciennete={hoteInfo.anciennete} />
                             </div>
 
-                            <div className='flex flex-col gap-3 items-start justify-center w-full'>
-                                <Recommendation type='Experiences'
-                                    cards={[{ title: 'Experience 1', description: desc1, image: '/images/bg1.png' },
-                                    { title: 'Experience 2', description: desc2, image: '/images/bg2.png' },
-                                    { title: 'Experience 3', description: desc3, image: '/images/bg3.png' },
-                                    { title: 'Experience 4', description: desc1, image: '/images/bg1.png' },
-                                    { title: 'Experience 5', description: desc2, image: '/images/bg2.png' },
-                                    { title: 'Experience 6', description: desc3, image: '/images/bg3.png' },
-                                    { title: 'Experience 7', description: desc1, image: '/images/bg1.png' },
-                                    { title: 'Experience 8', description: desc2, image: '/images/bg2.png' }
-                                    ]} />
+                            <div className='flex flex-col gap-3 items-start justify-center w-full mb-8'>
                                 <Recommendation type='Services'
-                                    cards={[{ title: 'Service 1', description: desc2, image: '/images/bg1.png' },
-                                    { title: 'Service 2', description: desc2, image: '/images/bg2.png' },
-                                    { title: 'Service 3', description: desc3, image: '/images/bg3.png' },
-                                    { title: 'Service 4', description: desc1, image: '/images/bg1.png' },
-                                    { title: 'Service 5', description: desc2, image: '/images/bg2.png' },
-                                    { title: 'Service 6', description: desc3, image: '/images/bg3.png' },
-                                    { title: 'Service 7', description: desc1, image: '/images/bg1.png' },
-                                    { title: 'Service 8', description: desc2, image: '/images/bg2.png' }]} />
+                                    cards={[{ title: 'Le Petit Délice', description: desc1, image: '/services/service-prop5.png' },
+                                    { title: 'La Table Enchantée', description: desc2, image: '/services/service-prop1.png' },
+                                    { title: 'Le Jardin des Saveurs', description: desc3, image: '/services/service-prop2.png' },
+                                    { title: 'L\'Escapade Gourmande', description: desc1, image: '/services/service-prop3.png' },
+                                    { title: 'La Cuisine des Rêves', description: desc2, image: '/services/service-prop4.png' },
+                                    { title: 'Le Petit Délice', description: desc3, image: '/services/service-prop5.png' },
+                                    { title: 'Le Petit Délice', description: desc3, image: '/services/service-prop5.png' },
+                                    { title: 'Le Petit Délice', description: desc3, image: '/services/service-prop5.png' },
+                                    ]} />
+                                <Recommendation type='Experiences'
+                                    cards={[{ title: 'L\'Escalade des Équipes', description: desc2, image: '/experiences/exp1.png' },
+                                    { title: 'L\'Escalade en Équipe', description: desc2, image: '/experiences/exp2.png' },
+                                    { title: 'L\'Escalade des Équipes : un défi à relever ensemble.', description: desc3, image: '/experiences/exp1.png' },
+                                    { title: 'L\'Escalade en Équipe', description: desc1, image: '/experiences/exp3.png' },
+                                    { title: 'L\'Escalade en Équipe', description: desc2, image: '/experiences/exp4.png' },
+                                    { title: 'L\'Escalade en Équipe', description: desc3, image: '/experiences/exp5.png' },
+                                    { title: 'L\'Escalade en Équipe', description: desc1, image: '/experiences/exp3.png' },
+                                    { title: 'L\'Escalade en Équipe', description: desc2, image: '/experiences/exp1.png' }]} />
                             </div>
                         </div>
 
-                        <div className='flex flex-row gap-3 items-start w-full pt-5'>
-                            <button className='w-[150px] h-[38px] bg-nexastay-gradient rounded-[12px]'>
+                        <div className='fixed bottom-0 left-[115px] sm:left-0 md:left-[115px] lg:left-[115px] xl:left-[115px] flex flex-row gap-3 items-start justify-start w-full px-5 py-4 bg-white border-slate-200 z-50 '>
+                            <button className='w-[150px] h-[38px] rounded-[12px]' style={{background: 'radial-gradient(262.5% 262.5% at 50% -97.5%, var(--colors-teal-400, #2DD4BF) 0%, var(--colors-sky-500, #0EA5E9) 55%, var(--colors-fuchsia-500, #D946EF) 100%)'}}>
                                 <p className='text-sm text-white font-normal text-center'>Contacter l'hôte</p>
                             </button>
                             <button className='w-[150px] h-[38px] bg-slate-950 rounded-[12px]'>

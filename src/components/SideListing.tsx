@@ -57,7 +57,7 @@ const SideListing: React.FC<SideListingProps> = ({ onCollapseChange }) => {
       {/* Sidebar Container */}
       <div
         className={`
-          h-screen fixed mt-[5%] rounded-[26px] 
+          h-screen fixed mt-[5%] rounded-[26px]
           shadow-md
           flex flex-col items-start py-6
           overflow-y-auto
@@ -71,7 +71,7 @@ const SideListing: React.FC<SideListingProps> = ({ onCollapseChange }) => {
         }}
       >
         {/* Top icons */}
-        <div className={`flex items-center w-full mb-8 ${isCollapsed ? 'flex-col gap-3' : 'justify-between'}`}>
+        <div className={`flex items-center w-full mb-8 ${isCollapsed ? 'flex-col gap-3' : 'flex-row gap-5'}`}>
           {/* Menu button inside collapsed sidebar - First position */}
           {isCollapsed && (
             <button 
@@ -95,14 +95,14 @@ const SideListing: React.FC<SideListingProps> = ({ onCollapseChange }) => {
               key={icon.id}
               onClick={() => setSelectedIcon(icon.id)}
               className={`
-                w-10 h-10 flex items-center justify-center rounded-[12px] transition-all duration-200
+                w-12 h-12 flex items-center justify-center rounded-[12px] transition-all duration-200
                 ${selectedIcon === icon.id 
-                  ? 'border-2 border-[#a1a9b2] bg-gray-50' 
-                  : 'border-2 border-transparent hover:border-gray-200 hover:bg-gray-50'
+                  ? 'border-2 border-slate-300 bg-gray-50' 
+                  : 'border-2 border-transparent hover:border-slate-200 hover:bg-gray-50'
                 }
               `}
             >
-              <img src={icon.src} alt={icon.alt} className="w-10 h-10" />
+              <img src={icon.src} alt={icon.alt} className="w-12 h-12" />
             </button>
           ))}
           

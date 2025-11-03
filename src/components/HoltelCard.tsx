@@ -75,10 +75,10 @@ const ItemCard: React.FC<ItemCardProps> = ({ id, type, hotel, service, experienc
 
   return (
     <div
-      className="flex flex-col gap-[11px] items-start bg-transparent sm:bg-white md:bg-white lg:bg-transparent xl:bg-transparent rounded-[26px] shadow-none md:shadow-lg lg:shadow-none xl:shadow-none w-full h-full p-[16px] cursor-pointer"
+      className="flex flex-col gap-[11px] items-start bg-transparent sm:bg-white md:bg-white lg:bg-transparent xl:bg-transparent rounded-[26px] w-full h-full py-[16px] cursor-pointer"
     >
       {/* Carousel container */}
-      <div className="relative w-full h-[254px] rounded-[26px] overflow-hidden group">
+      <div className="relative w-full h-[350px] sm:h-[350px] md:h-[254px] lg:h-[254px] xl:h-[254px] rounded-[26px] overflow-hidden group">
         {/* Images with fade transitions */}
         {images.map((image, index) => (
           <div
@@ -144,13 +144,13 @@ const ItemCard: React.FC<ItemCardProps> = ({ id, type, hotel, service, experienc
 
       {/* Item info */}
       <button onClick={onClick} className="w-full">
-        <div className="flex flex-col gap-[14px] items-start w-full">
+        <div className="flex flex-col gap-[14px] sm:gap-[20px] md:gap-[16px] lg:gap-[14px] xl:gap-[16px] items-start w-full">
           {/* Title and description */}
-          <div className="flex flex-col gap-[2px] items-start w-full">
-            <h2 className="text-[14px] font-semibold text-slate-800 leading-[20px] font-outfit">
+          <div className="flex flex-col gap-[2px] sm:gap-[10px] md:gap-[16px] lg:gap-[14px] xl:gap-[16px] items-start w-full">
+            <h2 className="text-[14px] sm:text-[20px] md:text-[16px] lg:text-[14px] xl:text-[16px] font-semibold font-weight-600 text-slate-800 leading-[20px] font-outfit">
               {title}
             </h2>
-            <p className="text-[14px] font-normal text-slate-600 leading-[20px] font-outfit">
+            <p className="text-[14px] sm:text-[20px] md:text-[16px] lg:text-[14px] xl:text-[16px] font-normal text-slate-600 leading-[20px] font-outfit font-weight-400">
               {type === 'Hotel' && `${hotel?.nbLit} lits, ${hotel?.nbChambre} chambres / ${hotel?.nbNuit} nuits`}
               {type === 'Service' && service?.type.join(', ')}
               {type === 'Experience' && experience?.type.join(', ')}
@@ -158,15 +158,15 @@ const ItemCard: React.FC<ItemCardProps> = ({ id, type, hotel, service, experienc
           </div>
 
           {/* Price section */}
-          <div className="flex items-stretch h-[32px] rounded-md w-full">
+          <div className="flex items-stretch h-[54px] rounded-md w-full">
             {/* Total price */}
             <div
-              className="flex items-center justify-center px-[8px] rounded-tl-[12px] rounded-bl-[12px]"
+              className="flex items-center justify-center px-[12px] rounded-tl-[18px] rounded-bl-[18px]"
               style={{
                 background: 'linear-gradient(270deg, var(--colors-slate-100, #F1F5F9) 0%, var(--colors-sky-200, #BAE6FD) 45%)'
               }}
             >
-              <p className="text-[16px] font-bold text-slate-900 leading-[16px] font-outfit">
+              <p className="text-[16px] sm:text-[24px] md:text-[16px] lg:text-[14px] xl:text-[16px] font-bold text-slate-900 leading-[16px] font-outfit">
                 {type === 'Hotel' && `${hotel?.totalPrice.toLocaleString()} MAD`}
                 {type === 'Service' && `${service?.minimumPrice.toLocaleString()} - ${service?.maximumPrice.toLocaleString()} MAD`}
                 {type === 'Experience' && `${experience?.price.toLocaleString()} MAD`}
@@ -178,7 +178,7 @@ const ItemCard: React.FC<ItemCardProps> = ({ id, type, hotel, service, experienc
               style={{
                 background: type === 'Hotel' ? 'var(--colors-slate-100, #F1F5F9)' : 'var(--colors-green-100, #DCFCE7)'
               }}>
-              <p className="text-[14px] font-medium text-green-600 leading-[20px] font-outfit"
+              <p className="text-[14px] sm:text-[20px] md:text-[16px] lg:text-[14px] xl:text-[16px] font-medium text-green-600 leading-[20px] font-outfit"
                 style={{ color: type === 'Hotel' ? 'var(--colors-slate-600, #475569)' : 'var(--colors-green-600, #166534)' }}>
                 {type === 'Hotel' && `${hotel?.pricePerNight}/nuit`}
                 {type === 'Service' && service?.status}
@@ -191,10 +191,10 @@ const ItemCard: React.FC<ItemCardProps> = ({ id, type, hotel, service, experienc
           <div className="flex gap-[12px] items-center w-full">
             {/* Rating */}
             <div className="flex gap-[6px] items-center">
-              <p className="text-[16px] font-semibold text-slate-800 leading-[24px] font-outfit">
+              <p className="text-[16px] sm:text-[24px] md:text-[16px] lg:text-[14px] xl:text-[16px] font-semibold text-slate-800 leading-[24px] font-outfit">
                 {rating}
               </p>
-              <div className="relative w-[24px] h-[24px]">
+              <div className="relative w-[24px] h-[24px] sm:w-[36px] sm:h-[36px] md:w-[24px] md:h-[24px] lg:w-[20px] lg:h-[20px] xl:w-[24px] xl:h-[24px]">
                 {/* Background star (empty) */}
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute inset-0">
                   <path d="M9.15323 5.408C10.4202 3.136 11.0532 2 12.0002 2C12.9472 2 13.5802 3.136 14.8472 5.408L15.1752 5.996C15.5352 6.642 15.7152 6.965 15.9952 7.178C16.2752 7.391 16.6252 7.47 17.3252 7.628L17.9612 7.772C20.4212 8.329 21.6502 8.607 21.9432 9.548C22.2352 10.488 21.3972 11.469 19.7202 13.43L19.2862 13.937C18.8102 14.494 18.5712 14.773 18.4642 15.117C18.3572 15.462 18.3932 15.834 18.4652 16.577L18.5312 17.254C18.7842 19.871 18.9112 21.179 18.1452 21.76C17.3792 22.341 16.2272 21.811 13.9252 20.751L13.3282 20.477C12.6742 20.175 12.3472 20.025 12.0002 20.025C11.6532 20.025 11.3262 20.175 10.6722 20.477L10.0762 20.751C7.77323 21.811 6.62123 22.341 5.85624 21.761C5.08924 21.179 5.21623 19.871 5.46923 17.254L5.53523 16.578C5.60723 15.834 5.64323 15.462 5.53523 15.118C5.42923 14.773 5.19024 14.494 4.71424 13.938L4.28024 13.43C2.60324 11.47 1.76523 10.489 2.05723 9.548C2.34923 8.607 3.58024 8.328 6.04024 7.772L6.67624 7.628C7.37524 7.47 7.72424 7.391 8.00524 7.178C8.28624 6.965 8.46523 6.642 8.82523 5.996L9.15323 5.408Z" fill="#E5E7EB" stroke="#E5E7EB" strokeWidth="0.5" />
@@ -215,11 +215,11 @@ const ItemCard: React.FC<ItemCardProps> = ({ id, type, hotel, service, experienc
               </div>
             </div>
             {/* Number of ratings */}
-            <p className="text-[14px] font-semibold text-slate-600 leading-[20px] font-outfit">
+            <p className="text-[14px] sm:text-[21px] md:text-[16px] lg:text-[14px] xl:text-[16px] font-semibold text-slate-600 leading-[20px] font-outfit">
               {service ? service?.nbRating >= 100 ? '+99' : service?.nbRating!.toLocaleString() : experience?.nbRating && experience?.nbRating >= 100 ? '+99' : experience?.nbRating!.toLocaleString()}
             </p>
             {/* Distance */}
-            <p className="text-[14px] font-normal text-slate-600 leading-[20px] font-outfit">
+            <p className="text-[14px] sm:text-[21px] md:text-[16px] lg:text-[14px] xl:text-[16px] font-normal text-slate-600 leading-[20px] font-outfit">
               {distance} km du centre
             </p>
           </div>

@@ -13,11 +13,11 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ images }) => {
   const getImageLayout = (index: number, total: number) => {
     // First image - large, takes full width
     if (index === 0) {
-      return "col-span-2 row-span-2 h-96";
+      return "col-span-2 row-span-2 h-full";
     }
     // Second and third images - medium height
     if (index === 1 || index === 2) {
-      return "col-span-1 row-span-1 h-48";
+      return "col-span-1 row-span-1 h-full";
     }
     // Fourth image - takes remaining right side space
     if (index === 3) {
@@ -32,7 +32,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ images }) => {
   };
 
   return (
-    <div className="w-full max-w-6xl mx-auto p-4">
+    <div className="w-full">
       <div className="grid grid-cols-3 gap-2 auto-rows-min">
         {displayImages.map((img, i) => (
           <div 
