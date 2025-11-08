@@ -19,6 +19,8 @@ import HotelDetailWrapper from './pages/HotelDetailWrapper';
 import Zone from './svgs/icons/Zone';
 import SkHome from './svgs/icons/sky/SkHome';
 import { SideListingProvider } from './contexts/SideListingContext';
+import ImgDetails from './components/details/ImgDetails';
+import Sitemap from './pages/Sitemap';
 
 // Component that randomly displays a homepage (excluding HomePage1)
 function RandomHomepage() {
@@ -26,7 +28,7 @@ function RandomHomepage() {
 
   useEffect(() => {
     // Array of homepage names (excluding HomePage1)
-    const homepages = ['HomePage2', 'Homepage3', 'HomePage4', 'HomePage5'];
+    const homepages = ['HomePage2', 'Homepage3', 'HomePage4', 'HomePage5', 'Video'];
 
     // Randomly select a homepage
     const randomIndex = Math.floor(Math.random() * homepages.length);
@@ -58,6 +60,8 @@ function RandomHomepage() {
       return <HomePage4 />;
     case 'HomePage5':
       return <HomePage5 input={{ type: 'background'}} />;
+    case 'Video':
+      return <HomePage5 input={{ type: 'video'}} />;
     default:
       return <HomePage2 />; // Fallback
   }
@@ -87,7 +91,7 @@ export default function App() {
         <Route path="/details/:hotelId" element={<HotelDetailWrapper />} />
         <Route path="/details" element={
           <Details 
-              title='Hotel 5 etoiles' description={desc} 
+              title='Hotel 5 etoiles' type='service' minPrice={100} status='Ouvert' description={desc} 
               tags={[{text: 'Service 1', Icon: SkHome}, {text: 'Service 2', Icon: SkHome}, {text: 'Service 3', Icon: SkHome}, {text: 'Service 4', Icon: SkHome}, {text: 'Service 5', Icon: SkHome}, {text: 'Service 6', Icon: SkHome}, {text: 'Service 7', Icon: SkHome}, {text: 'Service 8', Icon: SkHome}, {text: 'Service 9', Icon: SkHome}, {text: 'Service 10', Icon: SkHome}]} 
               rating={4.5} nbRating={10} 
               avis={[
@@ -105,6 +109,8 @@ export default function App() {
                 hoteInfo={{name: 'John Doe', userImg: '/images/bg1.png', description: hoteDesc, anciennete: 10}} 
                 images={['/hotels/hotel1.png','/hotels/hotel2.png','/hotels/hotel3.png', '/hotels/hotel4.png', '/hotels/hotel5.png','/images/bg1.png','/images/bg2.png','/images/bg3.png']} 
                 />} />
+        <Route path="/img-details" element={<ImgDetails images={['/hotels/hotel1.png','/hotels/hotel2.png','/hotels/hotel3.png', '/hotels/hotel4.png', '/hotels/hotel5.png','/images/bg1.png','/images/bg2.png','/images/bg3.png']} />} />
+        <Route path="/sitemap" element={<Sitemap />} />
       </Routes>
         </Router>
       </AnimatePresence>

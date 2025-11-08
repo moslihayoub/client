@@ -44,7 +44,7 @@ export default function VoiceTranscriber({ onTranscription, onCancel, isVisible,
       
       // Start transcription (mock implementation)
       setTimeout(() => {
-        setTranscript("Votre logement idéal, un espace où l'IA améliore votre expérience !");
+        setTranscript("Je veux passer un séjour à Marrakech");
       }, 2000);
       
     } catch (err) {

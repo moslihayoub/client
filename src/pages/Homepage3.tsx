@@ -77,14 +77,14 @@ function Homepage3() {
                 <Navbar logoColor="normal" background={"white"} blur={false} iconVariant="transparent" profileImg={user.img} setIsMobileMenu={setIsMobileMenuOpen} />
 
                 {/* Main content area - responsive */}
-                <div className="flex-1 h-full w-full px-4 py-6 md:px-6 md:pb-32 md:py-0 overflow-y-auto md:overflow-visible flex items-center justify-center md:items-center md:justify-center">
+                <div className="flex-1 h-full w-full px-2 py-6 md:px-6 md:pb-32 md:py-0 overflow-y-auto md:overflow-visible flex items-center justify-center md:items-center md:justify-center">
                     <ServiceCards />
                 </div>
             </div>
 
             {/* SearchBar Container - Fixed at bottom center */}
             {!isMobileMenuOpen && (
-                <div className='fixed rounded-[22px] z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center p-4 mx-0 md:mx-[25%] transition-all duration-500 ease-in-out bg-gradient-to-b from-transparent sm:from-[24.52%] to-transparent backdrop-blur-[2px]'
+                <div className='fixed rounded-[22px] z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center p-4 mx-0 md:mx-[25%] transition-all duration-500 ease-in-out bg-gradient-to-b from-transparent sm:from-[24.52%] to-transparent backdrop-blur-[1px]'
                     style={{ height: fullscreen ? '70%' : '' }}
                 >
                     {isMobile ? ( 

@@ -1,12 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
-import { Mic, MicOff } from 'lucide-react';
+import { Mic, MicOff, ArrowLeft } from 'lucide-react';
 import * as THREE from 'three';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
+
+const botResponses = [
+  "Parfait ! J'ai bien compris votre demande. Je vais maintenant vous présenter une sélection d'hôtels qui correspondent à vos critères.",
+  "Excellent ! J'ai analysé vos préférences et j'ai trouvé plusieurs options qui pourraient vous intéresser.",
+  "Merci pour ces informations ! Laissez-moi vous montrer les meilleures options disponibles pour votre séjour."
+];
 
 export default function Voice3DVisualizer() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const [isListening, setIsListening] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [showBotResponse, setShowBotResponse] = useState(false);
+  const [botText, setBotText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const dataArrayRef = useRef<Uint8Array | null>(null);
@@ -17,6 +28,9 @@ export default function Voice3DVisualizer() {
   const startListening = async () => {
     try {
       setError(null);
+      setShowBotResponse(false);
+      setBotText('');
+      setIsTyping(false);
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
 
@@ -43,6 +57,8 @@ export default function Voice3DVisualizer() {
 
   // Stop microphone
   const stopListening = () => {
+    const wasListening = isListeningRef.current;
+    
     if (streamRef.current) {
       streamRef.current.getTracks().forEach(track => track.stop());
       streamRef.current = null;
@@ -55,7 +71,34 @@ export default function Voice3DVisualizer() {
     
     setIsListening(false);
     isListeningRef.current = false;
+    
+    // Trigger bot response after stopping if we were listening
+    if (wasListening) {
+      setShowBotResponse(true);
+      setIsTyping(true);
+      setBotText('');
+    }
   };
+
+  // Bot typing animation
+  useEffect(() => {
+    if (!showBotResponse || !isTyping) return;
+
+    const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+    let currentIndex = 0;
+
+    const typingInterval = setInterval(() => {
+      if (currentIndex < randomResponse.length) {
+        setBotText(randomResponse.slice(0, currentIndex + 1));
+        currentIndex++;
+      } else {
+        setIsTyping(false);
+        clearInterval(typingInterval);
+      }
+    }, 30); // Adjust speed here (lower = faster)
+
+    return () => clearInterval(typingInterval);
+  }, [showBotResponse, isTyping]);
 
   // Initialize Three.js scene - only once
   useEffect(() => {
@@ -253,6 +296,14 @@ export default function Voice3DVisualizer() {
             <Navbar logoColor="white" background="transparent" iconVariant="white" />
         </div>
         
+      {/* Return Button */}
+      <button
+        onClick={() => navigate(-1)}
+        className="absolute top-24 left-6 z-20 p-3 bg-black/60 backdrop-blur-md rounded-full text-white hover:bg-black/80 transition-all duration-300 border border-white/10 hover:scale-110"
+      >
+        <ArrowLeft className="h-6 w-6" />
+      </button>
+        
       {/* Three.js container */}
       <div 
         ref={containerRef} 
@@ -291,6 +342,44 @@ export default function Voice3DVisualizer() {
           <div className="pointer-events-auto px-6 py-3 bg-red-500/90 backdrop-blur-md rounded-full text-white border border-red-400/30">
             {error}
           </div>
+        )}
+
+        {/* Bot Response */}
+        {showBotResponse && (
+          <div className="pointer-events-auto max-w-2xl px-8 py-6 bg-black/70 backdrop-blur-md rounded-2xl text-white border border-white/20 shadow-2xl">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-teal-400 via-sky-500 to-fuchsia-500 flex items-center justify-center text-xl">
+                🤖
+              </div>
+              <div className="flex-1">
+                <p className="text-lg font-medium mb-2 text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-fuchsia-500">
+                  Assistant IA
+                </p>
+                <p className="text-base leading-relaxed">
+                  {botText}
+                  {isTyping && (
+                    <span className="inline-block w-2 h-5 bg-white ml-1 animate-pulse">|</span>
+                  )}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Confirmation Button */}
+        {showBotResponse && !isTyping && (
+          <button
+            onClick={() => {
+              stopListening();
+              navigate('/hotels');
+            }}
+            className="pointer-events-auto px-8 py-4 bg-gradient-to-r from-teal-400 via-sky-500 to-fuchsia-500 text-white font-semibold rounded-full hover:opacity-90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+            style={{
+              boxShadow: '0 0 30px rgba(45, 212, 191, 0.5)'
+            }}
+          >
+            Confirmer et voir les hôtels
+          </button>
         )}
       </div>
     </div>

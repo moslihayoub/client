@@ -61,6 +61,15 @@ import Assistant from "../svgs/white/Assistant";
 import Plus from "../svgs/white/Plus";
 import TrPlus from "../svgs/transparent/TrPlus";
 import TrAssistant from "../svgs/transparent/TrAssistant";
+import Connect from "../svgs/icons/Connect";
+import Connect2 from "../svgs/icons/Connect2";
+import ColConnect from "../svgs/colored/ColConnect";
+import CliConnect from "../svgs/clicked/CliConnect";
+import WhConnect from "../svgs/white/WhConnect";
+import ActHeart from "../svgs/active/ActHeart";
+import ActBell from "../svgs/active/ActBell";
+import ActComparator from "../svgs/active/ActComparator";
+import ActConnect from "../svgs/active/ActConnect";
 
 interface NavbarProps {
     iconVariant?: "white" | "transparent"; // optional prop, defaults to transparent
@@ -70,6 +79,19 @@ interface NavbarProps {
     setIsMobileMenu?: (isOpen: boolean) => void; // optional prop, defaults to empty function
     blur?: boolean; // optional prop, defaults to false
     Icon?: React.ComponentType; // optional prop, defaults to transparent
+}
+
+interface MiddleNavItem {
+    id: string;
+    name: string;
+    TransparentIcon: React.ComponentType;
+    WhiteIcon: React.ComponentType;
+    ColoredIcon: React.ComponentType;
+    ClickedIcon: React.ComponentType;
+    ActiveIcon: React.ComponentType;
+    size: "normal" | "large";
+    onClick?: () => void;
+    img?: string;
 }
 
 interface NavItem {
@@ -141,8 +163,7 @@ export default function Navbar({
         if (originalOnClick) {
             originalOnClick();
         }
-        
-        };
+    };
 
     // Get current app mode icon based on currentAppMode
     const getCurrentAppModeIcon = () => {
@@ -173,7 +194,7 @@ export default function Navbar({
     };
 
     // Navigation items configuration
-    const middleNavItems: NavItem[] = [
+    const middleNavItems: MiddleNavItem[] = [
         {
             id: "heart",
             name: "Heart",
@@ -181,6 +202,7 @@ export default function Navbar({
             WhiteIcon: Heart,
             ColoredIcon: ColHeart,
             ClickedIcon: CliHeart,
+            ActiveIcon: ActHeart,
             size: "normal"
         },
         {
@@ -190,6 +212,7 @@ export default function Navbar({
             WhiteIcon: Bell,
             ColoredIcon: ColBell,
             ClickedIcon: CliBell,
+            ActiveIcon: ActBell,
             size: "normal"
         },
         {
@@ -199,31 +222,22 @@ export default function Navbar({
             WhiteIcon: Comparator,
             ColoredIcon: ColComparator,
             ClickedIcon: CliComparator,
+            ActiveIcon: ActComparator,
             size: "normal"
         },
         {
-            id: "earth",
-            name: "Earth",
-            TransparentIcon: TrEarth,
-            WhiteIcon: Earth,
-            ColoredIcon: ColEarth,
-            ClickedIcon: CliEarth,
+            id: "connect",
+            name: "Connect",
+            TransparentIcon: Connect,
+            WhiteIcon: WhConnect,
+            ColoredIcon: ColConnect,
+            ClickedIcon: CliConnect,
+            ActiveIcon: ActConnect,
             size: "normal",
-            onClick: handleLanguageChanging
         },
     ];
 
     const rightNavItems: NavItem[] = [
-        {
-            id: "moon",
-            name: "Moon",
-            TransparentIcon: TrMoon,
-            WhiteIcon: Moon,
-            ColoredIcon: ColMoon,
-            ClickedIcon: CliMoon,
-            size: "normal",
-            onClick: handleAppModeChanging
-        },
         {
             id: "profile",
             name: "Profile",
@@ -259,7 +273,7 @@ export default function Navbar({
 
     return (
         <>
-            <nav className={`z-30 w-full h-[10%] flex fixed items-center justify-between ${backgroundClass} sm:bg-gradient-to-b ${blur ? 'sm:from-white sm:from-[24.52%] sm:to-transparent sm:backdrop-blur-[2px]' : ''} px-[36px] py-[14px] opacity-100`}>
+            <nav className={`fixed z-30 w-full h-[10%] flex items-center justify-between ${backgroundClass} sm:bg-gradient-to-b ${blur ? 'sm:from-white sm:from-[24.52%] sm:to-transparent' : ''} px-[36px] sm:px-[12px] md:px-[36px] lg:px-[36px] xl:px-[36px] opacity-100`}>
 
                 {/* Left: Desktop Logo - Visible on lg and xl devices */}
                 <div className="flex items-center gap-2 justify-start">
@@ -270,8 +284,8 @@ export default function Navbar({
                 {/* Middle Icons */}
                 <div className="hidden md:flex items-center gap-[57px] justify-center h-full">
                     {middleNavItems.map((item) => {
-                        const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, size, onClick, img } = item;
-                        const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-[34px]";
+                        const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, ActiveIcon, size, onClick, img } = item;
+                        const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-full";
                         const isPressed = pressedItems.has(id);
 
                         // Special handling for moon/app mode button
@@ -298,24 +312,55 @@ export default function Navbar({
 
                         // Regular handling for other buttons
                         const DefaultIcon = iconVariant === "white" ? WhiteIcon : TransparentIcon;
-                        const IconToShow = isPressed ? ClickedIcon : DefaultIcon;
+                        const isActive = id === currentActiveItem;
 
                         return (
                             <button
                                 key={id}
-                                className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95 h-full w-[48px] flex items-center justify-center ${id === currentActiveItem ? `border-b-2 ${background === "white" ? "border-black" : "border-white"}` : ''}`}
+                                className={`${buttonSize} group transition-all duration-150 h-full w-[53px] flex items-center justify-center relative `}
                                 onMouseDown={() => handleItemPress(id)}
                                 onMouseUp={() => handleItemRelease(id, onClick)}
                                 onTouchStart={() => handleItemPress(id)}
                                 onTouchEnd={() => handleItemRelease(id, onClick)}
                                 aria-label={name}
                             >
+                                {/* Gradient bottom border for active state */}
+                                {isActive && (
+                                    <div className="absolute bottom-[-3px] sm:bottom-0 md:bottom-[-1px] lg:bottom-[-3px] xl:bottom-[-3px] left-[-8px] right-[-8px] h-[1.5px] bg-gradient-to-r from-teal-400 via-sky-500 to-fuchsia-500 origin-center" 
+                                         style={{
+                                             animation: 'borderSlide 0.4s ease-out, shimmer 3s ease-in-out infinite'
+                                         }} />
+                                )}
+                                
                                 {img ? (
                                     <img src={img} alt="Profile" className="w-full h-full rounded-full object-cover" />
                                 ) : (
                                     <>
-                                        <IconToShow />
-                                        {!isPressed && <ColoredIcon />}
+                                        {/* Pressed state */}
+                                        {isPressed && (
+                                            <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300 ease-in-out">
+                                                <ClickedIcon />
+                                            </div>
+                                        )}
+                                        
+                                        {/* Active state - always show ActiveIcon */}
+                                        {!isPressed && isActive && (
+                                            <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300 ease-in-out">
+                                                <ActiveIcon />
+                                            </div>
+                                        )}
+                                        
+                                        {/* Default and hover states - both icons rendered simultaneously */}
+                                        {!isPressed && !isActive && (
+                                            <>
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-100 group-hover:opacity-0 transition-opacity duration-800">
+                                                    <DefaultIcon />
+                                                </div>
+                                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-800">
+                                                    <ColoredIcon />
+                                                </div>
+                                            </>
+                                        )}
                                     </>
                                 )}
                             </button>
@@ -329,6 +374,28 @@ export default function Navbar({
                         const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, size, onClick, img } = item;
                         const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-[34px]";
                         const isPressed = pressedItems.has(id);
+
+                        // Special handling for moon/app mode button
+                        if (id === "moon") {
+                            const currentModeIcons = getCurrentAppModeIcon();
+                            const DefaultIcon = iconVariant === "white" ? currentModeIcons.WhiteIcon : currentModeIcons.TransparentIcon;
+                            const IconToShow = isPressed ? currentModeIcons.ClickedIcon : DefaultIcon;
+
+                            return (
+                                <button
+                                    key={id}
+                                    className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`}
+                                    onMouseDown={() => handleItemPress(id)}
+                                    onMouseUp={() => handleItemRelease(id, onClick)}
+                                    onTouchStart={() => handleItemPress(id)}
+                                    onTouchEnd={() => handleItemRelease(id, onClick)}
+                                    aria-label={`App Mode: ${currentAppMode}`}
+                                >
+                                    <IconToShow />
+                                    {!isPressed && <currentModeIcons.ColoredIcon />}
+                                </button>
+                            );
+                        }
 
                         const DefaultIcon = iconVariant === "white" ? WhiteIcon : TransparentIcon;
                         const IconToShow = isPressed ? ClickedIcon : DefaultIcon;

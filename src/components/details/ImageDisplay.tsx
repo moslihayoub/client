@@ -37,7 +37,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ images }) => {
         {displayImages.map((img, i) => (
           <div 
             key={i} 
-            className={`relative overflow-hidden rounded-lg group ${getImageLayout(i, displayImages.length)}`}
+            className={`relative overflow-hidden rounded-[26px] group ${getImageLayout(i, displayImages.length)}`}
           >
             <img
               src={img}

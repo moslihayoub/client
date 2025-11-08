@@ -29,16 +29,16 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
 
   // Mock avis data
   const defaultAvis = [
-    { name: 'John Doe', userImg: '/images/boy.png', like: 10, dislike: 2, comment: 'Le riad était tout simplement exceptionnel ! La piscine était un vrai répit face à la chaleur de Marrakech.', rating: 4.8, date: '2025-01-01' },
-    { name: 'Kamal', userImg: '/images/boy.png', like: 8, dislike: 1, comment: 'Très belle architecture traditionnelle. Les espaces communs sont magnifiques.', rating: 4.5, date: '2025-01-05' },
-    { name: 'Sarah', userImg: '/images/boy.png', like: 12, dislike: 0, comment: 'Service impeccable, personnel très attentionné. Je recommande vivement !', rating: 5.0, date: '2025-01-10' },
-    { name: 'Ahmed', userImg: '/images/boy.png', like: 5, dislike: 3, comment: 'Excellent rapport qualité-prix. La terrasse offre une vue magnifique.', rating: 4.6, date: '2025-01-12' },
-    { name: 'Marie', userImg: '/images/boy.png', like: 15, dislike: 1, comment: 'Riad authentique et charmant. Petit-déjeuner délicieux. Très bon séjour.', rating: 4.9, date: '2025-01-15' },
-    { name: 'Omar', userImg: '/images/boy.png', like: 7, dislike: 2, comment: 'Bon emplacement, près des attractions principales. Chambres confortables.', rating: 4.4, date: '2025-01-18' },
-    { name: 'Sophie', userImg: '/images/boy.png', like: 9, dislike: 0, comment: 'Atmosphère magique et relaxante. Piscine très agréable. Parfait pour se détendre.', rating: 4.7, date: '2025-01-20' },
-    { name: 'Youssef', userImg: '/images/boy.png', like: 11, dislike: 1, comment: 'Accueil chaleureux et professionnel. Décoration soignée. Excellent séjour !', rating: 4.8, date: '2025-01-22' },
-    { name: 'Nassim', userImg: '/images/boy.png', like: 6, dislike: 2, comment: 'Très agréable séjour dans ce riad authentique. Je recommande !', rating: 4.5, date: '2025-01-25' },
-    { name: 'Hassan', userImg: '/images/boy.png', like: 4, dislike: 1, comment: 'Bel endroit avec une décoration soignée. Personnel très accueillant.', rating: 4.3, date: '2025-01-28' },
+    { name: 'John Doe', userImg: '/users/user1.png', like: 10, dislike: 2, comment: 'Le riad était tout simplement exceptionnel ! La piscine était un vrai répit face à la chaleur de Marrakech.', rating: 4.8, date: 'Janvier 2024  ' },
+    { name: 'Kamal', userImg: '/users/user2.png', like: 8, dislike: 1, comment: 'Très belle architecture traditionnelle. Les espaces communs sont magnifiques.', rating: 4.5, date: 'Février 2024' },
+    { name: 'Sarah', userImg: '/users/user3.png', like: 12, dislike: 0, comment: 'Service impeccable, personnel très attentionné. Je recommande vivement !', rating: 5.0, date: 'Mars 2024' },
+    { name: 'Ahmed', userImg: '/users/user4.png', like: 5, dislike: 3, comment: 'Excellent rapport qualité-prix. La terrasse offre une vue magnifique.', rating: 4.6, date: 'Avril 2024' },
+    { name: 'Marie', userImg: '/users/user5.png', like: 15, dislike: 1, comment: 'Riad authentique et charmant. Petit-déjeuner délicieux. Très bon séjour.', rating: 4.9, date: 'Mai 2024' },
+    { name: 'Omar', userImg: '/users/user6.png', like: 7, dislike: 2, comment: 'Bon emplacement, près des attractions principales. Chambres confortables.', rating: 4.4, date: 'Juin 2024' },
+    { name: 'Sophie', userImg: '/users/user1.png', like: 9, dislike: 0, comment: 'Atmosphère magique et relaxante. Piscine très agréable. Parfait pour se détendre.', rating: 4.7, date: 'Juillet 2024' },
+    { name: 'Youssef', userImg: '/users/user2.png', like: 11, dislike: 1, comment: 'Accueil chaleureux et professionnel. Décoration soignée. Excellent séjour !', rating: 4.8, date: 'Août 2024' },
+    { name: 'Nassim', userImg: '/users/user3.png', like: 6, dislike: 2, comment: 'Très agréable séjour dans ce riad authentique. Je recommande !', rating: 4.5, date: 'Septembre 2024' },
+    { name: 'Hassan', userImg: '/users/user4.png', like: 4, dislike: 1, comment: 'Bel endroit avec une décoration soignée. Personnel très accueillant.', rating: 4.3, date: 'Octobre 2024' },
   ];
 
   // Default images if none provided
@@ -66,21 +66,27 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
 
   // If hotel data exists, use it; otherwise use defaults
   const title = hotelData?.title || 'Hotel Plaza Premium';
+  const type = hotelData?.type || 'hotel';
+  const minPrice = hotelData?.minPrice || 100;
+  const status = hotelData?.status || 'Ouvert';
   const description = hotelData?.description || defaultDescription;
   const images = hotelData?.images || defaultImages;
   const tags = defaultTags;
   const rating = hotelData?.rating || 4.8;
-  const nbRating = hotelData?.nbRating || 245;
+  const nbRating = hotelData?.nbRating || 2230;
   const avis = defaultAvis;
   const hoteInfo = {
-    name: 'Fatima Bennani',
-    userImg: '/images/boy.png',
+    name: 'Omar',
+    userImg: '/images/hote.png',
     description: 'Bienvenue dans ce superbe appartement de standing au cœur d’un domaine golfique, avec vue imprenable sur le golf depuis le jardin privé.\n\n Entièrement meublé et équipé, l’appartement offre 2 chambres confortables, un salon lumineux avec Smart TV, 2 salles de bain et une cuisine. Climatisation et Wi-Fi Fibre sont à disposition pour un séjour tout confort.\n\n Accès libre aux piscines, jardins et golf. À 5 min de l’aéroport, 8 min de M Avenue et 3 min de Carrefour. Parking gratuit sécurisé 24h/24.',
     anciennete: 10
   };
   return (
     <Details
       title={title}
+      type={type}
+      minPrice={minPrice}
+      status={status}
       description={description}
       tags={tags}
       rating={rating}
