@@ -10,6 +10,7 @@ import TrWave from '../svgs/transparent/TrWave';
 import ColWave from '../svgs/colored/ColWave';
 import TrMinScreen from '../svgs/transparent/TrMinScreen';
 import ColFullScreen from '../svgs/colored/ColFullScreen';
+import { useNavigate } from 'react-router-dom';
 
 interface MobileSearchbarProps {
   fullscreen?: boolean;
@@ -31,7 +32,7 @@ function MobileSearchbar({
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [showVoiceTranscriber, setShowVoiceTranscriber] = useState(false);
-
+  const navigate = useNavigate();
   const animatedTexts = [
     "Où vous voulez passer vos vacances",
     "Comment je peux vous aidez",
@@ -229,6 +230,10 @@ function MobileSearchbar({
           disabled={value.trim().length === 0}
           className={`w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 ${value.trim().length === 0 ? 'cursor-not-allowed opacity-50' : 'hover:shadow-xl transition-shadow duration-200'
             }`}
+            onClick={() => {
+              console.log("send button clicked");
+              navigate("/hotels");
+            }}
         >
           {value.trim().length === 0 ? (
             <TrSend />

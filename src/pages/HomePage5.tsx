@@ -57,7 +57,7 @@ function HomePage5({ input }: { input: Input }) {
                     <div className={`flex-1 flex items-center justify-center ${fullscreen ? "blur-md" : ""}`}>
                         <div className='flex flex-col gap-[26px] justify-center items-center w-[1160px] h-[198px]'>
                             <p className='font-youngserif font-normal text-[56px] sm:text-[40px] md:text-[56px] text-center text-white leading-tight'>Votre logement idéal, un espace où l'IA améliore votre expérience !</p>
-                            <p className='font-zalando text-[18px] sm:text-[16px] md:text-[18px] text-center text-white'>Découvrez notre marketplace intelligente</p>
+                            <p className=' text-[18px] sm:text-[16px] md:text-[18px] text-center font-outfit text-white'>Découvrez notre marketplace intelligente</p>
                         </div>
                     </div>
                 )}

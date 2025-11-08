@@ -18,9 +18,9 @@ interface TabSelectionProps {
 
 const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange, affichageType, setAffichageType }) => {
   return (
-    <div className="flex gap-6 items-center justify-between mb-6">
+    <div className="flex gap-6 items-center justify-between mb-[28px]">
       {/* Left side - Tab buttons */}
-      <div className="flex gap-6 items-center">
+      <div className="flex gap-[26px] items-center">
         {/* Logement Tab */}
         <button 
           onClick={() => onTabChange('logement')}
@@ -91,7 +91,7 @@ const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange, a
       {/* Right side - Action buttons */}
       <div className="flex gap-3 items-center">
         {/* Filter Button */}
-        <button className="bg-slate-800 flex gap-3 items-center justify-center pl-[15px] pr-2 py-1.5 rounded-xl">
+        <button className="bg-slate-800 flex gap-[12px] items-center justify-center pl-[15px] pr-[8px] py-1.5 rounded-xl">
           <p className="font-medium text-base text-white font-outfit leading-6">
             Filtre
           </p>
@@ -101,16 +101,16 @@ const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange, a
         </button>
 
         {/* Show Area Button */}
-        <button className="bg-cyan-500 flex gap-3 items-center justify-center pl-[15px] pr-2 py-1.5 rounded-xl"
+        <button className="bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out flex gap-[12px] items-center justify-center pl-[15px] pr-[8px] py-1.5 rounded-xl"
         onClick={() => {
           affichageType === 'parzone' ? setAffichageType('parliste') : setAffichageType('parzone');
         }}>
           <p className="font-medium text-base text-white font-outfit leading-6">
-            {affichageType === 'parzone' ? 'Affiche la zone' : 'Affiche la liste'}
+            {affichageType === 'parzone' ? 'Affiche la liste' : 'Affiche la zone'}
           </p>
           <div className="w-6 h-6 flex items-center justify-center">
-            {affichageType === 'parzone' ? <Zone /> : ''}
-            {affichageType === 'parliste' ? <GrListe /> : ''}
+            {affichageType === 'parzone' ? <GrListe /> : ''}
+            {affichageType === 'parliste' ? <Zone /> : ''}
           </div>
         </button>
       </div>

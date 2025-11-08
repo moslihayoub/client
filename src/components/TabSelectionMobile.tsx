@@ -81,7 +81,7 @@ const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({
           style={{
             background: 'radial-gradient(141.56% 141.56% at 50% -7.74%, #2DD4BF 0%, #0EA5E9 50.96%, #D946EF 100%)',
             padding: '3.5% 6%',
-            gap: '3%',
+            gap: '12px',
             minHeight: '0',
             minWidth: '0'
           }}
@@ -89,7 +89,7 @@ const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({
           <div className="flex items-center justify-center" style={{ width: '6%', height: '6%', minWidth: '20px', minHeight: '20px' }}>
             {currentTabInfo.icon}
           </div>
-          <p className="font-semibold font-outfit whitespace-nowrap" style={{ fontSize: 'clamp(14px, 4.5vw, 18px)', lineHeight: '1.56' }}>
+          <p className="text-[18px] font-normal font-weight-600 font-outfit whitespace-nowrap" style={{ fontSize: 'clamp(14px, 4.5vw, 18px)', lineHeight: '1.56' }}>
             {currentTabInfo.label}
           </p>
         </button>
@@ -100,7 +100,7 @@ const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({
           className="flex-[1_0_0] flex items-center justify-center rounded-full bg-slate-900 text-white shadow-sm transition-all duration-200"
           style={{
             padding: '3.5% 6%',
-            gap: '3%',
+            gap: '12px',
             minHeight: '0',
             minWidth: '0'
           }}
@@ -108,7 +108,7 @@ const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({
           <div className="flex items-center justify-center" style={{ width: '6%', height: '6%', minWidth: '20px', minHeight: '20px' }}>
             {currentAffichageTypeInfo.icon} 
           </div>
-          <p className="font-semibold font-outfit whitespace-nowrap" style={{ fontSize: 'clamp(14px, 4.5vw, 18px)', lineHeight: '1.56' }}>
+          <p className="text-[18px] font-normal font-weight-600 font-outfit whitespace-nowrap" style={{ fontSize: 'clamp(14px, 4.5vw, 18px)', lineHeight: '1.56' }}>
             {currentAffichageTypeInfo.label}
           </p>
         </button>

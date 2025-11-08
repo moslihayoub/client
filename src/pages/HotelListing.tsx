@@ -18,7 +18,7 @@ import AffichageTypePopup from "../components/AffichageTypePopup";
 const hotels = [
   {
     id: 1,
-    title: "Hotel Plaza Premium",
+    title: "Résidence Les Jardins de Marrakech",
     nbLit: 2,
     nbChambre: 1,
     nbNuit: 3,
@@ -27,9 +27,12 @@ const hotels = [
     rating: 4.8,
     distancce: 2.5,
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/hotels/hotel1.png',
+      '/hotels/hotel2.png',
+      '/hotels/hotel3.png',
+      '/hotels/hotel4.png',
+      '/hotels/hotel5.png',
+      '/hotels/hotel6.png'
     ]
   },
   {
@@ -43,9 +46,9 @@ const hotels = [
     rating: 4.9,
     distancce: 1.2,
     images: [
-      '/images/bg2.png',
-      '/images/bg3.png',
-      '/images/bg1.png'
+      '/hotels/hotel2.png',
+      '/hotels/hotel3.png',
+      '/hotels/hotel4.png'
     ]
   },
   {
@@ -59,9 +62,9 @@ const hotels = [
     rating: 4.5,
     distancce: 0.8,
     images: [
-      '/images/bg3.png',
-      '/images/bg2.png',
-      '/images/bg1.png'
+      '/hotels/hotel3.png',
+      '/hotels/hotel6.png',
+      '/hotels/hotel5.png'
     ]
   },
   {
@@ -75,9 +78,9 @@ const hotels = [
     rating: 4.7,
     distancce: 5.3,
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/hotels/hotel6.png',
+      '/hotels/hotel4.png',
+      '/hotels/hotel1.png'
     ]
   },
   {
@@ -91,9 +94,9 @@ const hotels = [
     rating: 4.3,
     distancce: 0.5,
     images: [
-      '/images/bg1.png',
-      '/images/bg2.png',
-      '/images/bg3.png'
+      '/hotels/hotel5.png',
+      '/hotels/hotel6.png',
+      '/hotels/hotel1.png'
     ]
   },
   {
@@ -107,9 +110,73 @@ const hotels = [
     rating: 4.9,
     distancce: 3.1,
     images: [
-      '/images/bg3.png',
-      '/images/bg2.png',
-      '/images/bg1.png'
+      '/hotels/hotel6.png',
+      '/hotels/hotel4.png',
+      '/hotels/hotel1.png'
+    ]
+  },
+  {
+    id: 7,
+    title: "Hotel Marrakech",
+    nbLit: 2,
+    nbChambre: 1,
+    nbNuit: 1,
+    totalPrice: 120,
+    pricePerNight: 120,
+    rating: 4.5,
+    distancce: 0.5,
+    images: [
+      '/hotels/hotel1.png',
+      '/hotels/hotel2.png',
+      '/hotels/hotel3.png'
+    ]
+  },
+  {
+    id: 8,
+    title: "Hotel Marrakech de rire pour les enfants",
+    nbLit: 2,
+    nbChambre: 1,
+    nbNuit: 1,
+    totalPrice: 120,
+    pricePerNight: 120,
+    rating: 4.5,
+    distancce: 0.5,
+    images: [
+      '/hotels/hotel1.png',
+      '/hotels/hotel2.png',
+      '/hotels/hotel3.png'
+    ]
+  },
+  {
+    id: 9,
+    title: "Hotel Marrakech de rire pour les enfants",
+    nbLit: 2,
+    nbChambre: 1,
+    nbNuit: 1,
+    totalPrice: 120,
+    pricePerNight: 120,
+    rating: 4.5,
+    distancce: 0.5,
+    images: [
+      '/hotels/hotel1.png',
+      '/hotels/hotel2.png',
+      '/hotels/hotel3.png'
+    ]
+  },
+  {
+    id: 10,
+    title: "Hotel Marrakech de rire pour les enfants",
+    nbLit: 2,
+    nbChambre: 1,
+    nbNuit: 1,
+    totalPrice: 120,
+    pricePerNight: 120,
+    rating: 4.5,
+    distancce: 0.5,
+    images: [
+      '/hotels/hotel1.png',
+      '/hotels/hotel2.png',
+      '/hotels/hotel3.png'
     ]
   }
 ];
@@ -294,11 +361,14 @@ const HotelListing: React.FC = () => {
   const [isMobileTabVisible, setIsMobileTabVisible] = useState(true);
   const listRef = useRef<HTMLDivElement>(null);
   const tabSelectionRef = useRef<HTMLDivElement>(null);
+  const cardsGridRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
   const lastScrollTopRef = useRef(0);
   const scrollTickingRef = useRef(false);
   const [isTypeListingPopupOpen, setIsTypeListingPopupOpen] = useState(false);
   const [isAffTypePopupOpen, setIsAffTypePopupOpen] = useState(false);
   const [popupPosition, setPopupPosition] = useState<{ top: number; left: number; width: number } | null>(null);
+  const [searchBarPosition, setSearchBarPosition] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -335,6 +405,40 @@ const HotelListing: React.FC = () => {
     return () => container.removeEventListener('scroll', handleScroll as EventListener);
   }, []);
 
+  // Update SearchBar position based on cards grid width
+  useEffect(() => {
+    const updateSearchBarPosition = () => {
+      // Use the container that holds the grid for more accurate positioning
+      const container = cardsContainerRef.current || cardsGridRef.current;
+      if (container) {
+        const rect = container.getBoundingClientRect();
+        // Calculate center: left edge + half width
+        const centerX = rect.left + (rect.width / 2);
+        setSearchBarPosition({
+          left: centerX,
+          width: rect.width
+        });
+      }
+    };
+
+    // Add a small delay to ensure layout has updated after sidebar state change
+    const timeoutId = setTimeout(() => {
+      updateSearchBarPosition();
+    }, 300); // Increased delay to account for sidebar transition
+
+    // Also update immediately in case layout is already stable
+    updateSearchBarPosition();
+
+    window.addEventListener('resize', updateSearchBarPosition);
+    window.addEventListener('scroll', updateSearchBarPosition, true);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', updateSearchBarPosition);
+      window.removeEventListener('scroll', updateSearchBarPosition, true);
+    };
+  }, [isSidebarCollapsed, selectedAffichageType]);
+
   // Calculate popup position when opened
   useEffect(() => {
     const updatePosition = () => {
@@ -364,7 +468,7 @@ const HotelListing: React.FC = () => {
     <>
       <div className="flex flex-col h-screen">
         {/* Navbar at the top */}
-        <Navbar logoColor="normal" background="white" iconVariant="transparent" profileImg="/images/boy.png" />
+        <Navbar logoColor="normal" background="white" blur={true} iconVariant="transparent" profileImg="/images/boy.png" />
 
         {/* Main content area */}
         <div className="flex flex-1 overflow-hidden">
@@ -375,10 +479,10 @@ const HotelListing: React.FC = () => {
           </div>
 
           {/* Card listings - Takes remaining width */}
-          <div ref={listRef} className="flex-1 overflow-y-auto scrollbar-hide mt-[5%] sm:mt-[15%] md:mt-[5%] lg:mt-[5%] xl:mt-[5%]">
-            <div className="p-6 sm:p-3 md:p-6 lg:p-6 xl:p-6 sm:pt-[28%] md:pt-6 lg:pt-6 xl:pt-6">
+          <div ref={listRef} className="flex-1 flex overflow-y-auto scrollbar-hide mt-[5%] sm:mt-[15%] md:mt-[5%] lg:mt-[5%] xl:mt-[5%]">
+            <div ref={cardsContainerRef} className={`p-6 sm:p-3 md:p-6 lg:p-6 xl:p-6 sm:pt-[28%] md:pt-6 lg:pt-6 xl:pt-6 ${isSidebarCollapsed ? 'sm:w-full md:w-full lg:w-[87%] xl:w-[87%]' : 'sm:w-full md:w-full lg:w-[82%] xl:w-[82%]'} ml-[68px] sm:ml-0 md:ml-0 lg:ml-[68px] xl:ml-[68px]`}>
               {/* Mobile Tab Selection - Fixed position on small devices */}
-              <div ref={tabSelectionRef} className={`fixed top-20 left-0 right-0 z-20 sm:block md:hidden lg:hidden xl:hidden px-6 mt-1 h-[8%] transform transition-all duration-500 ease-in-out ${isMobileTabVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+              <div ref={tabSelectionRef} className={`fixed top-20 left-0 right-0 z-20 sm:block md:hidden lg:hidden xl:hidden px-[12px] mt-1 h-[8%] transform transition-all duration-500 ease-in-out ${isMobileTabVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
                 }`}>
                 <TabSelectionMobile
                   selectedTab={selectedTab}
@@ -390,34 +494,35 @@ const HotelListing: React.FC = () => {
                 />
               </div>
               {/* Header */}
-              <div className="text-left mb-8">
-                <h1 className="text-4xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-gray-900 mb-4">
+              <div className="text-left mb-[28px]">
+                <h1 className="text-[36px] sm:text-[24px] md:text-[36px] lg:text-[36px] xl:text-[36px] sm:leading-[36px] md:leading-[48px] lg:leading-[48px] xl:leading-[48px] font-bold font-outfit text-slate-800 mb-4">
                   Voyage pour un riad traditionnel à Marrakech
                 </h1>
                 {/* Search Criteria Component */}
-                <div className="flex gap-6 items-center">
+                <div className="flex gap-[24px] items-center">
                   {/* Date Range */}
                   <div className="flex gap-1.5 items-center">
-                    <div className="w-6 h-6 flex items-center justify-center">
+                    <div className="w-[24px] h-[24px] flex items-center justify-center">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z" stroke="#475569" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M15.6947 13.7H15.7037M15.6947 16.7H15.7037M11.9955 13.7H12.0045M11.9955 16.7H12.0045M8.29431 13.7H8.30329M8.29431 16.7H8.30329" stroke="#475569" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M2 12C2 8.229 2 6.343 3.172 5.172C4.344 4.001 6.229 4 10 4H14C17.771 4 19.657 4 20.828 5.172C21.999 6.344 22 8.229 22 12V14C22 17.771 22 19.657 20.828 20.828C19.656 21.999 17.771 22 14 22H10C6.229 22 4.343 22 3.172 20.828C2.001 19.656 2 17.771 2 14V12Z" stroke="#475569" stroke-width="1.5" />
+                        <path opacity="0.5" d="M7 4V2.5M17 4V2.5M2.5 9H21.5" stroke="#475569" stroke-width="1.5" stroke-linecap="round" />
+                        <path d="M18 17C18 17.2652 17.8946 17.5196 17.7071 17.7071C17.5196 17.8946 17.2652 18 17 18C16.7348 18 16.4804 17.8946 16.2929 17.7071C16.1054 17.5196 16 17.2652 16 17C16 16.7348 16.1054 16.4804 16.2929 16.2929C16.4804 16.1054 16.7348 16 17 16C17.2652 16 17.5196 16.1054 17.7071 16.2929C17.8946 16.4804 18 16.7348 18 17ZM18 13C18 13.2652 17.8946 13.5196 17.7071 13.7071C17.5196 13.8946 17.2652 14 17 14C16.7348 14 16.4804 13.8946 16.2929 13.7071C16.1054 13.5196 16 13.2652 16 13C16 12.7348 16.1054 12.4804 16.2929 12.2929C16.4804 12.1054 16.7348 12 17 12C17.2652 12 17.5196 12.1054 17.7071 12.2929C17.8946 12.4804 18 12.7348 18 13ZM13 17C13 17.2652 12.8946 17.5196 12.7071 17.7071C12.5196 17.8946 12.2652 18 12 18C11.7348 18 11.4804 17.8946 11.2929 17.7071C11.1054 17.5196 11 17.2652 11 17C11 16.7348 11.1054 16.4804 11.2929 16.2929C11.4804 16.1054 11.7348 16 12 16C12.2652 16 12.5196 16.1054 12.7071 16.2929C12.8946 16.4804 13 16.7348 13 17ZM13 13C13 13.2652 12.8946 13.5196 12.7071 13.7071C12.5196 13.8946 12.2652 14 12 14C11.7348 14 11.4804 13.8946 11.2929 13.7071C11.1054 13.5196 11 13.2652 11 13C11 12.7348 11.1054 12.4804 11.2929 12.2929C11.4804 12.1054 11.7348 12 12 12C12.2652 12 12.5196 12.1054 12.7071 12.2929C12.8946 12.4804 13 12.7348 13 13ZM8 17C8 17.2652 7.89464 17.5196 7.70711 17.7071C7.51957 17.8946 7.26522 18 7 18C6.73478 18 6.48043 17.8946 6.29289 17.7071C6.10536 17.5196 6 17.2652 6 17C6 16.7348 6.10536 16.4804 6.29289 16.2929C6.48043 16.1054 6.73478 16 7 16C7.26522 16 7.51957 16.1054 7.70711 16.2929C7.89464 16.4804 8 16.7348 8 17ZM8 13C8 13.2652 7.89464 13.5196 7.70711 13.7071C7.51957 13.8946 7.26522 14 7 14C6.73478 14 6.48043 13.8946 6.29289 13.7071C6.10536 13.5196 6 13.2652 6 13C6 12.7348 6.10536 12.4804 6.29289 12.2929C6.48043 12.1054 6.73478 12 7 12C7.26522 12 7.51957 12.1054 7.70711 12.2929C7.89464 12.4804 8 12.7348 8 13Z" fill="#475569" />
                       </svg>
                     </div>
-                    <p className="font-bold text-md text-slate-600 font-outfit leading-8">
+                    <p className="font-bold sm:font-semibold md:font-bold lg:font-bold xl:font-bold text-[20px] sm:text-[18px] md:text-[20px] lg:text-[20px] xl:text-[20px] text-slate-600 font-outfit">
                       Du 6 au 18 octobre
                     </p>
                   </div>
 
                   {/* Guest Count */}
                   <div className="flex gap-1.5 items-center">
-                    <div className="w-6 h-6 flex items-center justify-center">
+                    <div className="w-[24px] h-[24px] flex items-center justify-center">
                       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="#475569" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
-                        <path d="M12.0002 14.5C6.99016 14.5 2.91016 17.86 2.91016 22C2.91016 22.28 3.13016 22.5 3.41016 22.5H20.5902C20.8702 22.5 21.0902 22.28 21.0902 22C21.0902 17.86 17.0102 14.5 12.0002 14.5Z" stroke="#475569" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+                        <path d="M12 10C14.2091 10 16 8.20914 16 6C16 3.79086 14.2091 2 12 2C9.79086 2 8 3.79086 8 6C8 8.20914 9.79086 10 12 10Z" stroke="#475569" stroke-width="1.5" />
+                        <path opacity="0.5" d="M12 21C15.866 21 19 19.2091 19 17C19 14.7909 15.866 13 12 13C8.13401 13 5 14.7909 5 17C5 19.2091 8.13401 21 12 21Z" stroke="#475569" stroke-width="1.5" />
                       </svg>
                     </div>
-                    <p className="font-bold text-md text-slate-600 font-outfit leading-8">
+                    <p className="font-bold sm:font-semibold md:font-bold lg:font-bold xl:font-bold text-[20px] sm:text-[18px] md:text-[20px] lg:text-[20px] xl:text-[20px] text-slate-600 font-outfit">
                       2 Personnes
                     </p>
                   </div>
@@ -436,7 +541,7 @@ const HotelListing: React.FC = () => {
 
               {/* Cards Grid */}
               {selectedAffichageType === 'parliste' && (
-                <div className={`grid gap-x-[28px] gap-y-3 w-full ${isSidebarCollapsed
+                <div ref={cardsGridRef} className={`grid gap-x-[28px] gap-y-[54px] w-full ${isSidebarCollapsed
                   ? 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
                   : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'
                   }`}>
@@ -501,17 +606,19 @@ const HotelListing: React.FC = () => {
                     />
                   ))}
                   {/*Searchbar component for desktop - hides on scroll down */}
-                  {/* Fixed SearchBar at bottom center */}
+                  {/* Fixed SearchBar at bottom center - aligned with cards grid */}
                   <div
-                    className={`fixed sm:hidden md:block lg:block xl:block z-20 bottom-4 left-1/2 transform -translate-x-1/2 
-      sm:w-[30%] md:w-[50%] lg:w-[45%] 
-      flex items-end justify-center 
-      p-4 transition-all duration-500 ease-in-out
-      ${isSearchBarVisible
-                        ? 'translate-y-0 opacity-100'
-                        : 'translate-y-full opacity-0 pointer-events-none'
+                    className={`fixed sm:hidden md:block lg:block xl:block z-20 bottom-4 
+                        flex items-end justify-center 
+                        p-4 transition-all duration-500 ease-in-out
+                     ${isSearchBarVisible
+                        ? 'opacity-100'
+                        : 'opacity-0 pointer-events-none'
                       }`}
                     style={{
+                      left: `${searchBarPosition.left}px`,
+                      transform: `translateX(-50%) translateY(${isSearchBarVisible ? '0' : '100%'})`,
+                      width: `${Math.min(searchBarPosition.width * 0.9, 700)}px`,
                       height: fullscreen ? '70%' : 'auto',
                       willChange: 'transform, opacity',
                     }}

@@ -11,6 +11,7 @@ import ColWave from "../svgs/colored/ColWave";
 import TrMinScreen from "../svgs/transparent/TrMinScreen";
 import ColFullScreen from "../svgs/colored/ColFullScreen";
 import ColSearch from "../svgs/colored/ColSearch";
+import { useNavigate } from "react-router-dom";
 
 interface NexaStayTextareaProps {
     fullscreen: boolean;
@@ -24,7 +25,7 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
     const [value, setValue] = useState("");
     const maxWords = 200;
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
-
+    const navigate = useNavigate();
     // Debug logging
     const [isVisible, setIsVisible] = useState(true);
     const [showVoiceTranscriber, setShowVoiceTranscriber] = useState(false);
@@ -130,6 +131,10 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                     <button
                         type="submit"
                         disabled={value.trim().length === 0}
+                        onClick={() => {
+                            navigate("/hotels");
+                            console.log("send button clicked");
+                        }}
                         className={`w-[44px] h-[44px] flex items-center justify-center absolute top-0 right-0 ${value.trim().length === 0 ? 'cursor-not-allowed' : ''
                             }`}
                     >
@@ -160,7 +165,7 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                     {/*Voice Button*/}
                     <button
                         className="w-[34px] h-[34px] flex items-center justify-center group relative"
-                        onClick={() => setShowVoiceTranscriber(true)}
+                        onClick={() => navigate("/voiceai")}
                     >
                         <TrWave />
                         <ColWave />

@@ -76,7 +76,7 @@ const serviceCards: ServiceCard[] = [
 
 export default function ServiceCards() {
     return (
-        <div className="flex flex-col gap-6 items-center w-[80%] sm:w-[95%] md:w-[65%] lg:w-[50%] mx-auto sm:mt-[75%] md:mt-0 lg:mt-0 xl:mt-0 mb-0 sm:mb-[52%] md:mb-0 lg:mb-0 xl:mb-0">
+        <div className="flex flex-col gap-6 items-center w-[80%] sm:w-[95%] md:w-[65%] lg:w-[50%] mx-auto sm:mt-[78%] md:mt-[20%] lg:mt-[15%] xl:mt-0 mb-0 sm:mb-[52%] md:mb-0 lg:mb-0 xl:mb-0">
             {/* Header */}
             <div className="flex flex-col gap-3 items-center text-cente ">
                 <h1 className="font-youngserif font-normal text-black text-5xl sm:text-3xl leading-9">
@@ -111,6 +111,7 @@ export default function ServiceCards() {
                 xl:justify-center
                 xl:items-center
                 xl:flex-wrap
+                p-2
             "
             >
                 {serviceCards.map((card) => (
