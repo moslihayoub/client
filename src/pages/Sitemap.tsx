@@ -65,7 +65,7 @@ function Sitemap() {
                 <p className="text-sm text-slate-600 font-outfit mb-2">
                   {route.description}
                 </p>
-                <p className="text-xs text-slate-400 font-mono font-outfit">
+                <p className="text-xs text-slate-400 font-outfit">
                   {route.path}
                 </p>
               </Link>

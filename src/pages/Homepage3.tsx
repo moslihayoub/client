@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import BgCyan from '../components/BgCyan'
 import Navbar from '../components/Navbar'
 import SearchBar from '../components/SearchBar'
 import ServiceCards from '../components/ServiceCards'

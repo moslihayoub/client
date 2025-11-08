@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import SearchBar from '../components/SearchBar'
 import MobileSearchbar from '../components/MobileSearchbar'
 import Navbar from '../components/Navbar';
-import AnimatedBg from '../components/AnimatedBg';
 import BgLottie from '../components/BgLottie';
 
 function HomePage2() {

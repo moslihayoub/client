@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage1 from "./pages/HomePage1";
 import HomePage2 from "./pages/HomePage2";
 import HomePage4 from "./pages/HomePage4";
@@ -7,16 +7,12 @@ import TestPage from "./pages/TestPage";
 import HomePage5 from './pages/HomePage5';
 import Homepage3 from './pages/Homepage3';
 import VoiceAiVisualizer from './components/VoiceAiVisualizer';
-import Bg from './components/Bg';
 import { AnimatePresence } from 'framer-motion';
 import ProfileCard from './pages/ProfileCard';
-import HotelCard from './components/HoltelCard';
 import HotelListing from './pages/HotelListing';
-import ItemCard from './components/HoltelCard';
 import ImageDisplay from './components/details/ImageDisplay';
 import Details from './pages/Details';
 import HotelDetailWrapper from './pages/HotelDetailWrapper';
-import Zone from './svgs/icons/Zone';
 import SkHome from './svgs/icons/sky/SkHome';
 import { SideListingProvider } from './contexts/SideListingContext';
 import ImgDetails from './components/details/ImgDetails';
@@ -84,7 +80,6 @@ export default function App() {
         <Route path="/bg-video" element={<HomePage5 input={{ type: 'video'}} />} />
         <Route path="/test" element={<TestPage />} />
         <Route path="/voiceai" element={<VoiceAiVisualizer />} />
-        <Route path="/bg" element={<Bg />} />
         <Route path="/profile" element={<ProfileCard />} />
         <Route path="/hotels" element={<HotelListing />} />
         <Route path="/images" element={<ImageDisplay images={['/images/bg1.png','/images/bg2.png','/images/bg3.png']} />} />
