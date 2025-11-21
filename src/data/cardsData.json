@@ -1,0 +1,66 @@
+{
+  "cards": [
+    {
+      "type": "Memory",
+      "title": "Mémoires",
+      "description": "Intéresser cette expérience de poterie à Arfoud.",
+      "images": [
+        "/images/business-travel.png",
+        "/images/experiences.png",
+        "/images/voyage.png",
+        "/images/services.png"
+      ]
+    },
+    {
+      "type": "Memory",
+      "title": "Mes favoris",
+      "description": "Hôtel à Geliz",
+      "images": [
+        "/images/services.png",
+        "/images/gastronomy.png",
+        "/images/voyage.png"
+      ]
+    },
+    {
+      "type": "Note",
+      "title": "Calendrier",
+      "description": "12/10/2025\nSalut Snoussi, il te reste deux jours avant ton départ pour Marrakech.",
+      "backgroundColor": "#FACC15"
+    },
+    {
+      "type": "Note",
+      "title": "Mes notes",
+      "description": "Programme un voyage weekend le 30 Octobre a bin lwidane",
+      "backgroundColor": "#14b8a6"
+    },
+    {
+      "type": "Icon",
+      "title": "Voyage d'affaire",
+      "iconPath": "/cards/valise.png",
+      "number": 5,
+      "text": "Voyages"
+    },
+    {
+      "type": "Icon",
+      "title": "Expériences",
+      "iconPath": "/cards/teles.png",
+      "number": 12,
+      "text": "Expériences"
+    },
+    {
+      "type": "Icon",
+      "title": "Services",
+      "iconPath": "/cards/agric.png",
+      "number": 8,
+      "text": "Services"
+    },
+    {
+      "type": "Icon",
+      "title": "Gastronomie",
+      "iconPath": "/cards/terre.png",
+      "number": 15,
+      "text": "Restaurants"
+    }
+  ]
+}
+

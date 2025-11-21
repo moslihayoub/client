@@ -5,21 +5,35 @@
 @font-face {
   font-family: 'Young_Serif';
   src: url('./fonts/YoungSerif-Regular.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 100 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Zalando_Sans_Expanded';
   src: url('./fonts/ZalandoSansExpanded-VariableFont_wght.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 100 900;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Outfit';
   src: url('./fonts/Outfit-VariableFont_wght.ttf') format('truetype');
-  font-weight: 400;
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BricolageGrotesque';
+  src: url('./fonts/BricolageGrotesque-VariableFont_opsz,wdth,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'VendSans';
+  src: url('./fonts/VendSans-VariableFont_wght.ttf') format('truetype');
+  font-weight: 100 900;
   font-style: normal;
 }
 
@@ -33,6 +47,15 @@
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, #2dd4bf, #0ea5e9, #d946ef);
   border-radius: 9999px;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
 }
 
 /* Gradient border animations */

@@ -22,7 +22,7 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
   const { hotelId } = useParams<{ hotelId: string }>();
 
   // Get hotel data from props or navigation state
-  const hotelData = propHotelData || location.state?.hotel || location.state?.service || location.state?.experience;
+  const hotelData = propHotelData || location.state?.hotel || location.state?.service || location.state?.experience || location.state?.health;
 
   // Default description
   const defaultDescription = "Plongez dans l'envoûtement d'un riad marocain traditionnel, où chaque coin respire l'authenticité. Imaginez-vous vous détendre au bord d'une piscine scintillante, entouré de chambres somptueusement décorées qui allient confort moderne et touches artisanales.\n \n Ne manquez pas la terrasse sur le toit, un véritable havre de paix, offrant une vue panoramique à couper le souffle sur les toits de Marrakech, surtout au coucher du soleil. Ce riad est l'endroit idéal pour vivre une expérience inoubliable, mêlant luxe et culture.";
@@ -66,25 +66,63 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
 
   // If hotel data exists, use it; otherwise use defaults
   const title = hotelData?.title || 'Hotel Plaza Premium';
-  const type = hotelData?.type || 'hotel';
-  const minPrice = hotelData?.minPrice || 100;
+  const type = (hotelData?.type as 'Hotel' | 'Service' | 'Experience' | 'Health') || 'Hotel';
+  const genre = hotelData?.genre as string[];
+  
+  // Extract price based on type
+  let minPrice = 100;
+  if (hotelData) {
+    if (type === 'Service' && hotelData.minimumPrice) {
+      minPrice = hotelData.minimumPrice;
+    } else if (type === 'Experience' && hotelData.price) {
+      minPrice = hotelData.price;
+    } else if (type === 'Hotel' && (hotelData.minPrice || hotelData.pricePerNight)) {
+      minPrice = hotelData.minPrice || hotelData.pricePerNight;
+    }
+  }
+  
+  const defaultMenu = [
+    {
+      tag: 'Menu du jour',
+      images: [
+        '/images/menu1.png',
+        '/images/menu2.png',
+        '/images/menu3.png',
+        '/images/menu4.png',
+      ]
+    }
+  ];
+
   const status = hotelData?.status || 'Ouvert';
   const description = hotelData?.description || defaultDescription;
   const images = hotelData?.images || defaultImages;
-  const tags = defaultTags;
+  const tags = hotelData?.tags || defaultTags;
   const rating = hotelData?.rating || 4.8;
   const nbRating = hotelData?.nbRating || 2230;
   const avis = defaultAvis;
-  const hoteInfo = {
+  const menu = hotelData?.menu || defaultMenu;
+  const formules = hotelData?.formules || [];
+  const hoteInfo = hotelData?.hoteInfo || {
     name: 'Omar',
+    type: type,
     userImg: '/images/hote.png',
     description: 'Bienvenue dans ce superbe appartement de standing au cœur d’un domaine golfique, avec vue imprenable sur le golf depuis le jardin privé.\n\n Entièrement meublé et équipé, l’appartement offre 2 chambres confortables, un salon lumineux avec Smart TV, 2 salles de bain et une cuisine. Climatisation et Wi-Fi Fibre sont à disposition pour un séjour tout confort.\n\n Accès libre aux piscines, jardins et golf. À 5 min de l’aéroport, 8 min de M Avenue et 3 min de Carrefour. Parking gratuit sécurisé 24h/24.',
     anciennete: 10
   };
+  const currentId = hotelData?.id || (hotelId ? parseInt(hotelId) : undefined);
+
+  // Extract health schedule data
+  const jourDebut = hotelData?.jourDebut;
+  const jourFin = hotelData?.jourFin;
+  const heureDebut = hotelData?.heureDebut;
+  const heureFin = hotelData?.heureFin;
+
   return (
     <Details
+      id={currentId}
       title={title}
       type={type}
+      genre={genre}
       minPrice={minPrice}
       status={status}
       description={description}
@@ -94,6 +132,12 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
       avis={avis}
       hoteInfo={hoteInfo}
       images={images}
+      menu={menu}
+      formules={formules}
+      jourDebut={jourDebut}
+      jourFin={jourFin}
+      heureDebut={heureDebut}
+      heureFin={heureFin}
     />
   );
 };

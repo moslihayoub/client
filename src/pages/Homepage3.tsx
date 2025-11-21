@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import SearchBar from '../components/SearchBar'
-import ServiceCards from '../components/ServiceCards'
+import Cards from '../components/Cards'
 import MobileSearchbar from '../components/MobileSearchbar'
+import BgLottie from '../components/BgLottie'
+import cardsData from '../data/cardsData.json'
 
 interface User {
     img: string;
@@ -68,16 +70,50 @@ function Homepage3() {
         console.log(isMobile);
     }, []);
 
+    // Convert iconPath to icon for Icon cards
+    const cards = cardsData.cards.map((card: any) => {
+        if (card.type === 'Icon' && card.iconPath) {
+            return {
+                ...card,
+                icon: <img src={card.iconPath} alt={card.title} className="w-full h-full object-cover" />
+            };
+        }
+        return card;
+    });
+
     return (
-        <div className="fixed w-full h-screen overflow-hidden">
+        <div 
+            className="relative w-full min-h-screen overflow-y-auto scrollbar-hide" 
+            style={{ 
+                scrollBehavior: 'smooth', 
+                scrollbarWidth: 'none', 
+                msOverflowStyle: 'none'
+            }}
+        >
+            <BgLottie />
 
             {/* Responsive Layout */}
-            <div className={`z-10 flex-col h-full fixed w-full ${fullscreen ? "blur-md" : ""}`}>
-                <Navbar logoColor="normal" background={"white"} blur={false} iconVariant="transparent" profileImg={user.img} setIsMobileMenu={setIsMobileMenuOpen} />
+            <div className={`relative z-10 flex flex-col min-h-screen w-full ${fullscreen ? "blur-md" : ""}`}>
+                <Navbar logoColor="normal" background={"transparent"} blur={true} iconVariant="transparent" profileImg={user.img} setIsMobileMenu={setIsMobileMenuOpen} />
 
                 {/* Main content area - responsive */}
-                <div className="flex-1 h-full w-full px-2 py-6 md:px-6 md:pb-32 md:py-0 overflow-y-auto md:overflow-visible flex items-center justify-center md:items-center md:justify-center">
-                    <ServiceCards />
+                <div className="flex-1 w-full px-2 sm:px-4 py-6 md:px-6 md:pb-32 md:py-0 flex flex-col items-center justify-start md:justify-center">
+                    <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 items-center mt-[20%] mb-[40%]">
+                        {/* Header Section */}
+                        <div className="flex flex-col items-center text-center w-full">
+                            <h1 className="text-3xl sm:text-3xl font-semibold text-slate-950 font-bricolagegrotesque leading-[40px] mb-0">
+                                Votre logement idéal!
+                            </h1>
+                            <p className="text-lg font-medium text-slate-900 font-vendsans leading-[28px] mt-0">
+                                Découvrez notre marketplace intelligente
+                            </p>
+                        </div>
+
+                        {/* Cards Section */}
+                        <div className="w-full">
+                            <Cards cards={cards} />
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -16,6 +16,8 @@ module.exports = {
         youngserif: ['Young_Serif', 'serif'],
         zalando: ['Zalando_Sans_Expanded', 'sans-serif'],
         outfit: ['Outfit', 'sans-serif'],
+        bricolagegrotesque: ['BricolageGrotesque', 'sans-serif'],
+        vendsans: ['VendSans', 'sans-serif'],
       },
       backgroundImage: {
         "nexastay-gradient":

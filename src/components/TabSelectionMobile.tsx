@@ -6,6 +6,8 @@ import GTelescope from "../svgs/icons/gray/GTelescope";
 import GRuler from "../svgs/icons/gray/GRuler";
 import ParListe from "../svgs/icons/gray/ParListe";
 import Parzone from "../svgs/icons/gray/Parzone";
+import GHealth from "../svgs/icons/gray/GHealth";
+import WhHealth from "../svgs/icons/white/WhHealth";
 
 interface TabSelectionMobileProps {
   selectedTab: string;
@@ -37,6 +39,10 @@ const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({
     experience: {
       label: "Expérience",
       icon: <GRuler />,
+    },
+    health: {
+      label: "NexaHealth",
+      icon: <WhHealth />,
     },
   }[selectedTab] || { label: "Logement", icon: null };
 
@@ -77,7 +83,7 @@ const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({
         {/* Dynamic Main Button (Logement / Service / Expérience) */}
         <button
           onClick={onOpenTabPopup}
-          className="flex-[1_0_0] flex items-center justify-center rounded-full shadow-sm transition-all duration-200 text-white"
+          className="flex-[1_0_0] flex items-center justify-center rounded-full shadow-sm transition-all duration-200 text-white font-bricolagegrotesque"
           style={{
             background: 'radial-gradient(141.56% 141.56% at 50% -7.74%, #2DD4BF 0%, #0EA5E9 50.96%, #D946EF 100%)',
             padding: '3.5% 6%',
@@ -97,7 +103,7 @@ const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({
         {/* "Par liste" tab stays visible always */}
         <button
           onClick={onOpenAffichagePopup}
-          className="flex-[1_0_0] flex items-center justify-center rounded-full bg-slate-900 text-white shadow-sm transition-all duration-200"
+          className="flex-[1_0_0] flex items-center justify-center rounded-full bg-slate-900 text-white font-bricolagegrotesque shadow-sm transition-all duration-200"
           style={{
             padding: '3.5% 6%',
             gap: '12px',
@@ -108,7 +114,7 @@ const TabSelectionMobile: React.FC<TabSelectionMobileProps> = ({
           <div className="flex items-center justify-center" style={{ width: '6%', height: '6%', minWidth: '20px', minHeight: '20px' }}>
             {currentAffichageTypeInfo.icon} 
           </div>
-          <p className="text-[18px] font-normal font-weight-600 font-outfit whitespace-nowrap" style={{ fontSize: 'clamp(14px, 4.5vw, 18px)', lineHeight: '1.56' }}>
+          <p className="text-[18px] font-normal font-weight-600 font-bricolagegrotesque whitespace-nowrap" style={{ fontSize: 'clamp(14px, 4.5vw, 18px)', lineHeight: '1.56' }}>
             {currentAffichageTypeInfo.label}
           </p>
         </button>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import SearchBar from "../components/SearchBar";
 import Navbar from "../components/Navbar";
-import SideIcon from "../svgs/gray/SideIcon";
 import MobileSearchbar from "../components/MobileSearchbar";
+import WhSide from "../svgs/white/WhSide";
 
 const images = [
     "/images/bg1.png",
@@ -53,7 +53,7 @@ export default function HomePage4() {
 
             {/* Overlay for content (no global dark tint) */}
             <div className="relative z-10 flex flex-col w-full h-full">
-                <Navbar logoColor="white" background="transparent" iconVariant="white" blur={false} Icon={SideIcon} />
+                <Navbar logoColor="white" background="transparent" iconVariant="white" blur={false} Icon={WhSide} />
                 <div className='fixed rounded-[22px] z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center p-4 mx-0 md:mx-[25%] transition-all duration-500 ease-in-out bg-gradient-to-b from-transparent sm:from-[24.52%] to-transparent backdrop-blur-[2px]'
                     style={{ height: fullscreen ? '70%' : '' }}
                 >

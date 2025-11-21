@@ -2,14 +2,12 @@ import React from 'react'
 
 export interface TagProps {
     text: string;
-    Icon: React.ComponentType;
 }
 
-function Tags({ text, Icon }: TagProps) {
+function Tags({ text }: TagProps) {
     return (
         <div className="flex items-center h-[74px] gap-2 border-[1px] border-solid border-slate-300 rounded-[24px] p-[22px]">
-            <Icon />
-            <p className='text-[18px] font-semibold text-slate-800 font-outfit'>{text}</p>
+            <p className='text-[18px] font-semibold text-slate-800 font-bricolagegrotesque'>{text}</p>
         </div>
     )
 }

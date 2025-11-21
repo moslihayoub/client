@@ -5,6 +5,7 @@ import SearchBar from '../components/SearchBar'
 import { useState, useEffect } from 'react'
 import AnimatedGradients from '../components/AnimatedGradients'
 import MobileSearchbar from '../components/MobileSearchbar'
+import WhSide from '../svgs/white/WhSide';
 
 interface Input {
     type: 'video' | 'background';
@@ -50,14 +51,14 @@ function HomePage5({ input }: { input: Input }) {
             />
 
             <div className="z-10 flex flex-col h-full fixed w-full">
-                <Navbar logoColor="white" background="transparent" iconVariant="white" />
+                <Navbar logoColor="white" background="transparent" iconVariant="white" Icon={WhSide}/>
 
                 {/* Main content area - takes remaining space and centers content */}
                 {input.type === 'background' && (
                     <div className={`flex-1 flex items-center justify-center ${fullscreen ? "blur-md" : ""}`}>
-                        <div className='flex flex-col gap-[26px] justify-center items-center w-[1160px] h-[198px]'>
-                            <p className='font-youngserif font-normal text-[56px] sm:text-[40px] md:text-[56px] text-center text-white leading-tight'>Votre logement idéal, un espace où l'IA améliore votre expérience !</p>
-                            <p className=' text-[18px] sm:text-[16px] md:text-[18px] text-center font-outfit text-white'>Découvrez notre marketplace intelligente</p>
+                        <div className='flex flex-col gap-[26px] justify-center items-center w-[1160px] h-[198px] px-0 sm:px-[16px] md:px-0 '>
+                            <p className='font-bricolagegrotesque font-semibold text-[56px] sm:text-[40px] md:text-[56px] text-center text-white leading-[64px]'>Votre logement idéal, un espace où l'IA améliore votre expérience !</p>
+                            <p className=' text-[24px] sm:text-[24px] md:text-[24px] text-center font-vendsans font-medium text-white leading-[36px]'>Découvrez notre marketplace intelligente</p>
                         </div>
                     </div>
                 )}

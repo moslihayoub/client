@@ -2,23 +2,10 @@ import React from 'react'
 
 function ColSide() {
     return (
-        <svg width="42" height="42" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.94141 19.2945C3.94141 12.8616 3.94141 9.64434 5.9407 7.64675C7.93999 5.64917 11.1556 5.64746 17.5885 5.64746H24.412C30.8449 5.64746 34.0622 5.64746 36.0598 7.64675C38.0573 9.64605 38.0591 12.8616 38.0591 19.2945V22.7063C38.0591 29.1392 38.0591 32.3565 36.0598 34.354C34.0605 36.3516 30.8449 36.3533 24.412 36.3533H17.5885C11.1556 36.3533 7.93829 36.3533 5.9407 34.354C3.94311 32.3548 3.94141 29.1392 3.94141 22.7063V19.2945Z" stroke="url(#paint0_radial_2534_6695)" stroke-width="2.55882" />
-            <path opacity="0.5" d="M26.1172 36.3533V5.64746" stroke="url(#paint1_radial_2534_6695)" stroke-width="2.55882" stroke-linecap="round" />
-            <defs>
-                <radialGradient id="paint0_radial_2534_6695" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(21.0002 3.27162) rotate(90) scale(43.4676 48.2973)">
-                    <stop stop-color="#2DD4BF" />
-                    <stop offset="0.509615" stop-color="#0EA5E9" />
-                    <stop offset="1" stop-color="#D946EF" />
-                </radialGradient>
-                <radialGradient id="paint1_radial_2534_6695" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(26.6172 3.27162) rotate(90) scale(43.4676 1.41561)">
-                    <stop stop-color="#2DD4BF" />
-                    <stop offset="0.509615" stop-color="#0EA5E9" />
-                    <stop offset="1" stop-color="#D946EF" />
-                </radialGradient>
-            </defs>
+        <svg width="37" height="37" viewBox="0 0 37 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.05908 16.8232C3.05908 11.0558 3.05908 8.1713 4.85155 6.38036C6.64402 4.58942 9.52696 4.58789 15.2944 4.58789H21.412C27.1794 4.58789 30.0639 4.58789 31.8548 6.38036C33.6458 8.17283 33.6473 11.0558 33.6473 16.8232V19.882C33.6473 25.6494 33.6473 28.5339 31.8548 30.3248C30.0624 32.1158 27.1794 32.1173 21.412 32.1173H15.2944C9.52696 32.1173 6.64249 32.1173 4.85155 30.3248C3.06061 28.5324 3.05908 25.6494 3.05908 19.882V16.8232Z" stroke="#0EA5E9" stroke-width="2.29412" />
+            <path d="M22.9414 32.1173V4.58789" stroke="#0EA5E9" stroke-width="2.29412" stroke-linecap="round" />
         </svg>
-
     )
 }
 

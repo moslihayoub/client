@@ -74,7 +74,7 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                     <div className="flex flex-col gap-[5px] h-full pr-[45px]">
                         {/* Column text above textarea */}
                         <div className="flex flex-col gap-1 text-base pointer-events-none pl-[26px]">
-                            <span className="font-semibold text-nexastay-gradient bg-clip-text">
+                            <span className="font-bricolagegrotesque font-semibold text-nexastay-gradient bg-clip-text">
                         Questionner NexaStay
                     </span>{" "}
                 </div>
@@ -115,11 +115,11 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                 {value === "" && (
                     <div className="absolute top-0 left-[26px] flex items-center gap-1 text-base pointer-events-none">
                             <div className={width <= 492 ? "flex flex-col" : "flex gap-1"}>
-                            <span className="font-semibold bg-nexastay-gradient bg-clip-text text-transparent">
+                            <span className="font-bricolagegrotesque font-semibold bg-nexastay-gradient bg-clip-text text-transparent">
                                 Questionner NexaStay
                                 </span>
                                 <span
-                                    className={`text-gray-400 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'
+                                    className={`text-slate-500 font-[16px] font-bricolagegrotesque transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'
                                         }`}
                                 >
                                     {" "}{animatedTexts[currentTextIndex]}
@@ -158,8 +158,8 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                     {/*Mic Button */}
                     <button className="w-[34px] h-[34px] flex items-center justify-center group relative"
                         onClick={() => setShowVoiceTranscriber(true)}>
-                        <TrMic />
-                        <ColMic />
+                        <TrMic className="absolute opacity-100 group-hover:opacity-0 transition-opacity duration-300" />
+                        <ColMic className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </button>
 
                     {/*Voice Button*/}
@@ -167,21 +167,21 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                         className="w-[34px] h-[34px] flex items-center justify-center group relative"
                         onClick={() => navigate("/voiceai")}
                     >
-                        <TrWave />
-                        <ColWave />
+                        <TrWave className="absolute opacity-100 group-hover:opacity-0 transition-opacity duration-300" />
+                        <ColWave className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </button>
 
                     {/*Fullscreen Button*/}
                 <button className="w-[34px] h-[34px] flex items-center justify-center group relative" onClick={() => setFullscreen(!fullscreen)}>
-                        <TrMinScreen />
-                        <ColFullScreen />
+                        <TrMinScreen className="absolute opacity-100 group-hover:opacity-0 transition-opacity duration-300" />
+                        <ColFullScreen className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 </button>
 
                     {/* Only show percentage when user has started typing */}
                     {wordCount > 0 && (
                         <div className="flex items-center gap-[15px] w-[86px] h-[28px]">
                             {/* Percentage text */}
-                            <span className="text-semibold font-semibold text-slate-400 w-[51px] h-[28px] text-right">
+                            <span className="font-bricolagegrotesque font-semibold text-slate-400 w-[51px] h-[28px] text-right">
                                 {percentage.toFixed(2)}%
                             </span>
 
