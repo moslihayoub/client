@@ -71,7 +71,7 @@ export default function LanguagePopup({ isOpen, onClose, onLanguageChange, curre
                 </div>
                 
                 {/* Language name */}
-                <span className="text-sm font-normal text-slate-700 leading-5">
+                <span className="text-sm font-normal font-bricolagegrotesque text-slate-700 leading-5">
                   {language.name}
                 </span>
               </button>

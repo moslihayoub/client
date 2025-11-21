@@ -18,8 +18,10 @@
  * @param background - "white" | "transparent" - Choose between white or transparent background
  */
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import LanguagePopup from "./LanguagePopup";
+import ProfilePopup from "./ProfilePopup";
 import Heart from "../svgs/white/Heart";
 import Bell from "../svgs/white/Bell";
 import Comparator from "../svgs/white/Comparator";
@@ -79,6 +81,7 @@ interface NavbarProps {
     setIsMobileMenu?: (isOpen: boolean) => void; // optional prop, defaults to empty function
     blur?: boolean; // optional prop, defaults to false
     Icon?: React.ComponentType; // optional prop, defaults to transparent
+    currentActiveItem?: string; // optional prop, defaults to empty string
 }
 
 interface MiddleNavItem {
@@ -113,15 +116,20 @@ export default function Navbar({
     profileImg = "",
     setIsMobileMenu = (isOpen: boolean) => { },
     blur = false,
-    Icon = ColSide
+    Icon = ColSide,
+    currentActiveItem = ''
 }: NavbarProps) {
+    const navigate = useNavigate();
     const [isLanguagePopupOpen, setIsLanguagePopupOpen] = useState(false);
     const [currentLanguage, setCurrentLanguage] = useState('fr'); // Default to French
     const [isAppModePopupOpen, setIsAppModePopupOpen] = useState(false);
     const [currentAppMode, setCurrentAppMode] = useState('system'); // Default to System
     const [pressedItems, setPressedItems] = useState<Set<string>>(new Set());
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [currentActiveItem, setCurrentActiveItem] = useState('heart');
+    const [currentActiveItemState, setCurrentActiveItemState] = useState(currentActiveItem);
+    const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
+    const [profilePopupPosition, setProfilePopupPosition] = useState<{ top: number; right: number } | null>(null);
+    const profileButtonRef = useRef<HTMLButtonElement>(null);
 
     const handleLanguageChanging = () => {
         setIsLanguagePopupOpen(!isLanguagePopupOpen);
@@ -146,7 +154,7 @@ export default function Navbar({
     const handleItemPress = (itemId: string) => {
         // Show pressed state
         setPressedItems(prev => new Set(prev).add(itemId));
-        setCurrentActiveItem(itemId);
+        setCurrentActiveItemState(itemId);
     };
 
     const handleItemRelease = (itemId: string, originalOnClick?: () => void) => {
@@ -203,7 +211,8 @@ export default function Navbar({
             ColoredIcon: ColHeart,
             ClickedIcon: CliHeart,
             ActiveIcon: ActHeart,
-            size: "normal"
+            size: "normal",
+            onClick: () => navigate('/favorites')
         },
         {
             id: "bell",
@@ -246,7 +255,17 @@ export default function Navbar({
             ColoredIcon: ColProfile,
             ClickedIcon: CliProfile,
             size: "large",
-            img: profileImg
+            img: profileImg,
+            onClick: () => {
+                if (profileButtonRef.current) {
+                    const rect = profileButtonRef.current.getBoundingClientRect();
+                    setProfilePopupPosition({
+                        top: rect.bottom + 8, // 8px below the button
+                        right: window.innerWidth - rect.right
+                    });
+                }
+                setIsProfilePopupOpen(!isProfilePopupOpen);
+            }
         },
         {
             id: "assistant",
@@ -273,7 +292,7 @@ export default function Navbar({
 
     return (
         <>
-            <nav className={`fixed z-30 w-full h-[10%] flex items-center justify-between ${backgroundClass} sm:bg-gradient-to-b ${blur ? 'sm:from-white sm:from-[24.52%] sm:to-transparent' : ''} px-[36px] sm:px-[12px] md:px-[36px] lg:px-[36px] xl:px-[36px] opacity-100`}>
+            <nav className={`fixed z-30 w-full h-[10%] flex items-center justify-between ${backgroundClass} sm:bg-gradient-to-b ${blur ? 'sm:from-white sm:from-[60.52%] sm:to-transparent' : ''} px-[36px] sm:px-[12px] md:px-[36px] lg:px-[36px] xl:px-[36px] opacity-100`}>
 
                 {/* Left: Desktop Logo - Visible on lg and xl devices */}
                 <div className="flex items-center gap-2 justify-start">
@@ -312,7 +331,7 @@ export default function Navbar({
 
                         // Regular handling for other buttons
                         const DefaultIcon = iconVariant === "white" ? WhiteIcon : TransparentIcon;
-                        const isActive = id === currentActiveItem;
+                        const isActive = id === currentActiveItemState;
 
                         return (
                             <button
@@ -401,7 +420,16 @@ export default function Navbar({
                         const IconToShow = isPressed ? ClickedIcon : DefaultIcon;
 
                         return (
-                            <button key={id} className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`} onMouseDown={() => handleItemPress(id)} onMouseUp={() => handleItemRelease(id, onClick)} onTouchStart={() => handleItemPress(id)} onTouchEnd={() => handleItemRelease(id, onClick)} aria-label={name}>
+                            <button 
+                                key={id} 
+                                ref={id === "profile" ? profileButtonRef : null}
+                                className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`} 
+                                onMouseDown={() => handleItemPress(id)} 
+                                onMouseUp={() => handleItemRelease(id, onClick)} 
+                                onTouchStart={() => handleItemPress(id)} 
+                                onTouchEnd={() => handleItemRelease(id, onClick)} 
+                                aria-label={name}
+                            >
                                 {img ? (
                                     <img src={img} alt="Profile" className="w-full h-full rounded-full object-cover" />
                                 ) : (
@@ -450,6 +478,13 @@ export default function Navbar({
                 onClose={() => setIsAppModePopupOpen(false)}
                 onAppModeChange={handleAppModeChange}
                 currentAppMode={currentAppMode}
+            />
+
+            {/* Profile Popup */}
+            <ProfilePopup
+                isOpen={isProfilePopupOpen}
+                onClose={() => setIsProfilePopupOpen(false)}
+                position={profilePopupPosition || undefined}
             />
         </>
     );

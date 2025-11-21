@@ -75,13 +75,15 @@ function MobileSearchbar({
       >
         <div className="flex flex-col justify-between rounded-[22px] bg-white p-[12px_18px] transition-all duration-500 ease-in-out w-full h-full">
           {/* Textarea wrapper */}
-          <div className="relative flex-1">
-            <ColSearch />
+          <div className="relative flex-1 overflow-visible">
+            <div className="absolute top-0 left-0 z-10">
+              <ColSearch />
+            </div>
 
              <div className="flex flex-col gap-[5px] h-full">
                {/* Column text above textarea */}
                <div className="flex flex-col gap-1 text-base pointer-events-none pl-[26px]">
-                 <span className="font-semibold text-nexastay-gradient bg-clip-text">
+                 <span className="font-semibold font-bricolagegrotesque text-nexastay-gradient bg-clip-text">
                    Questionner NexaStay
                  </span>
                </div>
@@ -158,11 +160,11 @@ function MobileSearchbar({
             {value === "" && (
               <div className="absolute top-0 left-[26px] flex items-center gap-1 text-base pointer-events-none">
                 <div className="flex flex-col">
-                  <span className="font-semibold bg-nexastay-gradient bg-clip-text text-transparent">
+                  <span className="font-semibold font-bricolagegrotesque bg-nexastay-gradient bg-clip-text text-transparent">
                     Questionner NexaStay
                   </span>
                   <span
-                    className={`text-gray-400 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'
+                    className={`text-slate-500 transition-opacity font-bricolagegrotesque duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'
                       }`}
                   >
                     {animatedTexts[currentTextIndex]}
@@ -192,35 +194,35 @@ function MobileSearchbar({
 
         {/* Fullscreen Button */}
         <button
-          className="w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 group relative"
+          className="w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 group/mobile relative"
           onClick={() => setFullscreen(!fullscreen)}
         >
-          <TrMinScreen />
-          <ColFullScreen />
+          <TrMinScreen className="absolute opacity-100 group-hover/mobile:opacity-0 transition-opacity duration-300" />
+          <ColFullScreen className="absolute opacity-0 group-hover/mobile:opacity-100 transition-opacity duration-300" />
         </button>
 
         {/* Mic Button */}
         <button
-          className="w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 group relative"
+          className="w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 group/mobile relative"
           onClick={() => setShowVoiceTranscriber(true)}
         >
-          <TrMic />
-          <ColMic />
+          <TrMic className="absolute opacity-100 group-hover/mobile:opacity-0 transition-opacity duration-300" />
+          <ColMic className="absolute opacity-0 group-hover/mobile:opacity-100 transition-opacity duration-300" />
         </button>
 
         {/* Voice Button */}
         <button
-          className="w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 group relative"
+          className="w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 group/mobile relative"
           onClick={() => setShowVoiceTranscriber(true)}
         >
-          <TrWave />
-          <ColWave />
+          <TrWave className="absolute opacity-100 group-hover/mobile:opacity-0 transition-opacity duration-300" />
+          <ColWave className="absolute opacity-0 group-hover/mobile:opacity-100 transition-opacity duration-300" />
         </button>
 
         {/* Enhancement button */}
-        <button className="w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 group relative">
-          <TrEnhance className="absolute opacity-100 group-hover:opacity-0 transition-opacity duration-300" />
-          <ColEnhance className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <button className="w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200 group/mobile relative">
+          <TrEnhance className="absolute opacity-100 group-hover/mobile:opacity-0 transition-opacity duration-300" />
+          <ColEnhance className="absolute opacity-0 group-hover/mobile:opacity-100 transition-opacity duration-300" />
         </button>
 
 

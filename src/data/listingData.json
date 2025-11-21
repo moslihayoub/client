@@ -1,0 +1,1000 @@
+{
+  "hotels": [
+    {
+      "id": 1,
+      "title": "Résidence Les Jardins de Marrakech",
+      "nbLit": 2,
+      "nbChambre": 1,
+      "nbNuit": 3,
+      "totalPrice": 450,
+      "pricePerNight": 150,
+      "rating": 4.8,
+      "distancce": 2.5,
+      "type": "Hotel",
+      "favorite": false,
+      "images": [
+        "/hotels/hotel1.png",
+        "/hotels/hotel2.png",
+        "/hotels/hotel3.png",
+        "/hotels/hotel4.png",
+        "/hotels/hotel5.png",
+        "/hotels/hotel6.png"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Resort Paradise Beach",
+      "nbLit": 4,
+      "nbChambre": 2,
+      "nbNuit": 5,
+      "totalPrice": 1200,
+      "pricePerNight": 240,
+      "rating": 4.9,
+      "distancce": 1.2,
+      "type": "Hotel",
+      "favorite": false,
+      "images": [
+        "/hotels/hotel2.png",
+        "/hotels/hotel3.png",
+        "/hotels/hotel4.png"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Boutique Hotel Central",
+      "nbLit": 1,
+      "nbChambre": 1,
+      "nbNuit": 2,
+      "totalPrice": 180,
+      "pricePerNight": 90,
+      "rating": 4.5,
+      "distancce": 0.8,
+      "type": "Hotel",
+      "favorite": false,
+      "images": [
+        "/hotels/hotel3.png",
+        "/hotels/hotel6.png",
+        "/hotels/hotel5.png"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Luxury Mountain Lodge",
+      "nbLit": 6,
+      "nbChambre": 3,
+      "nbNuit": 7,
+      "totalPrice": 2100,
+      "pricePerNight": 300,
+      "rating": 4.7,
+      "distancce": 5.3,
+      "type": "Hotel",
+      "favorite": false,
+      "images": [
+        "/hotels/hotel6.png",
+        "/hotels/hotel4.png",
+        "/hotels/hotel1.png"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "City Business Hotel",
+      "nbLit": 2,
+      "nbChambre": 1,
+      "nbNuit": 1,
+      "totalPrice": 120,
+      "pricePerNight": 120,
+      "rating": 4.3,
+      "distancce": 0.5,
+      "type": "Hotel",
+      "favorite": false,
+      "images": [
+        "/hotels/hotel5.png",
+        "/hotels/hotel6.png",
+        "/hotels/hotel1.png"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Seaside Villa Resort",
+      "nbLit": 8,
+      "nbChambre": 4,
+      "nbNuit": 10,
+      "totalPrice": 3500,
+      "pricePerNight": 350,
+      "rating": 4.9,
+      "distancce": 3.1,
+      "type": "Hotel",
+      "favorite": false,
+      "images": [
+        "/hotels/hotel6.png",
+        "/hotels/hotel4.png",
+        "/hotels/hotel1.png"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Hotel Marrakech",
+      "nbLit": 2,
+      "nbChambre": 1,
+      "nbNuit": 1,
+      "totalPrice": 120,
+      "pricePerNight": 120,
+      "rating": 4.5,
+      "distancce": 0.5,
+      "type": "Hotel",
+      "favorite": false,
+      "images": [
+        "/hotels/hotel1.png",
+        "/hotels/hotel2.png",
+        "/hotels/hotel3.png"
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Hotel Marrakech de rire pour les enfants",
+      "nbLit": 2,
+      "nbChambre": 1,
+      "nbNuit": 1,
+      "totalPrice": 120,
+      "pricePerNight": 120,
+      "rating": 4.5,
+      "distancce": 0.5,
+      "type": "Hotel",
+      "favorite": false,
+      "images": [
+        "/hotels/hotel1.png",
+        "/hotels/hotel2.png",
+        "/hotels/hotel3.png"
+      ]
+    },
+    {
+      "id": 9,
+      "title": "Hotel Marrakech de rire pour les enfants",
+      "nbLit": 2,
+      "nbChambre": 1,
+      "nbNuit": 1,
+      "totalPrice": 120,
+      "pricePerNight": 120,
+      "rating": 4.5,
+      "distancce": 0.5,
+      "type": "Hotel",
+      "favorite": false,
+      "images": [
+        "/hotels/hotel1.png",
+        "/hotels/hotel2.png",
+        "/hotels/hotel3.png"
+      ]
+    },
+    {
+      "id": 10,
+      "title": "Hotel Marrakech de rire pour les enfants",
+      "nbLit": 2,
+      "nbChambre": 1,
+      "nbNuit": 1,
+      "totalPrice": 120,
+      "pricePerNight": 120,
+      "rating": 4.5,
+      "distancce": 0.5,
+      "type": "Hotel",
+      "favorite": false,
+      "tags": [
+        {
+          "text": "WiFi"
+        },
+        {
+          "text": "Piscine"
+        }
+      ],
+      "images": [
+        "/hotels/hotel1.png",
+        "/hotels/hotel2.png",
+        "/hotels/hotel3.png"
+      ]
+    }
+  ],
+  "services": [
+    {
+      "id": 1,
+      "title": "Restaurant Marrakech Gourmet",
+      "description": "Découvrez une expérience culinaire authentique au Restaurant Marrakech Gourmet, où la richesse des saveurs locales rencontre une ambiance chaleureuse. Profitez d'une carte raffinée inspirée du terroir marocain, avec des plats préparés avec passion par notre chef. Installez-vous sur notre terrasse accueillante et savourez une vue exceptionnelle sur la place des Saveurs, que vous veniez entre amis, en famille ou pour un dîner romantique.",
+      "type": "Service",
+      "genre": ["Restaurant", "Cuisine locale"],
+      "rating": 4.7,
+      "distance": 0.3,
+      "minimumPrice": 150,
+      "maximumPrice": 300,
+      "status": "Ouvert",
+      "favorite": false,
+      "tags": [
+        {
+          "text": "Cuisine locale"
+        },
+        {
+          "text": "Restaurant"
+        },
+        {
+          "text": "Terrasse"
+        },
+        {
+          "text": "Ambiance cosy"
+        },
+        {
+          "text": "Réservation possible"
+        }
+      ],
+      "images": [
+        "/services/service-prop1.png",
+        "/services/service-prop2.png",
+        "/services/service-prop3.png",
+        "/services/service-prop4.png",
+        "/services/service-prop5.png",
+        "/services/service-prop3.png"
+      ],
+      "hoteInfo": {
+        "name": "Omar El Haddadi",
+        "restaurantName": "Restaurant Marrakech Gourmet",
+        "type": "Service",
+        "userImg": "/images/hote2.png",
+        "description": "Découvrez une expérience culinaire authentique au Restaurant Marrakech Gourmet, où la richesse des saveurs locales rencontre une ambiance chaleureuse. Profitez d'une carte raffinée inspirée du terroir marocain, avec des plats préparés avec passion par notre chef. Installez-vous sur notre terrasse accueillante et savourez une vue exceptionnelle sur la place des Saveurs, que vous veniez entre amis, en famille ou pour un dîner romantique.",
+        "anciennete": 10
+      },
+      "menu": [
+        {
+          "tag": "Entrées",
+          "images": [
+            "https://th.bing.com/th/id/OIP.q4rR2vZHbR6TeRUr9MngTAHaE9?w=275&h=184&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+            "https://thumbs.dreamstime.com/b/plateau-international-m%C3%A9lang%C3%A9-de-tapas-51429994.jpg",
+            "https://www.cafecarberry.com/wp-content/uploads/2014/05/catering-belfast-salad-dsc_1196-1200x803.jpg"
+          ]
+        },
+        {
+          "tag": "Plats principaux",
+          "images": [
+            "https://tse3.mm.bing.net/th/id/OIP.07zr2tXZOdCQZUFvOnDtcQAAAA?rs=1&pid=ImgDetMain&o=7&rm=3",
+            "https://jpimg.com.br/uploads/2024/09/5-receitas-praticas-de-picadinho-de-carne-para-o-almoco.jpg",
+            "https://tse3.mm.bing.net/th/id/OIP.c4Z9IbgpQmgutDe-tvw1ZQHaFj?w=1200&h=900&rs=1&pid=ImgDetMain&o=7&rm=3"
+          ]
+        },
+        {
+          "tag": "Desserts",
+          "images": [
+            "https://th.bing.com/th/id/OIP.jtEtpa6l0i_OM1XBZShOCQHaEo?w=257&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+            "https://hips.hearstapps.com/hmg-prod/images/key-lime-pie-mousse-5-1649370548.jpg",
+            "https://iwashyoudry.com/wp-content/uploads/2018/11/Better-Than-Anything-Cake-Trifles-6-640x640.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Spa & Wellness Center",
+      "type": "Service",
+      "genre": ["Spa", "Bien-être"],
+      "rating": 4.9,
+      "distance": 1.5,
+      "minimumPrice": 200,
+      "maximumPrice": 500,
+      "status": "Ouvert",
+      "favorite": false,
+      "images": [
+        "/services/service-prop2.png"
+      ],
+      "menu": [
+        {
+          "tag": "Menu du jour",
+          "images": [
+            "/services/service-prop1.png",
+            "/services/service-prop2.png",
+            "/services/service-prop3.png",
+            "/services/service-prop4.png",
+            "/services/service-prop5.png",
+            "/services/service-prop3.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Night Club Le Riad",
+      "type": "Service",
+      "genre": ["Nightlife", "Bar"],
+      "rating": 4.5,
+      "distance": 0.8,
+      "minimumPrice": 100,
+      "maximumPrice": 250,
+      "status": "Ouvert",
+      "favorite": false,
+      "images": [
+        "/services/service-prop4.png"
+      ],
+      "menu": [
+        {
+          "tag": "Menu du jour",
+          "images": [
+            "/services/service-prop1.png",
+            "/services/service-prop2.png",
+            "/services/service-prop3.png",
+            "/services/service-prop4.png",
+            "/services/service-prop5.png",
+            "/services/service-prop3.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Golf Club Marrakech",
+      "type": "Service",
+      "genre": ["Sport", "Golf"],
+      "rating": 4.8,
+      "distance": 5.2,
+      "minimumPrice": 400,
+      "maximumPrice": 800,
+      "status": "Ouvert",
+      "favorite": false,
+      "images": [
+        "/services/service-prop5.png"
+      ],
+      "menu": [
+        {
+          "tag": "Menu du jour",
+          "images": [
+            "/services/service-prop1.png",
+            "/services/service-prop2.png",
+            "/services/service-prop3.png",
+            "/services/service-prop4.png",
+            "/services/service-prop5.png",
+            "/services/service-prop3.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Boutique Artisanale",
+      "type": "Service",
+      "genre": ["Shopping", "Artisanat"],
+      "rating": 4.3,
+      "distance": 0.5,
+      "minimumPrice": 50,
+      "maximumPrice": 500,
+      "status": "Ouvert",
+      "favorite": false,
+      "images": [
+        "/services/service-prop2.png",
+        "/services/service-prop4.png"
+      ],
+      "menu": [
+        {
+          "tag": "Menu du jour",
+          "images": [
+            "/services/service-prop1.png",
+            "/services/service-prop2.png",
+            "/services/service-prop3.png",
+            "/services/service-prop4.png",
+            "/services/service-prop5.png",
+            "/services/service-prop3.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Cinéma Majorelle",
+      "type": "Service",
+      "genre": ["Divertissement", "Cinéma"],
+      "rating": 4.6,
+      "distance": 1.1,
+      "minimumPrice": 80,
+      "maximumPrice": 120,
+      "status": "Ouvert",
+      "favorite": false,
+      "images": [
+        "/services/service-prop5.png"
+      ],
+      "menu": [
+        {
+          "tag": "Menu du jour",
+          "images": [
+            "/services/service-prop1.png",
+            "/services/service-prop2.png",
+            "/services/service-prop3.png",
+            "/services/service-prop4.png",
+            "/services/service-prop5.png",
+            "/services/service-prop3.png"
+          ]
+        }
+      ]
+    }
+  ],
+  "experiences": [
+    {
+      "id": 1,
+      "title": "Balade en chameau dans le désert",
+      "description": "Experience Elégante dans le désert pour 2 personnes avec un guide expérimenté et un transport en chameau. Cette formation est idéale pour les débutants et les expérimentés. Etant donné que le désert est un environnement naturel, il est important de respecter les règles de sécurité et de respecter la nature.",
+      "type": "Experience",
+      "genre": ["Aventure", "Desert"],
+      "rating": 4.8,
+      "distance": 8.5,
+      "price": 350,
+      "nbPeople": 2,
+      "favorite": false,
+      "tags": [
+        {
+          "text": "Aventure"
+        },
+        {
+          "text": "Desert"
+        },
+        {
+          "text": "Guide expérimenté"
+        },
+        {
+          "text": "Transport en chameau"
+        },
+        {
+          "text": "Formation"
+        }
+      ],
+      "hoteInfo": {
+        "name": "Experience Elégante dans le désert",
+        "userImg": "/services/service-prop5.png",
+        "description": "Experience Elégante dans le désert pour 2 personnes avec un guide expérimenté et un transport en chameau. Cette formation est idéale pour les débutants et les expérimentés. Etant donné que le désert est un environnement naturel, il est important de respecter les règles de sécurité et de respecter la nature.",
+        "anciennete": 10
+      },
+      "images": [
+        "https://tse1.mm.bing.net/th/id/OIP.XKiXQ37TecZHmwz-gHKmZgHaHa?rs=1&pid=ImgDetMain&o=7&rm=3",
+        "https://tse4.mm.bing.net/th/id/OIP.bjkeq37XiLfM3kVYNN5yXAAAAA?pid=ImgDet&w=184&h=137&c=7&dpr=1.3&o=7&rm=3",
+        "https://tse1.mm.bing.net/th/id/OIP.wvnWYPDR4KWcLnmGVeXQNQHaEK?pid=ImgDet&w=184&h=103&c=7&dpr=1.3&o=7&rm=3"
+      ],
+      "formules": [
+        {
+          "title": "Formation",
+          "description": "Formation en chameau dans le désert pour 2 personnes avec un guide expérimenté et un transport en chameau. Cette formation est idéale pour les débutants et les expérimentés. Etant donné que le désert est un environnement naturel, il est important de respecter les règles de sécurité et de respecter la nature.",
+          "tag": "Formation",
+          "images": [
+            "https://tse2.mm.bing.net/th/id/OIP.MPMWWKWlZcoaKUa0aHytGAHaFj?pid=ImgDet&w=184&h=138&c=7&dpr=1.3&o=7&rm=3",
+            "https://i0.wp.com/www.aubergedusud.com/wp-content/uploads/2010/02/Camel-Trekking-Merzouga.jpg?resize=700%2C467&ssl=1",
+            "https://www.transitionsabroad.com/listings/work/esl/articles/images/morocco-camel-desert-tour.jpg"
+          ]
+        },
+        {
+          "title": "Formule découverte désert à partir de 200 Dhs/Personne",
+          "description": "Vivez l'excitation du karting avec VGK : \n - 1h de karting\n - 1h de repas\n - 1h de soirée",
+          "tag": "Découverte désert",
+          "images": [
+            "https://tse1.mm.bing.net/th/id/OIP.X3aqfnSn57RkSUrOnp4vRAHaDd?rs=1&pid=ImgDetMain&o=7&rm=3",
+            "https://th.bing.com/th/id/OIP.K8IJZUPIcuxVNoU_CWfKrwHaEx?w=217&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+            "https://tse1.mm.bing.net/th/id/OIP.Y6hpTOLJmAZNn_DGiv9odwHaE8?pid=ImgDet&w=184&h=122&c=7&dpr=1.3&o=7&rm=3"
+          ]
+        },
+        {
+          "title": "Aventure dans le désert en quad à partir de 400 Dhs/Personne",
+          "description": "Partez pour une expérience incroyable en quad dans les dunes du désert : \n - 2h de balade en quad\n - Pause thé dans une tente berbère\n - Découverte des paysages époustouflants",
+          "tag": "2h Quad",
+          "images": [
+            "https://tse3.mm.bing.net/th/id/OIP.1oW7e9ykyHI77TC50u5sbAHaE8?rs=1&pid=ImgDetMain&o=7&rm=3",
+            "https://th.bing.com/th/id/OIP.SOKm4P7O-QktkxTKsM9sygHaEF?w=304&h=180&c=7&r=0&o=7&dpr=1.3&pid=1.7&rm=3",
+            "https://tse4.mm.bing.net/th/id/OIP.FAANNytKKB1Sbwts2ZN8IwHaHa?w=800&h=800&rs=1&pid=ImgDetMain&o=7&rm=3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Visite guidée des souks de Marrakech",
+      "type": "Experience",
+      "genre": ["Culture", "Shopping"],
+      "rating": 4.9,
+      "distance": 0.5,
+      "price": 120,
+      "nbPeople": 4,
+      "favorite": false,
+      "images": [
+        "/experiences/exp4.png",
+        "/experiences/exp5.png"
+      ],
+      "formules": [
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Cours de cuisine marocaine",
+      "type": "Experience",
+      "genre": ["Gastronomie", "Atelier"],
+      "rating": 4.7,
+      "distance": 1.2,
+      "price": 250,
+      "nbPeople": 6,
+      "favorite": false,
+      "images": [
+        "/experiences/exp2.png",
+        "/experiences/exp4.png"
+      ],
+      "formules": [
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Vol en montgolfière au lever du soleil",
+      "type": "Experience",
+      "genre": ["Aventure", "Panoramique"],
+      "rating": 5.0,
+      "distance": 12.0,
+      "price": 850,
+      "nbPeople": 2,
+      "favorite": false,
+      "images": [
+        "/experiences/exp5.png",
+        "/experiences/exp1.png"
+      ],
+      "formules": [
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Balade à vélo dans la Palmeraie",
+      "type": "Experience",
+      "genre": ["Sport", "Nature"],
+      "rating": 4.6,
+      "distance": 4.0,
+      "price": 180,
+      "nbPeople": 4,
+      "favorite": false,
+      "images": [
+        "/experiences/exp1.png",
+        "/experiences/exp2.png",
+        "/experiences/exp4.png"
+      ],
+      "formules": [
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Spectacle de danse berbère",
+      "type": "Experience",
+      "genre": ["Spectacle", "Culture"],
+      "rating": 4.5,
+      "distance": 0.3,
+      "price": 150,
+      "nbPeople": 2,
+      "favorite": false,
+      "images": [
+        "/experiences/exp3.png",
+        "/experiences/exp4.png",
+        "/experiences/exp5.png"
+      ],
+      "formules": [
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        },
+        {
+          "title": "Formule du jour",
+          "description": "Description de la formule du jour",
+          "tag": "Formule du jour",
+          "images": [
+            "/experiences/exp1.png",
+            "/experiences/exp2.png",
+            "/experiences/exp3.png"
+          ]
+        }
+      ]
+    }
+  ],
+  "healths": [
+    {
+      "id": 1,
+      "title": "Pediatrie & Adolescente",
+      "type": "Health",
+      "jourDebut": "Lundi",
+      "jourFin": "Vendredi",
+      "heureDebut": "08:00",
+      "heureFin": "18:00",
+      "genre": ["Health", "Wellness"],
+      "rating": 4.8,
+      "nbRating": 10,
+      "distance": 0.5,
+      "status": "Ouvert",
+      "favorite": false,
+      "tags": [
+        {
+          "text": "Pédiatrie"
+        },
+        {
+          "text": "Adolescence"
+        },
+        {
+          "text": "Enfant"
+        },
+        {
+          "text": "Santé"
+        },
+        {
+          "text": "Bien-être"
+        },
+        {
+          "text": "Consultation médicale"
+        }
+      ],
+      "avis":[
+        {
+          "name": "Maman de Youssef",
+          "userImg": "/users/user1.png",
+          "rating": 5.0,
+          "comment": "Mon fils a été très bien pris en charge. Le docteur a su le rassurer, merci à toute l'équipe !",
+          "date": "Février 2024",
+          "like": 16,
+          "dislike": 0
+        },
+        {
+          "name": "Papa de Lina",
+          "userImg": "/users/user2.png",
+          "rating": 4.8,
+          "comment": "Très bonne expérience, l'accueil des enfants est au top et les locaux sont propres.",
+          "date": "Mars 2024",
+          "like": 13,
+          "dislike": 0
+        },
+        {
+          "name": "Samira Choukri",
+          "userImg": "/users/user3.png",
+          "rating": 4.9,
+          "comment": "Consultation rapide, médecin à l'écoute et patient avec ma fille. Je recommande vivement.",
+          "date": "Avril 2024",
+          "like": 11,
+          "dislike": 1
+        },
+        {
+          "name": "Omar Derkaoui",
+          "userImg": "/users/user4.png",
+          "rating": 4.5,
+          "comment": "Personnel très chaleureux, ma fille n'a pas eu peur du tout. Ambiance rassurante.",
+          "date": "Mai 2024",
+          "like": 9,
+          "dislike": 1
+        },
+        {
+          "name": "La famille Bouzidi",
+          "userImg": "/users/user5.png",
+          "rating": 4.7,
+          "comment": "Très bonne écoute des parents comme des enfants. Excellente clinique pédiatrique.",
+          "date": "Juin 2024",
+          "like": 14,
+          "dislike": 0
+        },
+        {
+          "name": "Leila E.",
+          "userImg": "/users/user6.png",
+          "rating": 4.6,
+          "comment": "Rendez-vous pris rapidement. Tout s'est bien passé pour la vaccination de mon bébé.",
+          "date": "Juillet 2024",
+          "like": 10,
+          "dislike": 0
+        }
+      ],
+      "hoteInfo": {
+        "name": "Dr. Ahmed",
+        "userImg": "/images/hote.png",
+        "description": "Dr. Ahmed is a pediatrician and adolescent specialist. He has been practicing for 10 years and is known for his expertise in pediatrics and adolescent medicine.",
+        "anciennete": 10
+      },
+      "images": [
+        "/cliniques/cli1.png",
+        "/cliniques/cli2.png",
+        "/cliniques/cli3.png",
+        "/cliniques/cli4.png",
+        "/cliniques/cli5.png",
+        "/cliniques/cli6.png"
+      ]
+    },
+    {
+      "id": 2,
+      "title": "Cardiologie",
+      "type": "Health",
+      "jourDebut": "Lundi",
+      "jourFin": "Vendredi",
+      "heureDebut": "08:00",
+      "heureFin": "18:00",
+      "genre": ["Health", "Wellness"],
+      "rating": 4.8,
+      "nbRating": 10,
+      "distance": 0.5,
+      "status": "Ouvert",
+      "favorite": false,
+      "hoteInfo": {
+        "name": "Dr. Ahmed",
+        "userImg": "/users/user4.png",
+        "description": "Dr. Ahmed is a pediatrician and adolescent specialist. He has been practicing for 10 years and is known for his expertise in pediatrics and adolescent medicine.",
+        "anciennete": 10
+      },
+      "images": [
+        "/cliniques/cli2.png",
+        "/cliniques/cli2.png",
+        "/cliniques/cli3.png",
+        "/cliniques/cli4.png",
+        "/cliniques/cli5.png",
+        "/cliniques/cli6.png"
+      ]
+    },
+    {
+      "id": 3,
+      "title": "Gynécologie",
+      "type": "Health",
+      "jourDebut": "Lundi",
+      "jourFin": "Vendredi",
+      "heureDebut": "08:00",
+      "heureFin": "18:00",
+      "genre": ["Health", "Wellness"],
+      "rating": 4.8,
+      "nbRating": 10,
+      "distance": 0.5,
+      "status": "Fermé",
+      "favorite": false,
+      "hoteInfo": {
+        "name": "Dr. Ahmed",
+        "userImg": "/users/user2.png",
+        "description": "Dr. Ahmed is a pediatrician and adolescent specialist. He has been practicing for 10 years and is known for his expertise in pediatrics and adolescent medicine.",
+        "anciennete": 10
+      },
+      "images": [
+        "/cliniques/cli3.png",
+        "/cliniques/cli2.png",
+        "/cliniques/cli3.png",
+        "/cliniques/cli4.png",
+        "/cliniques/cli5.png",
+        "/cliniques/cli6.png"
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Généraliste",
+      "type": "Health",
+      "jourDebut": "Lundi",
+      "jourFin": "Vendredi",
+      "heureDebut": "08:00",
+      "heureFin": "18:00",
+      "genre": ["Health", "Wellness"],
+      "rating": 4.8,
+      "nbRating": 10,
+      "distance": 0.5,
+      "status": "Ouvert",
+      "favorite": false,
+      "hoteInfo": {
+        "name": "Dr. Ahmed",
+        "userImg": "/users/user3.png",
+        "description": "Dr. Ahmed is a pediatrician and adolescent specialist. He has been practicing for 10 years and is known for his expertise in pediatrics and adolescent medicine.",
+        "anciennete": 10
+      },
+      "images": [
+        "/cliniques/cli4.png",
+        "/cliniques/cli2.png",
+        "/cliniques/cli3.png",
+        "/cliniques/cli4.png",
+        "/cliniques/cli5.png",
+        "/cliniques/cli6.png"
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Urgence medicale",
+      "type": "Health",
+      "jourDebut": "Lundi",
+      "jourFin": "Vendredi",
+      "heureDebut": "08:00",
+      "heureFin": "18:00",
+      "genre": ["Health", "Wellness"],
+      "rating": 4.8,
+      "nbRating": 10,
+      "distance": 0.5,
+      "status": "Ouvert",
+      "favorite": false,
+      "hoteInfo": {
+        "name": "Dr. Ahmed",
+        "userImg": "/users/user1.png",
+        "description": "Dr. Ahmed is a pediatrician and adolescent specialist. He has been practicing for 10 years and is known for his expertise in pediatrics and adolescent medicine.",
+        "anciennete": 10
+      },
+      "images": [
+        "/cliniques/cli1.png",
+        "/cliniques/cli2.png",
+        "/cliniques/cli3.png"
+      ]
+    },
+    {
+      "id": 6,
+      "title": "Cardiologie",
+      "type": "Health",
+      "jourDebut": "Lundi",
+      "jourFin": "Vendredi",
+      "heureDebut": "08:00",
+      "heureFin": "18:00",
+      "genre": ["Health", "Wellness"],
+      "rating": 4.8,
+      "nbRating": 10,
+      "distance": 0.5,
+      "status": "Fermé",
+      "favorite": false,
+      "hoteInfo": {
+        "name": "Dr. Ahmed",
+        "userImg": "/users/user4.png",
+        "description": "Dr. Ahmed is a pediatrician and adolescent specialist. He has been practicing for 10 years and is known for his expertise in pediatrics and adolescent medicine.",
+        "anciennete": 10
+      },
+      "images": [
+        "/cliniques/cli6.png",
+        "/cliniques/cli2.png",
+        "/cliniques/cli3.png",
+        "/cliniques/cli4.png",
+        "/cliniques/cli5.png",
+        "/cliniques/cli6.png"
+      ]
+    },
+    {
+      "id": 7,
+      "title": "Cardiologie",
+      "type": "Health",
+      "jourDebut": "Lundi",
+      "jourFin": "Vendredi",
+      "heureDebut": "08:00",
+      "heureFin": "18:00",
+      "genre": ["Health", "Wellness"],
+      "rating": 4.8,
+      "nbRating": 10,
+      "distance": 0.5,
+      "status": "Fermé",
+      "favorite": false,
+      "hoteInfo": {
+        "name": "Dr. Ahmed",
+        "userImg": "/users/user4.png",
+        "description": "Dr. Ahmed is a pediatrician and adolescent specialist. He has been practicing for 10 years and is known for his expertise in pediatrics and adolescent medicine.",
+        "anciennete": 10
+      },
+      "images": [
+        "/cliniques/cli3.png",
+        "/cliniques/cli2.png",
+        "/cliniques/cli3.png",
+        "/cliniques/cli4.png",
+        "/cliniques/cli5.png",
+        "/cliniques/cli6.png"
+      ]
+    }
+  ]
+}
+

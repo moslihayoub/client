@@ -1,37 +1,56 @@
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import MonProfile from "../svgs/sideTitle/MonProfile";
-import ProfileHeader from "../components/ProfileHeader";
+import ProfileHeader from "../components/profile/Info/ProfileHeader";
+import Session from "../components/profile/Info/Session";
+import ProfileUpdate from "./ProfileUpdate";
 import { Heart, Star, Zap } from "lucide-react";
-import StatsGrid from "../components/StatGridProp";
 
 export default function ProfileCard() {
-  const stats = [
-    { icon: "/profile/travel.png", value: 5, label: "Voyages" },
-    { icon: "/profile/services.png", value: 12, label: "Services" },
-    { icon: "/profile/experience.png", value: 3, label: "Expériences" },
-    { icon: "/profile/connection.png", value: 32, label: "Connexion" },
-    { icon: "/profile/community.png", value: 3, label: "Communautés" },
-    { icon: "/profile/alert.png", value: 2, label: "Réclamations" },
-  ];
-
   const navigate = useNavigate();
+  const [showUpdate, setShowUpdate] = useState(false);
+
+  const handleModifierClick = () => {
+    setShowUpdate(true);
+  };
+
+  const handleBack = () => {
+    setShowUpdate(false);
+  };
 
   return (
-    <motion.div
-      className="bg-white flex flex-col items-center py-6 px-4"
-      initial={{ x: "100%", opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      exit={{ x: "-100%", opacity: 0 }}
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-    >
-      <ProfileHeader />
+    <div className="relative w-full h-full ">
+      <AnimatePresence mode="wait">
+        {!showUpdate ? (
+          <motion.div
+            key="profile-card"
+            className="bg-white flex flex-col items-center gap-[12px] py-6 px-4 w-full h-full"
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "-100%", opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            <ProfileHeader onModifierClick={handleModifierClick} />
 
-      {/* Stats section */}
-      <div className="flex justify-center items-start w-full p-4 mt-4">
-        <StatsGrid stats={stats} />
-      </div>
-    </motion.div>
-
+            {/* Session History section */}
+            <div className="flex justify-center items-start w-full">
+              <Session />
+            </div>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="profile-update"
+            className="w-full h-full"
+            initial={{ x: "100%", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: "100%", opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
+          >
+            <ProfileUpdate onBack={handleBack} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }

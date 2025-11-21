@@ -6,6 +6,8 @@ import WhRuler from "../svgs/icons/white/WhRuler";
 import GHome from "../svgs/icons/gray/GHome";
 import SkTelescope from "../svgs/icons/sky/SkTelescope";
 import SkRuler from "../svgs/icons/sky/SkRuler";
+import GHealth from "../svgs/icons/gray/GHealth";
+import SkHealth from "../svgs/icons/sky/SkHealth";
 
 interface TabSelectionMobilePopupProps {
   selectedTab: string;
@@ -42,6 +44,12 @@ const TabSelectionMobilePopup: React.FC<TabSelectionMobilePopupProps> = ({
       label: 'Expérience',
       icon: <WhRuler />,
       selectedIcon: <SkRuler />
+    },
+    {
+      id: 'health',
+      label: 'NexaHealth',
+      icon: <GHealth />,
+      selectedIcon: <SkHealth />
     }
   ];
 
@@ -73,7 +81,7 @@ const TabSelectionMobilePopup: React.FC<TabSelectionMobilePopupProps> = ({
               <div className={`w-10 h-10 flex items-center justify-center rounded-lg`}>
                 {selectedTab === tab.id ? tab.selectedIcon : tab.icon}
               </div>
-              <span className={`font-semibold text-base font-outfit ${selectedTab === tab.id ? 'text-sky-500' : 'text-slate-900'
+              <span className={`font-semibold text-base font-bricolagegrotesque ${selectedTab === tab.id ? 'text-sky-500' : 'text-slate-900'
                 }`}>
                 {tab.label}
               </span>

@@ -20,12 +20,12 @@ function Avis({ name, userImg, rating, comment, date, like, dislike }: AvisProps
             <div className='flex flex-row items-center justify-center gap-[12px]'>
                 <img src={userImg} alt={name} className='w-[40px] h-[40px] rounded-full' />
                 <div className='flex flex-col'>
-                    <p className='text-[16px] text-slate-600 font-medium font-outfit'>{name}</p>
-                    <p className='text-[14px] text-slate-800 font-bold font-outfit'>{date}</p>
+                    <p className='text-[16px] text-slate-600 font-medium font-bricolagegrotesque'>{name}</p>
+                    <p className='text-[14px] text-slate-800 font-bold font-bricolagegrotesque'>{date}</p>
                 </div>
             </div>
             <div className='flex flex-row gap-[8px]'>
-                <p className='text-sm text-bold text-slate-800 font-outfit'>{rating}</p>
+                <p className='text-sm text-bold text-slate-800 font-bricolagegrotesque'>{rating}</p>
                 <div className='flex flex-row gap-[4px]'>
                     {Array.from({ length: Math.trunc(rating) }).map((_, index) => (
                         <svg width="18" height="17" viewBox="0 0 18 17" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -41,17 +41,17 @@ function Avis({ name, userImg, rating, comment, date, like, dislike }: AvisProps
             </div>
             </div>
             <div className='flex items-start gap-2 w-[80%]'>
-                <p className='text-[16px] text-slate-800 font-outfit text-start'>{comment}</p>
+                <p className='text-[16px] text-slate-800 font-bricolagegrotesque text-start'>{comment}</p>
             </div>
 
             <div className='flex flex-row gap-[26px]'>
                 <div className='flex flex-row gap-[8px]'>
                     <Like />
-                    <p className='text-[16px] text-sky-500 font-outfit'>{like}</p>
+                    <p className='text-[16px] text-sky-500 font-bricolagegrotesque'>{like}</p>
                 </div>
                 <div className='flex flex-row gap-[8px]'>
                     <Dislike />
-                    <p className='text-[16px] text-red-500 font-outfit'>{dislike}</p>
+                    <p className='text-[16px] text-red-500 font-bricolagegrotesque'>{dislike}</p>
                 </div>
             </div>
         </div>

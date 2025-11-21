@@ -8,6 +8,9 @@ import ColExperiences from "../svgs/icons/ColExperiences";
 import Filtre from "../svgs/icons/Filtre";
 import Zone from "../svgs/icons/Zone";
 import GrListe from "../svgs/icons/GrListe";
+import Health from "../svgs/icons/Health";
+import WhHealth from "../svgs/icons/white/WhHealth";
+import ColHealth from "../svgs/icons/ColHealth";
 
 interface TabSelectionProps {
   selectedTab: string;
@@ -38,7 +41,7 @@ const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange, a
               selectedTab === 'logement' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
             }`} />
           </div>
-          <p className="font-semibold text-base font-outfit leading-6">
+          <p className="font-semibold text-base font-bricolagegrotesque leading-6">
             Logement
           </p>
         </button>
@@ -60,7 +63,7 @@ const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange, a
               selectedTab === 'service' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
             }`} />
           </div>
-          <p className="font-semibold text-base font-outfit leading-6">
+          <p className="font-semibold text-base font-bricolagegrotesque leading-6">
             Service
           </p>
         </button>
@@ -82,30 +85,53 @@ const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange, a
               selectedTab === 'experience' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
             }`} />
           </div>
-          <p className="font-semibold text-base font-outfit leading-6">
+          <p className="font-semibold text-base font-bricolagegrotesque leading-6">
             Expérience
+          </p>
+        </button>
+
+        {/* NexaHealth Tab */}
+        <button 
+          onClick={() => onTabChange('health')}
+          className={`flex gap-2 items-center transition-all duration-200 group ${
+            selectedTab === 'health' 
+              ? 'text-slate-700' 
+              : 'text-slate-400 hover:text-slate-600'
+          }`}
+        >
+          <div className="w-[18px] h-[18px] flex items-center justify-center relative">
+            <Health className={`absolute transition-opacity duration-200 ${
+              selectedTab === 'health' ? 'opacity-0' : 'opacity-100'
+            }`} />
+            <ColHealth className={`absolute transition-opacity duration-200 ${
+              selectedTab === 'health' ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+            }`} />
+          </div>
+          <p className="font-semibold text-base font-bricolagegrotesque leading-6">
+            Health
           </p>
         </button>
       </div>
 
       {/* Right side - Action buttons */}
       <div className="flex gap-3 items-center">
-        {/* Filter Button */}
+        {/* Filter Button 
         <button className="bg-slate-800 flex gap-[12px] items-center justify-center pl-[15px] pr-[8px] py-1.5 rounded-xl">
-          <p className="font-medium text-base text-white font-outfit leading-6">
+          <p className="font-medium text-base text-white font-bricolagegrotesque leading-6">
             Filtre
           </p>
           <div className="w-6 h-6 flex items-center justify-center">
             <Filtre />
           </div>
         </button>
+        */}
 
         {/* Show Area Button */}
         <button className="bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out flex gap-[12px] items-center justify-center pl-[15px] pr-[8px] py-1.5 rounded-xl"
         onClick={() => {
           affichageType === 'parzone' ? setAffichageType('parliste') : setAffichageType('parzone');
         }}>
-          <p className="font-medium text-base text-white font-outfit leading-6">
+          <p className="font-medium text-base text-white font-bricolagegrotesque leading-6">
             {affichageType === 'parzone' ? 'Affiche la liste' : 'Affiche la zone'}
           </p>
           <div className="w-6 h-6 flex items-center justify-center">

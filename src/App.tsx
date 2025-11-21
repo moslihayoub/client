@@ -9,14 +9,18 @@ import Homepage3 from './pages/Homepage3';
 import VoiceAiVisualizer from './components/VoiceAiVisualizer';
 import { AnimatePresence } from 'framer-motion';
 import ProfileCard from './pages/ProfileCard';
+import ProfileUpdate from './pages/ProfileUpdate';
 import HotelListing from './pages/HotelListing';
 import ImageDisplay from './components/details/ImageDisplay';
 import Details from './pages/Details';
 import HotelDetailWrapper from './pages/HotelDetailWrapper';
 import SkHome from './svgs/icons/sky/SkHome';
 import { SideListingProvider } from './contexts/SideListingContext';
+import { FavoritesProvider } from './contexts/FavoritesContext';
 import ImgDetails from './components/details/ImgDetails';
 import Sitemap from './pages/Sitemap';
+import Cards from './components/Cards';
+import Favorites from './pages/Favorites';
 
 // Component that randomly displays a homepage (excluding HomePage1)
 function RandomHomepage() {
@@ -68,9 +72,10 @@ const hoteDesc = "Plongez dans l'envoûtement d'un riad marocain traditionnel, o
 export default function App() {
   return (
     <SideListingProvider>
-      <AnimatePresence mode='wait'>
-        <Router>
-          <Routes>
+      <FavoritesProvider>
+        <AnimatePresence mode='wait'>
+          <Router>
+            <Routes>
         <Route path="/" element={<RandomHomepage />} />
         <Route path="/homepage1" element={<HomePage1 />} />
         <Route path="/homepage2" element={<HomePage2 />} />
@@ -81,34 +86,110 @@ export default function App() {
         <Route path="/test" element={<TestPage />} />
         <Route path="/voiceai" element={<VoiceAiVisualizer />} />
         <Route path="/profile" element={<ProfileCard />} />
+        <Route path="/profile-update" element={<ProfileUpdate />} />
         <Route path="/hotels" element={<HotelListing />} />
+        <Route path="/favorites" element={<Favorites />} />
         <Route path="/images" element={<ImageDisplay images={['/images/bg1.png','/images/bg2.png','/images/bg3.png']} />} />
         <Route path="/details/:hotelId" element={<HotelDetailWrapper />} />
-        <Route path="/details" element={
-          <Details 
-              title='Hotel 5 etoiles' type='service' minPrice={100} status='Ouvert' description={desc} 
-              tags={[{text: 'Service 1', Icon: SkHome}, {text: 'Service 2', Icon: SkHome}, {text: 'Service 3', Icon: SkHome}, {text: 'Service 4', Icon: SkHome}, {text: 'Service 5', Icon: SkHome}, {text: 'Service 6', Icon: SkHome}, {text: 'Service 7', Icon: SkHome}, {text: 'Service 8', Icon: SkHome}, {text: 'Service 9', Icon: SkHome}, {text: 'Service 10', Icon: SkHome}]} 
-              rating={4.5} nbRating={10} 
-              avis={[
-                {name: 'John Doe', userImg: '/images/bg1.png', like: 10, dislike: 2, comment: 'Le riad était tout simplement exceptionnel ! La piscine était un vrai répit face à la chaleur de Marrakech.', rating: 2.5, date: '2025-01-01'},
-                {name: 'Kamal', userImg: '/images/boy.png', like: 10, dislike: 2, comment: 'Comment 2', rating: 4.5, date: '2025-01-01'},
-                {name: 'Mohamed', userImg: '/images/bg1.png', like: 10, dislike: 2, comment: 'Comment 3', rating: 4.5, date: '2025-01-01'},
-                {name: 'Ali', userImg: '/images/bg1.png', like: 10, dislike: 2, comment: 'Comment 4', rating: 4.5, date: '2025-01-01'},
-                {name: 'Ahmed', userImg: '/images/bg1.png', like: 10, dislike: 2, comment: 'Comment 5', rating: 4.5, date: '2025-01-01'},
-                {name: 'Youssef', userImg: '/images/bg1.png', like: 10, dislike: 2, comment: 'Comment 6', rating: 4.5, date: '2025-01-01'},
-                {name: 'Hassan', userImg: '/images/bg1.png', like: 10, dislike: 2, comment: 'Comment 7', rating: 4.5, date: '2025-01-01'},
-                {name: 'Ilyas', userImg: '/images/bg1.png', like: 10, dislike: 2, comment: 'Comment 8', rating: 4.5, date: '2025-01-01'},
-                {name: 'Omar', userImg: '/images/bg1.png', like: 10, dislike: 2, comment: 'Comment 9', rating: 4.5, date: '2025-01-01'},
-                {name: 'Nassim', userImg: '/images/bg1.png', like: 10, dislike: 2, comment: 'Comment 10', rating: 4.5, date: '2025-01-01'},
-                ]} 
-                hoteInfo={{name: 'John Doe', userImg: '/images/bg1.png', description: hoteDesc, anciennete: 10}} 
-                images={['/hotels/hotel1.png','/hotels/hotel2.png','/hotels/hotel3.png', '/hotels/hotel4.png', '/hotels/hotel5.png','/images/bg1.png','/images/bg2.png','/images/bg3.png']} 
-                />} />
         <Route path="/img-details" element={<ImgDetails images={['/hotels/hotel1.png','/hotels/hotel2.png','/hotels/hotel3.png', '/hotels/hotel4.png', '/hotels/hotel5.png','/images/bg1.png','/images/bg2.png','/images/bg3.png']} />} />
         <Route path="/sitemap" element={<Sitemap />} />
+        <Route path="/cards" element={<Cards cards={[
+          // Memory cards
+          {
+            type: 'Memory',
+            title: 'Mémoires',
+            description: 'Intéresser cette expérience de poterie à Arfoud.',
+            images: ['/hotels/hotel1.png', '/hotels/hotel2.png', '/hotels/hotel3.png', '/hotels/hotel4.png'],
+            onNavigate: () => console.log('Navigate to memory page')
+          },
+          {
+            type: 'Memory',
+            title: 'Mes favoris',
+            description: 'Hôtel à Geliz',
+            images: ['/images/bg1.png', '/images/bg2.png', '/images/bg3.png'],
+            onNavigate: () => console.log('Navigate to favorites page')
+          },
+          // Note cards
+          {
+            type: 'Note',
+            title: 'Évent a venir',
+            description: '12/10/2025\nSalut Snoussi, il te reste deux jours avant ton départ pour Marrakech.',
+            backgroundColor: '#FACC15',
+            onNavigate: () => console.log('Navigate to event page')
+          },
+          {
+            type: 'Note',
+            title: 'Note',
+            description: 'Voyager à Taghazoute la première semaine de décembre',
+            backgroundColor: '#F8FAFC',
+            onNavigate: () => console.log('Navigate to note page')
+          },
+          // Icon cards
+          {
+            type: 'Icon',
+            title: 'Voyages',
+            icon: (
+              <img src="/cards/valise.png" alt="Voyage" className="w-full h-full object-cover" />
+            ),
+            number: 5,
+            text: 'Voyages',
+            onNavigate: () => console.log('Navigate to voyages page')
+          },
+          {
+            type: 'Icon',
+            title: 'Réservations',
+            icon: (
+              <img src="/cards/teles.png" alt="Business" className="w-full h-full object-cover" />
+            ),
+            number: 12,
+            text: 'Réservations',
+            onNavigate: () => console.log('Navigate to reservations page')
+          },
+          {
+            type: 'Icon',
+            title: 'Expériences',
+            icon: (
+              <img src="/cards/agric.png" alt="Experiences" className="w-full h-full object-cover" />
+            ),
+            number: 8,
+            text: 'Expériences',
+            onNavigate: () => console.log('Navigate to experiences page')
+          },
+          // More Memory cards
+          {
+            type: 'Memory',
+            title: 'Calendrier',
+            description: 'Intéresser cette expérience de poterie à Arfoud.',
+            images: ['/hotels/hotel5.png', '/hotels/hotel6.png'],
+            onNavigate: () => console.log('Navigate to calendar page')
+          },
+          {
+            type: 'Memory',
+            title: 'Urgences',
+            description: 'Clinique mère et enfant Rabat Agdal',
+            images: ['/images/bg1.png', '/images/bg2.png', '/images/bg3.png', '/hotels/hotel1.png', '/hotels/hotel2.png'],
+            onNavigate: () => console.log('Navigate to emergencies page')
+          },
+          // More Note cards with different colors
+          {
+            type: 'Note',
+            title: 'Rappel important',
+            description: 'N\'oubliez pas de confirmer votre réservation avant le 15 décembre.',
+            backgroundColor: '#14B8A6',
+            onNavigate: () => console.log('Navigate to reminder page')
+          },
+          {
+            type: 'Note',
+            title: 'Idées de voyage',
+            description: 'Explorer les souks de Marrakech et visiter la place Jemaa el-Fnaa.',
+            backgroundColor: '#0EA5E9',
+            onNavigate: () => console.log('Navigate to ideas page')
+          }
+        ]} />} />
       </Routes>
         </Router>
       </AnimatePresence>
+      </FavoritesProvider>
     </SideListingProvider>
   );
 }
