@@ -731,6 +731,7 @@
       "rating": 4.8,
       "nbRating": 10,
       "distance": 0.5,
+      "address": "Rue des Roses, Marrakech",
       "status": "Ouvert",
       "favorite": false,
       "tags": [

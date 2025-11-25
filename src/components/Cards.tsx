@@ -115,22 +115,38 @@ function CardItem({ card }: { card: Card }) {
         return (
             <>
                 <div
-                    className='flex flex-col gap-[10px] rounded-[22px] overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[calc(25%-16.5px)] lg:w-[calc(25%-16.5px)] xl:w-[calc(25%-16.5px)] h-[189px] p-[13px]'
+                    className='flex flex-col gap-[10px] rounded-[22px] overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] p-[13px]'
                     style={{ backgroundColor: bgColor }}
                 >
                     {/* Header with icon, title, and color picker button */}
                     <div className='flex items-center gap-[6px] w-full'>
-                        {/* Heart icon */}
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2 9.11901C2 14.2037 6.02 16.9128 8.962 19.3386C10 20.1939 11 21 12 21C13 21 14 20.1949 15.038 19.3375C17.981 16.9138 22 14.2037 22 9.12005C22 4.03641 16.5 0.428094 12 5.31725C7.5 0.428094 2 4.03432 2 9.11901Z" fill="url(#paint0_radial_3116_4162)" />
-                            <defs>
-                                <radialGradient id="paint0_radial_3116_4162" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(12 1.60727) rotate(90) scale(25.481 28.3122)">
-                                    <stop stop-color="#2DD4BF" />
-                                    <stop offset="0.509615" stop-color="#0EA5E9" />
-                                    <stop offset="1" stop-color="#D946EF" />
-                                </radialGradient>
-                            </defs>
-                        </svg>
+                        {/* Calendar icon for Calendrier, Heart icon for other Note cards */}
+                        {card.title === 'Calendrier' ? (
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+                                <path d="M17.29 11.968C17.2911 12.1426 17.2577 12.3158 17.1919 12.4776C17.126 12.6393 17.0289 12.7865 16.9062 12.9108C16.7834 13.035 16.6374 13.1339 16.4764 13.2017C16.3154 13.2695 16.1427 13.3049 15.968 13.306C15.7933 13.3051 15.6204 13.2697 15.4594 13.202C15.2983 13.1342 15.1521 13.0354 15.0293 12.9111C14.9064 12.7869 14.8092 12.6396 14.7433 12.4778C14.6774 12.316 14.644 12.1427 14.645 11.968C14.6441 11.7933 14.6776 11.6202 14.7436 11.4585C14.8096 11.2968 14.9068 11.1496 15.0296 11.0255C15.1525 10.9013 15.2986 10.8026 15.4596 10.7349C15.6206 10.6672 15.7934 10.6319 15.968 10.631C16.698 10.631 17.29 11.23 17.29 11.968Z" fill="url(#paint0_radial_calendar_note)" />
+                                <path fillRule="evenodd" clipRule="evenodd" d="M18.1319 7.40796C17.2829 7.28796 16.1899 7.28796 14.8269 7.28796H9.17294C7.80994 7.28796 6.71694 7.28796 5.86794 7.40796C4.99094 7.53296 4.25994 7.79996 3.71594 8.42796C3.17294 9.05596 3.00594 9.82396 2.99994 10.721C2.99394 11.587 3.13894 12.683 3.31894 14.049L3.68394 16.821C3.82494 17.889 3.93894 18.754 4.11594 19.431C4.30094 20.135 4.57294 20.719 5.08394 21.171C5.59394 21.624 6.20394 21.82 6.91794 21.911C7.60494 22 8.46794 22 9.53294 22H14.4669C15.5319 22 16.3949 22 17.0819 21.912C17.7969 21.82 18.4049 21.624 18.9159 21.172C19.4269 20.719 19.6989 20.135 19.8839 19.431C20.0609 18.754 20.1749 17.889 20.3159 16.821L20.6809 14.049C20.8609 12.683 21.0059 11.587 20.9999 10.721C20.9929 9.82396 20.8279 9.05596 20.2839 8.42796C19.7399 7.79996 19.0089 7.53296 18.1319 7.40796ZM6.05194 8.73196C5.32594 8.83596 4.95794 9.02396 4.71194 9.30896C4.46394 9.59396 4.32794 9.98796 4.32194 10.73C4.31694 11.491 4.44794 12.494 4.63694 13.925L4.68694 14.304L5.05794 14.032C6.01794 13.329 7.43394 13.364 8.34594 14.127L11.7299 16.96C12.0499 17.228 12.6009 17.278 12.9989 17.044L13.2339 16.905C14.3589 16.243 15.8679 16.313 16.9059 17.095L18.7379 18.475C18.8279 17.98 18.9089 17.371 19.0109 16.6L19.3629 13.925C19.5519 12.495 19.6829 11.491 19.6769 10.73C19.6719 9.98796 19.5359 9.59396 19.2889 9.30996C19.0419 9.02396 18.6739 8.83596 17.9469 8.73196C17.2019 8.62596 16.2019 8.62496 14.7749 8.62496H9.22494C7.79794 8.62496 6.79694 8.62596 6.05194 8.73196Z" fill="url(#paint0_radial_calendar_note)" />
+                                <path d="M6.88001 4.5C5.62801 4.5 4.60101 5.34 4.25901 6.454L4.23901 6.524C4.59701 6.404 4.96901 6.324 5.34701 6.271C6.31901 6.132 7.54801 6.132 8.97601 6.132H15.178C16.606 6.132 17.835 6.132 18.808 6.271C19.185 6.324 19.558 6.403 19.916 6.524L19.896 6.454C19.553 5.34 18.526 4.5 17.276 4.5H6.88001Z" fill="url(#paint0_radial_calendar_note)" />
+                                <path d="M8.85894 2H15.1409C15.3499 2 15.5109 2 15.6509 2.015C16.1297 2.06826 16.5846 2.25251 16.9655 2.54748C17.3464 2.84246 17.6386 3.23675 17.8099 3.687H6.18994C6.3613 3.23675 6.65349 2.84246 7.03439 2.54748C7.41528 2.25251 7.87013 2.06826 8.34894 2.015C8.48894 2 8.64894 2 8.85894 2Z" fill="url(#paint0_radial_calendar_note)" />
+                                <defs>
+                                    <radialGradient id="paint0_radial_calendar_note" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(12 1.60727) rotate(90) scale(25.481 28.3122)">
+                                        <stop stop-color="#2DD4BF" />
+                                        <stop offset="0.509615" stop-color="#0EA5E9" />
+                                        <stop offset="1" stop-color="#D946EF" />
+                                    </radialGradient>
+                                </defs>
+                            </svg>
+                        ) : (
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+                                <path d="M2 9.11901C2 14.2037 6.02 16.9128 8.962 19.3386C10 20.1939 11 21 12 21C13 21 14 20.1949 15.038 19.3375C17.981 16.9138 22 14.2037 22 9.12005C22 4.03641 16.5 0.428094 12 5.31725C7.5 0.428094 2 4.03432 2 9.11901Z" fill="url(#paint0_radial_3116_4162)" />
+                                <defs>
+                                    <radialGradient id="paint0_radial_3116_4162" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(12 1.60727) rotate(90) scale(25.481 28.3122)">
+                                        <stop stopColor="#2DD4BF" />
+                                        <stop offset="0.509615" stopColor="#0EA5E9" />
+                                        <stop offset="1" stopColor="#D946EF" />
+                                    </radialGradient>
+                                </defs>
+                            </svg>
+                        )}
 
                         <h3 className='text-base font-bold text-black font-bricolagegrotesque leading-[16px] flex-1'>
                             {card.title}
@@ -190,7 +206,7 @@ function CardItem({ card }: { card: Card }) {
 
         return (
             <div
-                className='relative flex rounded-[22px] overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[calc(25%-16.5px)] lg:w-[calc(25%-16.5px)] xl:w-[calc(25%-16.5px)] h-[189px] group'
+                className='relative flex rounded-[22px] overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] group'
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
@@ -318,7 +334,7 @@ function CardItem({ card }: { card: Card }) {
     // Icon card (with icon, number, and text)
     if (card.type === 'Icon') {
         return (
-            <div className='bg-white rounded-[22px] overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[calc(25%-16.5px)] lg:w-[calc(25%-16.5px)] xl:w-[calc(25%-16.5px)] h-[189px] p-[16px] pb-[22px] pt-[4px] flex flex-col items-center justify-center shadow-md'>
+            <div className='bg-white rounded-[22px] overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] p-[16px] pb-[22px] pt-[4px] flex flex-col items-center justify-center shadow-md'>
                 {/* Icon */}
                 {card.icon && (
                     <div className='mb-[-6px] w-[94px] h-[94px] relative'>

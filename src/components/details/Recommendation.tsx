@@ -37,10 +37,25 @@ interface ExperienceItem {
     images: string[];
 }
 
+interface HealthItem {
+    id: number;
+    title: string;
+    genre: string[];
+    jourDebut: string;
+    jourFin: string;
+    heureDebut: string;
+    heureFin: string;
+    rating: number;
+    nbRating: number;
+    distance: number;
+    status: 'Ouvert' | 'Fermé';
+    images: string[];
+}
+
 interface Inputprops {
     type: 'Hotels' | 'Services' | 'Experiences' | 'Urgences';
     cards?: RecommendationProps[];
-    items?: (ServiceItem | ExperienceItem)[];
+    items?: (ServiceItem | ExperienceItem | HealthItem)[];
 }
 //Search bar slide up on move to page details
 function Recommendation({ type, cards, items }: Inputprops) {
@@ -81,7 +96,7 @@ function Recommendation({ type, cards, items }: Inputprops) {
     };
 
     // Convert items to cards format for mobile
-    const convertItemsToCards = (itemsList: (ServiceItem | ExperienceItem)[]): RecommendationProps[] => {
+    const convertItemsToCards = (itemsList: (ServiceItem | ExperienceItem | HealthItem)[]): RecommendationProps[] => {
         return itemsList.map((item) => ({
             title: item.title,
             description: (item as any).hoteInfo?.description || `Découvrez ${item.title}`,
@@ -98,22 +113,25 @@ function Recommendation({ type, cards, items }: Inputprops) {
 
     return (
         <>
-            {(type === 'Services' || type === 'Experiences') ? (
+            {(type === 'Services' || type === 'Experiences' || type === 'Urgences') ? (
                 // On mobile: always use hover mode cards
                 // On desktop: use cards if provided (Hotel details), otherwise use items (Service/Experience details)
                 shouldUseCards && displayCards.length > 0 ? (
                     <>
                         <div className='flex flex-col items-start justify-center w-full mb-5'>
-                            <div className='flex flex-row gap-2 items-center justify-between w-full mb-[12px] flex-shrink-0'>
-                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>{type} {isMobile ? '' : 'au allentours'}</p>
+                            <div className='flex flex-row gap-2 items-center justify-between w-full mb-[16px] flex-shrink-0'>
+                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>
+                                    {type === 'Urgences' ? 'Nexa Health' : type}
+                                </p>
                                 <button className='text-[16px] w-[171px] h-[36px] bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out text-white pl-[15px] pr-[8px] py-[6px] rounded-[12px] flex flex-row items-center justify-center gap-[12px] flex-shrink-0 sm:hidden md:flex'>
-                                    <p className='text-[16px] font-medium font-bricolagegrotesque w-full'>Affiche la zone</p>
                                     <div className='w-6 h-6 flex items-center justify-center'>
                                         <Zone />
                                     </div>
+                                    <p className='text-[16px] font-medium font-bricolagegrotesque w-full'>Affiche la zone</p>
+                                    
                                 </button>
                             </div>
-                            <div className='flex flex-row pl-[10px] items-stretch justify-start gap-2 overflow-x-auto overflow-y-visible scrollbar-hide w-full py-2 pb-8' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                            <div className='flex flex-row items-stretch justify-start gap-[12px] overflow-x-auto overflow-y-visible scrollbar-hide w-full pb-8' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                                 {displayCards.map((card, index) => (
                                     <RecommendationCard key={`${card.title}-${index}`} card={card} />
                                 ))}
@@ -124,14 +142,14 @@ function Recommendation({ type, cards, items }: Inputprops) {
                                     onClick={handleViewAll}
                                     className='w-full bg-slate-200 rounded-[13.639px] px-[39px] py-[16px] flex gap-[16px] items-center justify-center transition-colors hover:bg-slate-300'
                                 >
-                                    <p className='text-base font-medium text-slate-700 font-bricolagegrotesque leading-[32px]'>
-                                        Affichez tout
-                                    </p>
                                     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M22 10.5V12C22 16.714 22 19.071 20.535 20.535C19.072 22 16.714 22 12 22C7.286 22 4.929 22 3.464 20.535C2 19.072 2 16.714 2 12C2 7.286 2 4.929 3.464 3.464C4.93 2 7.286 2 12 2H13.5" stroke="#334155" strokeWidth="1.5" strokeLinecap="round" />
                                         <path d="M19 8C20.6569 8 22 6.65685 22 5C22 3.34315 20.6569 2 19 2C17.3431 2 16 3.34315 16 5C16 6.65685 17.3431 8 19 8Z" stroke="#334155" strokeWidth="1.5" />
                                         <path d="M7 14H16M7 17.5H13" stroke="#334155" strokeWidth="1.5" strokeLinecap="round" />
                                     </svg>
+                                    <p className='text-base font-medium text-slate-700 font-bricolagegrotesque leading-[32px]'>
+                                        Affichez tout
+                                    </p>
                                 </button>
                             )}
                         </div>
@@ -140,12 +158,15 @@ function Recommendation({ type, cards, items }: Inputprops) {
                     <div className='w-full mt-[20px]'>
                         <div className='flex flex-col items-start justify-center w-full mb-5'>
                             <div className='flex flex-row gap-2 items-center justify-between w-full mb-[16px] flex-shrink-0'>
-                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>{type} au allentours</p>
+                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>
+                                    {type === 'Urgences' ? 'Nexa Health' : type}
+                                </p>
                                 <button className='text-[16px] w-[171px] h-[36px] bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out text-white pl-[15px] pr-[8px] py-[6px] rounded-[12px] flex flex-row items-center justify-center gap-[12px] flex-shrink-0'>
-                                    <p className='text-[16px] font-medium font-bricolagegrotesque w-full'>Affiche la zone</p>
                                     <div className='w-6 h-6 flex items-center justify-center'>
                                         <Zone />
                                     </div>
+                                    <p className='text-[16px] font-medium font-bricolagegrotesque w-full'>Affiche la zone</p>
+                                    
                                 </button>
                             </div>
                             <div className='w-full overflow-x-auto scrollbar-hide' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -155,12 +176,14 @@ function Recommendation({ type, cards, items }: Inputprops) {
                                             <div key={item.id} className='flex-shrink-0 w-[280px]'>
                                                 <ItemCard
                                                     id={item.id}
-                                                    type={type === 'Services' ? 'Service' : 'Experience'}
+                                                    type={type === 'Services' ? 'Service' : type === 'Experiences' ? 'Experience' : 'Health'}
                                                     onClick={() => {
                                                         if (type === 'Services') {
                                                             navigate(`/details/${item.id}`, { state: { service: item } });
-                                                        } else {
+                                                        } else if (type === 'Experiences') {
                                                             navigate(`/details/${item.id}`, { state: { experience: item } });
+                                                        } else if (type === 'Urgences') {
+                                                            navigate(`/details/${item.id}`, { state: { health: item } });
                                                         }
                                                     }}
                                                     service={type === 'Services' ? {
@@ -188,6 +211,20 @@ function Recommendation({ type, cards, items }: Inputprops) {
                                                         formules: (item as ExperienceItem).formules || [],
                                                         images: item.images
                                                     } : undefined}
+                                                    health={type === 'Urgences' ? {
+                                                        id: item.id,
+                                                        title: item.title,
+                                                        genre: (item as HealthItem).genre,
+                                                        jourDebut: (item as HealthItem).jourDebut,
+                                                        jourFin: (item as HealthItem).jourFin,
+                                                        heureDebut: (item as HealthItem).heureDebut,
+                                                        heureFin: (item as HealthItem).heureFin,
+                                                        rating: item.rating,
+                                                        nbRating: item.nbRating || 10,
+                                                        distance: item.distance,
+                                                        status: (item as HealthItem).status,
+                                                        images: item.images
+                                                    } : undefined}
                                                 />
                                             </div>
                                         ))
@@ -205,16 +242,16 @@ function Recommendation({ type, cards, items }: Inputprops) {
                                 <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] text-slate-700 font-bold font-bricolagegrotesque'>Nexa Health</p>
                             )}
                             {type !== 'Hotels' && (
-                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>{type} au allentours</p>
+                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>{type} </p>
                             )}
                             <button className='text-[16px] w-[171px] h-[36px] bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out text-white pl-[15px] pr-[8px] py-[6px] rounded-[12px] flex flex-row items-center justify-center gap-[12px] flex-shrink-0 sm:hidden md:flex'>
-                                <p className='text-[16px] font-medium font-bricolagegrotesque w-full'>Affiche la zone</p>
                                 <div className='w-6 h-6 flex items-center justify-center'>
                                     <Zone />
                                 </div>
+                                <p className='text-[16px] font-medium font-bricolagegrotesque w-full'>Affiche la zone</p>
                             </button>
                         </div>
-                        <div className='flex flex-row pl-[10px] items-stretch justify-start gap-2 overflow-x-auto overflow-y-visible scrollbar-hide w-full py-2 pb-8' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                        <div className='flex flex-row items-stretch justify-start gap-[12px] overflow-x-auto overflow-y-visible scrollbar-hide w-full py-2 pb-8' style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
                             {cards && cards.map((card, index) => (
                                 <RecommendationCard key={`${card.title}-${index}`} card={card} />
                             ))}
@@ -225,14 +262,15 @@ function Recommendation({ type, cards, items }: Inputprops) {
                                 onClick={handleViewAll}
                                 className='w-full bg-slate-200 rounded-[13.639px] px-[39px] py-[16px] flex gap-[16px] items-center justify-center transition-colors hover:bg-slate-300'
                             >
-                                <p className='text-base font-medium text-slate-700 font-bricolagegrotesque leading-[32px]'>
-                                    Affichez tout
-                                </p>
                                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M22 10.5V12C22 16.714 22 19.071 20.535 20.535C19.072 22 16.714 22 12 22C7.286 22 4.929 22 3.464 20.535C2 19.072 2 16.714 2 12C2 7.286 2 4.929 3.464 3.464C4.93 2 7.286 2 12 2H13.5" stroke="#334155" strokeWidth="1.5" strokeLinecap="round" />
                                     <path d="M19 8C20.6569 8 22 6.65685 22 5C22 3.34315 20.6569 2 19 2C17.3431 2 16 3.34315 16 5C16 6.65685 17.3431 8 19 8Z" stroke="#334155" strokeWidth="1.5" />
                                     <path d="M7 14H16M7 17.5H13" stroke="#334155" strokeWidth="1.5" strokeLinecap="round" />
                                 </svg>
+                                <p className='text-base font-medium text-slate-700 font-bricolagegrotesque leading-[32px]'>
+                                    Affichez tout
+                                </p>
+                                
                             </button>
                         )}
                     </div>
@@ -257,28 +295,27 @@ function RecommendationCard({ card }: { card: RecommendationProps }) {
 
     return (
         <div
-            className={`flex flex-col gap-2 flex-shrink-0 ${isMobile ? 'w-[220px]' : 'w-[240px]'} py-2 group cursor-pointer transition-transform duration-500 ease-in-out`}
+            className={`flex flex-col gap-2 flex-shrink-0 ${isMobile ? 'w-[220px]' : 'w-[240px]'} group cursor-pointer`}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
-            style={{
-                transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-            }}
         >
-            {/* Outer wrapper for gradient border */}
+            {/* Outer wrapper for border - fixed size, no scaling */}
             <div
-                className='relative rounded-[38px] transition-opacity duration-500 ease-in-out'
+                className='relative rounded-[38px] transition-all duration-500 ease-in-out border border-slate-200 overflow-hidden'
                 style={{
-                    background: isHovered
-                        ? 'radial-gradient(141.56% 141.56% at 50% -7.74%, #2DD4BF 0%, #0EA5E9 50.96%, #D946EF 100%)'
-                        : 'transparent',
-                    padding: isHovered ? '1px' : '0px',
                     boxShadow: isHovered ? '0 14px 11px var(--shadow-none-spread, 0) rgba(217, 70, 239, 0.18)' : 'none',
+                    height: isMobile ? '320px' : '300px',
                 }}
             >
-                {/* Card container */}
-                <div className='relative bg-white rounded-[38px] p-[23px] flex flex-col gap-[14px]'>
+                {/* Card container - scales on hover */}
+                <div 
+                    className='relative bg-white rounded-[38px] p-[18px] flex flex-col gap-[14px] h-full transition-transform duration-500 ease-in-out'
+                    style={{
+                        transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                    }}
+                >
                     {/* Image container */}
-                    <div className='relative w-full h-[134px] rounded-[24px] overflow-hidden'>
+                    <div className='relative w-full h-[134px] rounded-[24px] overflow-hidden flex-shrink-0'>
                         {/* Default image */}
                         <img
                             src={card.image}
@@ -298,10 +335,15 @@ function RecommendationCard({ card }: { card: RecommendationProps }) {
                         )}
                     </div>
 
-                    {/* Text content */}
-                    <div className='flex flex-col gap-[6px] items-start'>
-                        <p className='text-[20px] font-bold font-bricolagegrotesque leading-[32px] text-slate-800'>{card.title}</p>
-                        <p className='text-[16px] leading-[24px] text-slate-700 font-vendsans'>{card.description}</p>
+                    {/* Text content - fixed height with truncation */}
+                    <div className='flex flex-col gap-[6px] items-start overflow-hidden'>
+                        <p className='text-[20px] font-bold font-bricolagegrotesque leading-[32px] text-slate-800 w-full truncate'>{card.title}</p>
+                        <p className='text-[16px] leading-[24px] text-slate-700 font-vendsans w-full overflow-hidden' style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 3,
+                            WebkitBoxOrient: 'vertical',
+                            textOverflow: 'ellipsis'
+                        }}>{card.description}</p>
                     </div>
                 </div>
             </div>

@@ -2,13 +2,11 @@ import React from 'react'
 
 function TrComparator() {
     return (
-        <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg" className="group-hover:hidden">
-            <path d="M27 27H7" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round" />
-            <path opacity="0.5" d="M25.9999 27V11C25.9999 9.114 25.9999 8.172 25.4139 7.586C24.8279 7 23.8859 7 21.9999 7H19.9999C18.1139 7 17.1719 7 16.5859 7.586C16.1139 8.057 16.0219 8.76 16.0039 10" stroke="#1E293B" stroke-width="1.5" />
-            <path d="M20 27V14C20 12.114 20 11.172 19.414 10.586C18.828 10 17.886 10 16 10H12C10.114 10 9.172 10 8.586 10.586C8 11.172 8 12.114 8 14V27" stroke="#1E293B" stroke-width="1.5" />
-            <path d="M14 27V24" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round" />
-            <path opacity="0.5" d="M11 13H17M11 16H17M11 19H17" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round" />
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className='block group-hover:hidden'>
+            <path d="M2 18.114V5.88596C2 4.18396 2 3.33296 2.542 3.05396C3.085 2.77396 3.777 3.26996 5.162 4.25896L6.744 5.38896C7.36 5.82896 7.668 6.04896 7.834 6.37096C8 6.69396 8 7.07296 8 7.82996V16.17C8 16.927 8 17.306 7.834 17.629C7.668 17.952 7.36 18.172 6.744 18.612L5.162 19.742C3.777 20.73 3.085 21.225 2.542 20.946C2 20.666 2 19.816 2 18.114ZM22 18.114V5.88596C22 4.18396 22 3.33296 21.458 3.05396C20.915 2.77396 20.223 3.26996 18.838 4.25896L17.256 5.38896C16.64 5.82896 16.332 6.04896 16.166 6.37096C16 6.69396 16 7.07296 16 7.82996V16.17C16 16.927 16 17.306 16.166 17.629C16.332 17.952 16.64 18.172 17.256 18.612L18.837 19.742C20.223 20.73 20.915 21.225 21.457 20.946C21.999 20.667 22 19.816 22 18.114Z" stroke="#1E293B" stroke-width="1.5" />
+            <path d="M12 14V10M12 6V2M12 22V18" stroke="#1E293B" stroke-width="1.5" stroke-linecap="round" />
         </svg>
+
     )
 }
 

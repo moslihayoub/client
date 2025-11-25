@@ -98,19 +98,38 @@ function Homepage3() {
 
                 {/* Main content area - responsive */}
                 <div className="flex-1 w-full px-2 sm:px-4 py-6 md:px-6 md:pb-32 md:py-0 flex flex-col items-center justify-start md:justify-center">
-                    <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 items-center mt-[20%] mb-[40%]">
+                    {/* Mobile Layout */}
+                    <div className="w-full max-w-7xl mx-auto flex flex-col gap-8 items-center mt-[20%] mb-[40%] md:hidden">
                         {/* Header Section */}
                         <div className="flex flex-col items-center text-center w-full">
-                            <h1 className="text-3xl sm:text-3xl font-semibold text-slate-950 font-bricolagegrotesque leading-[40px] mb-0">
+                            <h1 className="text-[30px] sm:text-3xl font-semibold text-slate-950 font-bricolagegrotesque leading-[40px] mb-0">
                                 Votre logement idéal!
                             </h1>
-                            <p className="text-lg font-medium text-slate-900 font-vendsans leading-[28px] mt-0">
+                            <p className="text-[18px] font-medium text-slate-900 font-vendsans leading-[28px] mt-0">
                                 Découvrez notre marketplace intelligente
                             </p>
                         </div>
 
                         {/* Cards Section */}
                         <div className="w-full">
+                            <Cards cards={cards} />
+                        </div>
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden md:flex flex-col items-center justify-center w-full max-w-7xl mx-auto gap-[12px] mt-[3%]">
+                        {/* Header Section */}
+                        <div className="flex flex-col items-center text-center w-full">
+                            <h1 className="text-[36px] font-semibold text-slate-950 font-bricolagegrotesque leading-[40px] mb-0">
+                                Votre logement idéal!
+                            </h1>
+                            <p className="text-[18px] font-medium text-slate-900 font-vendsans leading-[24px] mt-0">
+                                Découvrez notre marketplace intelligente
+                            </p>
+                        </div>
+
+                        {/* Cards Section */}
+                        <div className="w-[70%] ">
                             <Cards cards={cards} />
                         </div>
                     </div>
@@ -142,14 +161,6 @@ function Homepage3() {
 
                 </div>
             )}
-
-            <div className="absolute sm:hidden md:hidden bottom-4 right-4 w-[120px] h-[120px] z-15">
-                <img
-                    src="/images/bot.png"
-                    alt="Bot"
-                    className="w-full h-full animate-float"
-                />
-            </div>
         </div>
     )
 }

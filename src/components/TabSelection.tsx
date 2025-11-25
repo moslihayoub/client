@@ -127,17 +127,18 @@ const TabSelection: React.FC<TabSelectionProps> = ({ selectedTab, onTabChange, a
         */}
 
         {/* Show Area Button */}
-        <button className="bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out flex gap-[12px] items-center justify-center pl-[15px] pr-[8px] py-1.5 rounded-xl"
+        <button className="bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out flex gap-[10px] items-center justify-center pl-[8px] pr-[10px] py-1.5 rounded-xl"
         onClick={() => {
           affichageType === 'parzone' ? setAffichageType('parliste') : setAffichageType('parzone');
         }}>
-          <p className="font-medium text-base text-white font-bricolagegrotesque leading-6">
-            {affichageType === 'parzone' ? 'Affiche la liste' : 'Affiche la zone'}
-          </p>
           <div className="w-6 h-6 flex items-center justify-center">
             {affichageType === 'parzone' ? <GrListe /> : ''}
             {affichageType === 'parliste' ? <Zone /> : ''}
           </div>
+          <p className="font-medium text-base text-white font-bricolagegrotesque leading-6">
+            {affichageType === 'parzone' ? 'Affiche la liste' : 'Affiche la zone'}
+          </p>
+          
         </button>
       </div>
     </div>
