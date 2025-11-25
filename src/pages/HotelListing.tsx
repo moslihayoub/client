@@ -8,13 +8,15 @@ import TabSelectionMobile from "../components/TabSelectionMobile";
 import BRButton from "../components/BRButton";
 import MobileSearchbar from "../components/MobileSearchbar";
 import MobileOverlay from "../components/MobileOverlay";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSideListing } from "../contexts/SideListingContext";
 import SearchBar from "../components/SearchBar";
 import TabSelectionMobilePopup from "../components/TabSelectionMobilePopup";
 import AffichageTypePopup from "../components/AffichageTypePopup";
 import listingData from "../data/listingData.json";
 import MobileListingPage from "../components/listing/MobileListingPage";
+import PublicityBanner from "../components/listing/PublicityBanner";
+import Map from "../components/details/Map";
 
 // Import data from JSON file
 const { hotels, services, experiences, healths } = listingData as {
@@ -177,10 +179,10 @@ const HotelListing: React.FC = () => {
           </div>
 
           {/* Card listings - Takes remaining width */}
-          <div ref={listRef} className="flex-1 flex overflow-y-auto scrollbar-hide mt-[5%] sm:mt-[15%] md:mt-[5%] lg:mt-[5%] xl:mt-[5%]">
+          <div ref={listRef} className="flex-1 flex overflow-y-auto scrollbar-hide mt-[5%] sm:mt-[18%] md:mt-[5%] lg:mt-[5%] xl:mt-[5%]">
             <div ref={cardsContainerRef} className={`p-6 sm:p-3 md:p-6 lg:p-6 xl:p-6 sm:pt-[28%] md:pt-6 lg:pt-6 xl:pt-6 ${isSidebarCollapsed ? 'sm:w-full md:w-full lg:w-[87%] xl:w-[87%]' : 'sm:w-full md:w-full lg:w-[82%] xl:w-[82%]'} ml-[68px] sm:ml-0 md:ml-0 lg:ml-[68px] xl:ml-[68px]`}>
               {/* Mobile Tab Selection - Fixed position on small devices */}
-              <div ref={tabSelectionRef} className={`fixed top-20 left-0 right-0 z-20 sm:block md:hidden lg:hidden xl:hidden px-[12px] mt-1 h-[8%] transform transition-all duration-500 ease-in-out ${isMobileTabVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+              <div ref={tabSelectionRef} className={`fixed top-[11%] left-0 right-0 z-20 sm:block md:hidden lg:hidden xl:hidden px-[12px] mt-1 h-[8%] transform transition-all duration-500 ease-in-out ${isMobileTabVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
                 }`}>
                 <TabSelectionMobile
                   selectedTab={selectedTab}
@@ -191,6 +193,23 @@ const HotelListing: React.FC = () => {
                   onOpenAffichagePopup={() => setIsAffTypePopupOpen(true)}
                 />
               </div>
+              {/* Breadcrumb - desktop only */}
+              <div className="hidden md:flex flex-row gap-2 items-center justify-start w-full mb-[8px]">
+                            <span className="text-[16px] font-bricolagegrotesque">
+                                <Link to="/" className="text-sky-500 font-bricolagegrotesque">
+                                    Accueil
+                                </Link>
+                            </span>
+                            <span className="text-gray-500 font-bricolagegrotesque">/</span>
+                            <span className="text-[16px] text-gray-500 font-bricolagegrotesque">
+                                {selectedTab === "Hotel" && "Hôtels"}
+                                {selectedTab === "Service" && "Services"}
+                                {selectedTab === "Experience" && "Expériences"}
+                                {selectedTab === "Health" && "Santé"}
+                                {/* fallback if new types are added in the future */}
+                                {["Hotel", "Service", "Experience", "Health"].indexOf(selectedTab) === -1 && selectedTab}
+                            </span>
+                        </div>
               {/* Header */}
               <div className="text-left mb-[28px]">
                 {
@@ -343,45 +362,29 @@ const HotelListing: React.FC = () => {
                           images: item.images,
                           hoteInfo: item.hoteInfo
                         })}
-                  promotionItems={(() => {
-                    const allItems = selectedTab === 'service' ? services : experiences;
-                    const promotedItems = allItems.filter((item: any) => item.promotion === true);
-                    // Always show at least 8 items for promotion section (use top rated if no promotions)
-                    const itemsToShow = promotedItems.length > 0 
-                      ? promotedItems.slice(0, 8)
-                      : allItems.sort((a: any, b: any) => (b.rating || 0) - (a.rating || 0)).slice(0, 8);
-                    return itemsToShow.map((item: any) => selectedTab === 'service' 
-                      ? {
-                          id: item.id,
-                          title: item.title,
-                          genre: item.genre,
-                          rating: item.rating,
-                          nbRating: item.nbRating || 10,
-                          distance: item.distance,
-                          minimumPrice: item.minimumPrice,
-                          maximumPrice: item.maximumPrice,
-                          status: item.status as 'Ouvert' | 'Fermé',
-                          menu: item.menu || [],
-                          images: item.images,
-                          hoteInfo: item.hoteInfo
-                        }
-                      : {
-                          id: item.id,
-                          title: item.title,
-                          genre: item.genre,
-                          rating: item.rating,
-                          nbRating: item.nbRating || 10,
-                          distance: item.distance,
-                          price: item.price,
-                          nbPeople: item.nbPeople,
-                          formules: item.formules || [],
-                          images: item.images,
-                          hoteInfo: item.hoteInfo
-                        });
-                  })()}
                 />
               ) : (
                 <>
+              {/* Publicity Banner - Only for Hotels and Health in list mode, hidden on desktop */}
+              {(selectedTab === 'logement' || selectedTab === 'health') && selectedAffichageType === 'parliste' && (
+                <div className="w-full mb-[20px] sm:block md:hidden">
+                  <PublicityBanner banners={[
+                    {
+                      image: '/services/service-prop1.png',
+                      title: 'Réservez vos billets',
+                      subtitle: 'Profitez de 30 % de réduction sur les trois premiers matchs de la Coupe du Monde 2030 ! Réservez dès maintenant !',
+                      buttonText: 'Contactez-nous au : 0522 67 67 67',
+                    },
+                    {
+                      image: '/services/service-prop2.png',
+                      title: 'Découvrez notre atelier de travail du bois !',
+                      subtitle: 'Réservez vos places dès maintenant pour une expérience créative inoubliable.',
+                      buttonText: 'Contactez-nous au : 0522 67 67 67',
+                    },
+                  ]} />
+                </div>
+              )}
+
               {/* Cards Grid */}
               {selectedAffichageType === 'parliste' && (
                 <div ref={cardsGridRef} className={`grid gap-x-[28px] gap-y-[54px] w-full ${isSidebarCollapsed
@@ -392,25 +395,57 @@ const HotelListing: React.FC = () => {
                   {
                     
                   }
-                  {selectedTab === 'logement' && hotels.map((hotel) => (
-                    <ItemCard
-                      onClick={() => navigate(`/details/${hotel.id}`, { state: { hotel } })}
-                      key={hotel.id}
-                      id={hotel.id}
-                      type="Hotel"
-                      hotel={{
-                        id: hotel.id,
-                        title: hotel.title,
-                        nbLit: hotel.nbLit,
-                        nbChambre: hotel.nbChambre,
-                        nbNuit: hotel.nbNuit,
-                        totalPrice: hotel.totalPrice,
-                        pricePerNight: hotel.pricePerNight,
-                        rating: hotel.rating,
-                        distancce: hotel.distancce,
-                        images: hotel.images
-                      }}
-                    />
+                  {selectedTab === 'logement' && hotels.map((hotel, index) => (
+                    <React.Fragment key={hotel.id}>
+                      <ItemCard
+                        onClick={() => navigate(`/details/${hotel.id}`, { state: { hotel } })}
+                        id={hotel.id}
+                        type="Hotel"
+                        hotel={{
+                          id: hotel.id,
+                          title: hotel.title,
+                          nbLit: hotel.nbLit,
+                          nbChambre: hotel.nbChambre,
+                          nbNuit: hotel.nbNuit,
+                          totalPrice: hotel.totalPrice,
+                          pricePerNight: hotel.pricePerNight,
+                          rating: hotel.rating,
+                          distancce: hotel.distancce,
+                          images: hotel.images
+                        }}
+                      />
+                      {index === 2 && (
+                        <div className="w-full col-span-full sm:block md:hidden">
+                          <div className="h-[209px] rounded-[20px] overflow-hidden relative">
+                            <img
+                              src="/services/service-prop3.png"
+                              alt="Publicity Banner"
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 flex flex-col justify-start items-start px-[25px] py-[24px]">
+                              <div className="flex flex-col gap-[6px] items-start mb-[12px]">
+                                <p className="text-[19.96px] font-bold font-bricolagegrotesque text-white leading-[21.9px] mb-0">
+                                  Découvrez notre atelier de travail du bois !
+                                </p>
+                                <p className="text-[12.96px] font-normal font-bricolagegrotesque text-white leading-[16px]">
+                                  Réservez vos places dès maintenant pour une expérience créative inoubliable.
+                                </p>
+                              </div>
+                              <button
+                                className="bg-black rounded-[836.92px] px-[19.93px] py-[11.63px] flex gap-[9.97px] items-center justify-center shadow-lg mt-auto"
+                              >
+                                <p className="text-[13.29px] font-medium font-bricolagegrotesque text-white leading-[19.93px]">
+                                  Contactez-nous au : 0522 67 67 67
+                                </p>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </React.Fragment>
                   ))}
                   {selectedTab === 'service' && services.map((service) => (
                     <ItemCard
@@ -453,37 +488,117 @@ const HotelListing: React.FC = () => {
                       }}
                     />
                   ))}
-                  {selectedTab === 'health' && healths.map((health) => (
-                    <ItemCard
-                      key={health.id}
-                      id={health.id}
-                      type="Health"
-                      onClick={() => navigate(`/details/${health.id}`, { state: { health } })}
-                      health={{
-                        id: health.id,
-                        title: health.title,
-                        genre: health.genre,
-                        jourDebut: health.jourDebut,
-                        jourFin: health.jourFin,
-                        heureDebut: health.heureDebut,
-                        heureFin: health.heureFin,
-                        rating: health.rating,
-                        nbRating: 10,
-                        distance: health.distance,
-                        status: health.status as 'Ouvert' | 'Fermé',
-                        images: health.images
-                      }}
-                    />
+                  {selectedTab === 'health' && healths.map((health, index) => (
+                    <React.Fragment key={health.id}>
+                      <ItemCard
+                        id={health.id}
+                        type="Health"
+                        onClick={() => navigate(`/details/${health.id}`, { state: { health } })}
+                        health={{
+                          id: health.id,
+                          title: health.title,
+                          genre: health.genre,
+                          jourDebut: health.jourDebut,
+                          jourFin: health.jourFin,
+                          heureDebut: health.heureDebut,
+                          heureFin: health.heureFin,
+                          rating: health.rating,
+                          nbRating: 10,
+                          distance: health.distance,
+                          status: health.status as 'Ouvert' | 'Fermé',
+                          images: health.images
+                        }}
+                      />
+                      {index === 2 && (
+                        <div className="w-full col-span-full sm:block md:hidden">
+                          <div className="h-[209px] rounded-[20px] overflow-hidden relative">
+                            <img
+                              src="/services/service-prop3.png"
+                              alt="Publicity Banner"
+                              className="w-full h-full object-cover"
+                            />
+                            <div className="absolute inset-0 flex flex-col justify-start items-start px-[25px] py-[24px]">
+                              <div className="flex flex-col gap-[6px] items-start mb-[12px]">
+                                <p className="text-[19.96px] font-bold font-bricolagegrotesque text-white leading-[21.9px] mb-0">
+                                  Découvrez notre atelier de travail du bois !
+                                </p>
+                                <p className="text-[12.96px] font-normal font-bricolagegrotesque text-white leading-[16px]">
+                                  Réservez vos places dès maintenant pour une expérience créative inoubliable.
+                                </p>
+                              </div>
+                              <button
+                                className="bg-black rounded-[836.92px] px-[19.93px] py-[11.63px] flex gap-[9.97px] items-center justify-center shadow-lg mt-auto"
+                              >
+                                <p className="text-[13.29px] font-medium font-bricolagegrotesque text-white leading-[19.93px]">
+                                  Contactez-nous au : 0522 67 67 67
+                                </p>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </React.Fragment>
                   ))}
                 </div>
               )}
 
               {selectedAffichageType === 'parzone' && (
-                <div className="grid gap-x-2 gap-y-3 w-full">
-                  {/* Render Map */}
-                  <div className="w-full h-[480px]">
-                    <img src="/images/carte.png" alt="Map" className="w-full h-full object-cover flex sm:hidden md:hidden lg:flex xl:flex" />
-                    <img src="/images/map-mobile.png" alt="Map" className="w-full h-full object-cover hidden sm:flex md:flex lg:hidden xl:hidden" />
+                <div className="grid gap-x-2 gap-y-3 w-full mb-[20px]">
+                  {/* Render Leaflet Map */}
+                  <div className="w-full h-[480px] mb-[30px]">
+                    <Map 
+                      latitude={31.6295}
+                      longitude={-7.9811}
+                      height="480px"
+                      className="w-full"
+                      markers={[
+                        {
+                          latitude: 31.6295,
+                          longitude: -7.9811,
+                          title: 'Gaming Kids 212',
+                          rating: 3,
+                          maxRating: 5
+                        },
+                        {
+                          latitude: 31.6350,
+                          longitude: -7.9850,
+                          title: 'Hotel Royal',
+                          rating: 4,
+                          maxRating: 5
+                        },
+                        {
+                          latitude: 31.6250,
+                          longitude: -7.9750,
+                          title: 'Resort Paradise',
+                          rating: 5,
+                          maxRating: 5
+                        },
+                        {
+                          latitude: 31.6400,
+                          longitude: -7.9900,
+                          title: 'City Center Hotel',
+                          rating: 4,
+                          maxRating: 5
+                        },
+                        {
+                          latitude: 31.6200,
+                          longitude: -7.9700,
+                          title: 'Luxury Suites',
+                          rating: 5,
+                          maxRating: 5
+                        },
+                        {
+                          latitude: 31.6320,
+                          longitude: -7.9780,
+                          title: 'Budget Inn',
+                          rating: 3,
+                          maxRating: 5
+                        }
+                      ]}
+                    />
                   </div>
                 </div>
               )}

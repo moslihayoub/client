@@ -72,6 +72,10 @@ import ActHeart from "../svgs/active/ActHeart";
 import ActBell from "../svgs/active/ActBell";
 import ActComparator from "../svgs/active/ActComparator";
 import ActConnect from "../svgs/active/ActConnect";
+import ColAssistant from "../svgs/colored/ColAssistant";
+import CliAssistant from "../svgs/clicked/CliAssistant";
+import ColPlus from "../svgs/colored/ColPlus";
+import CliPlus from "../svgs/clicked/CliPlus";
 
 interface NavbarProps {
     iconVariant?: "white" | "transparent"; // optional prop, defaults to transparent
@@ -110,15 +114,19 @@ interface NavItem {
 }
 
 export default function Navbar({
-    iconVariant = "transparent",
+    iconVariant = "white",
     logoColor = "normal",
-    background = "transparent",
+    background = "white",
     profileImg = "",
     setIsMobileMenu = (isOpen: boolean) => { },
     blur = false,
     Icon = ColSide,
     currentActiveItem = ''
 }: NavbarProps) {
+    // Force white background and transparent icons on all pages
+    iconVariant = "transparent";
+    background = "white";
+    
     const navigate = useNavigate();
     const [isLanguagePopupOpen, setIsLanguagePopupOpen] = useState(false);
     const [currentLanguage, setCurrentLanguage] = useState('fr'); // Default to French
@@ -272,8 +280,8 @@ export default function Navbar({
             name: "Assistant",
             TransparentIcon: TrAssistant,
             WhiteIcon: Assistant,
-            ColoredIcon: ColBell,
-            ClickedIcon: Assistant,
+            ColoredIcon: ColAssistant,
+            ClickedIcon: CliAssistant,
             size: "large"
         },
         {
@@ -281,8 +289,8 @@ export default function Navbar({
             name: "More",
             TransparentIcon: TrPlus,
             WhiteIcon: Plus,
-            ColoredIcon: ColBell,
-            ClickedIcon: Plus,
+            ColoredIcon: ColPlus,
+            ClickedIcon: CliPlus,
             size: "normal"
         }
     ]
@@ -292,16 +300,22 @@ export default function Navbar({
 
     return (
         <>
-            <nav className={`fixed z-30 w-full h-[10%] flex items-center justify-between ${backgroundClass} sm:bg-gradient-to-b ${blur ? 'sm:from-white sm:from-[60.52%] sm:to-transparent' : ''} px-[36px] sm:px-[12px] md:px-[36px] lg:px-[36px] xl:px-[36px] opacity-100`}>
+            <nav className={`fixed z-30 h-[60px] flex items-center justify-between ${backgroundClass} sm:bg-gradient-to-b ${blur ? 'sm:from-white sm:from-[60.52%] sm:to-transparent' : ''} px-[18px] sm:px-[12px] md:px-[18px] lg:px-[18px] xl:px-[18px] mt-[10px] opacity-100 rounded-full left-[36px] right-[36px] sm:left-[12px] sm:right-[12px] md:left-1/2 md:-translate-x-1/2 md:right-auto md:w-[1000px] lg:left-1/2 lg:-translate-x-1/2 lg:right-auto lg:w-[1000px] xl:left-1/2 xl:-translate-x-1/2 xl:right-auto xl:w-[1000px]`} style={{
+                border: '1.5px solid transparent',
+                backgroundImage: `${backgroundClass === 'bg-white' ? 'linear-gradient(white, white),' : 'linear-gradient(transparent, transparent),'} radial-gradient(141.56% 141.56% at 50% -7.74%, var(--colors-teal-400, #2DD4BF) 0%, var(--colors-sky-500, #0EA5E9) 50.96%, var(--colors-fuchsia-500, #D946EF) 100%)`,
+                backgroundOrigin: 'border-box',
+                backgroundClip: 'padding-box, border-box',
+            }}>
 
                 {/* Left: Desktop Logo - Visible on lg and xl devices */}
                 <div className="flex items-center gap-2 justify-start">
-                    {logoColor === "normal" ? <NexaLogo /> : <WhiteNexaLogo />}
+                    {/*logoColor === "normal" ? <NexaLogo /> : <WhiteNexaLogo />*/}
+                    <NexaLogo />
                 </div>
 
                 {/* Desktop: Icons */}
                 {/* Middle Icons */}
-                <div className="hidden md:flex items-center gap-[57px] justify-center h-full">
+                <div className="hidden md:flex items-center gap-[40px] justify-center h-full">
                     {middleNavItems.map((item) => {
                         const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, ActiveIcon, size, onClick, img } = item;
                         const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-full";
@@ -310,7 +324,7 @@ export default function Navbar({
                         // Special handling for moon/app mode button
                         if (id === "moon") {
                             const currentModeIcons = getCurrentAppModeIcon();
-                            const DefaultIcon = iconVariant === "white" ? currentModeIcons.WhiteIcon : currentModeIcons.TransparentIcon;
+                            const DefaultIcon = currentModeIcons.TransparentIcon;
                             const IconToShow = isPressed ? currentModeIcons.ClickedIcon : DefaultIcon;
 
                             return (
@@ -330,13 +344,13 @@ export default function Navbar({
                         }
 
                         // Regular handling for other buttons
-                        const DefaultIcon = iconVariant === "white" ? WhiteIcon : TransparentIcon;
+                        const DefaultIcon = TransparentIcon;
                         const isActive = id === currentActiveItemState;
 
                         return (
                             <button
                                 key={id}
-                                className={`${buttonSize} group transition-all duration-150 h-full w-[53px] flex items-center justify-center relative `}
+                                className={`${buttonSize} group transition-all duration-150 h-full w-[45px] flex items-center justify-center relative `}
                                 onMouseDown={() => handleItemPress(id)}
                                 onMouseUp={() => handleItemRelease(id, onClick)}
                                 onTouchStart={() => handleItemPress(id)}
@@ -397,7 +411,7 @@ export default function Navbar({
                         // Special handling for moon/app mode button
                         if (id === "moon") {
                             const currentModeIcons = getCurrentAppModeIcon();
-                            const DefaultIcon = iconVariant === "white" ? currentModeIcons.WhiteIcon : currentModeIcons.TransparentIcon;
+                            const DefaultIcon = currentModeIcons.TransparentIcon;
                             const IconToShow = isPressed ? currentModeIcons.ClickedIcon : DefaultIcon;
 
                             return (
@@ -416,7 +430,7 @@ export default function Navbar({
                             );
                         }
 
-                        const DefaultIcon = iconVariant === "white" ? WhiteIcon : TransparentIcon;
+                        const DefaultIcon = TransparentIcon;
                         const IconToShow = isPressed ? ClickedIcon : DefaultIcon;
 
                         return (
@@ -451,7 +465,8 @@ export default function Navbar({
                     }}
                     aria-label="Toggle mobile menu"
                 >
-                    <Icon />
+                    {/*<Icon />*/}
+                    <ColSide />
                 </button>
             </nav>
 

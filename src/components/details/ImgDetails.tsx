@@ -2,8 +2,9 @@ import React, { useState, useRef } from 'react'
 
 interface ImgDetailsProps {
   images: string[];
+  onImageClick?: (index: number) => void;
 }
-function ImgDetails({ images }: ImgDetailsProps) {
+function ImgDetails({ images, onImageClick }: ImgDetailsProps) {
   const [showAll, setShowAll] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
@@ -129,7 +130,11 @@ function ImgDetails({ images }: ImgDetailsProps) {
             widthClass = index === 0 ? 'w-[32%]' : index === 1 ? 'w-[36%]' : 'w-[32%]';
           }
           return (
-            <div key={actualIndex} className={`${widthClass} h-[305px] sm:h-[200px] md:h-[200px] lg:h-[305px] xl:h-[305px] rounded-[26px] overflow-hidden`}>
+            <div 
+              key={actualIndex} 
+              className={`${widthClass} h-[305px] sm:h-[200px] md:h-[200px] lg:h-[305px] xl:h-[305px] rounded-[26px] overflow-hidden cursor-pointer hover:opacity-90 transition-opacity`}
+              onClick={() => onImageClick?.(actualIndex)}
+            >
               <img src={image} alt={`Image ${actualIndex}`} className='w-full h-full object-cover' />
             </div>
           );

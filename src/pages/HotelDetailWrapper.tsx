@@ -71,13 +71,20 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
   
   // Extract price based on type
   let minPrice = 100;
+  let pricePerNight: number | undefined;
+  let totalPrice: number | undefined;
+  
   if (hotelData) {
     if (type === 'Service' && hotelData.minimumPrice) {
       minPrice = hotelData.minimumPrice;
     } else if (type === 'Experience' && hotelData.price) {
       minPrice = hotelData.price;
-    } else if (type === 'Hotel' && (hotelData.minPrice || hotelData.pricePerNight)) {
-      minPrice = hotelData.minPrice || hotelData.pricePerNight;
+    } else if (type === 'Hotel') {
+      if (hotelData.minPrice || hotelData.pricePerNight) {
+        minPrice = hotelData.minPrice || hotelData.pricePerNight;
+      }
+      pricePerNight = hotelData.pricePerNight;
+      totalPrice = hotelData.totalPrice;
     }
   }
   
@@ -117,6 +124,15 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
   const heureDebut = hotelData?.heureDebut;
   const heureFin = hotelData?.heureFin;
 
+  // Extract additional props for ItemCard
+  const nbLit = hotelData?.nbLit;
+  const nbChambre = hotelData?.nbChambre;
+  const nbNuit = hotelData?.nbNuit;
+  const maximumPrice = hotelData?.maximumPrice;
+  const nbPeople = hotelData?.nbPeople;
+  const distance = hotelData?.distance || hotelData?.distancce || 0;
+  const address = hotelData?.address || hotelData?.adresse || '';
+
   return (
     <Details
       id={currentId}
@@ -124,6 +140,8 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
       type={type}
       genre={genre}
       minPrice={minPrice}
+      pricePerNight={pricePerNight}
+      totalPrice={totalPrice}
       status={status}
       description={description}
       tags={tags}
@@ -138,6 +156,13 @@ const HotelDetailWrapper: React.FC<HotelDetailWrapperProps> = ({ hotelData: prop
       jourFin={jourFin}
       heureDebut={heureDebut}
       heureFin={heureFin}
+      nbLit={nbLit}
+      nbChambre={nbChambre}
+      nbNuit={nbNuit}
+      maximumPrice={maximumPrice}
+      nbPeople={nbPeople}
+      distance={distance}
+      address={address}
     />
   );
 };

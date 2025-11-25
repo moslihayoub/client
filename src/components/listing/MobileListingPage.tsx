@@ -2,7 +2,6 @@ import React from 'react';
 import PublicityBanner from './PublicityBanner';
 import MostFrequentSection from './MostFrequentSection';
 import NearestSection from './NearestSection';
-import PromotionSection from './PromotionSection';
 import { ServiceCardProps, ExperienceCardProps } from '../HoltelCard';
 
 interface MobileListingPageProps {
@@ -11,7 +10,6 @@ interface MobileListingPageProps {
   allItems: (ServiceCardProps | ExperienceCardProps)[];
   mostFrequentItems: (ServiceCardProps | ExperienceCardProps)[];
   nearestItems: (ServiceCardProps | ExperienceCardProps)[];
-  promotionItems: (ServiceCardProps | ExperienceCardProps)[];
 }
 
 function MobileListingPage({
@@ -20,7 +18,6 @@ function MobileListingPage({
   allItems,
   mostFrequentItems,
   nearestItems,
-  promotionItems,
 }: MobileListingPageProps) {
   // Mock publicity banners - in real app, these would come from props or API
   const publicityBanners = [
@@ -100,13 +97,6 @@ function MobileListingPage({
           </div>
         </div>
       </div>
-
-      {/* Promotion Section */}
-      <PromotionSection
-        type={type}
-        items={promotionItems.length > 0 ? promotionItems : []}
-        count={promotionItems.length}
-      />
     </div>
   );
 }

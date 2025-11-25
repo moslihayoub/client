@@ -146,19 +146,16 @@ const SideListing: React.FC<SideListingProps> = ({ onCollapseChange }) => {
         className={`
           fixed mt-[7%] rounded-[12px]
           shadow-md
-          flex flex-col items-start py-6 pb-8
-          overflow-y-auto
-          scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-transparent
-          scrollbar-thumb-[linear-gradient(to_bottom,#2dd4bf,#0ea5e9,#d946ef)]
+          flex flex-col items-start
           transition-all duration-300 ease-in-out
-          ${isCollapsed ? 'w-[80px] h-[80%] px-3 rounded-[26px] scrollbar-hide overflow-y-hidden' : 'w-[22%] px-4 h-[85%]'}
+          ${isCollapsed ? 'w-[80px] h-[80%] px-3 rounded-[26px]' : 'w-[22%] h-[80%]'}
         `}
         style={{
           background: 'var(--colors-slate-50, #F8FAFC)'
         }}
       >
-        {/* Top icons */}
-        <div className={`flex items-center w-full mb-[22px] gap-[12px] ${isCollapsed ? 'flex-col' : 'flex-row '}`}>
+        {/* Top icons - Fixed at top */}
+        <div className={`flex items-center w-full gap-[12px] py-6 px-4 ${isCollapsed ? 'flex-col px-3' : 'flex-row'} flex-shrink-0`}>
           {/* Menu button inside collapsed sidebar - First position */}
           {isCollapsed && (
             <button
@@ -197,6 +194,16 @@ const SideListing: React.FC<SideListingProps> = ({ onCollapseChange }) => {
           {!isCollapsed && <div className="w-12 h-12"></div>}
         </div>
 
+        {/* Scrollable content area - starts below top icons */}
+        <div
+          className={`
+            flex-1 w-full overflow-y-auto
+            scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-transparent
+            scrollbar-thumb-[linear-gradient(to_bottom,#2dd4bf,#0ea5e9,#d946ef)]
+            ${isCollapsed ? 'scrollbar-hide overflow-y-hidden px-3' : 'px-4'}
+          `}
+        >
+
         {/* Single divider separating PNG icons from outline icons */}
         {isCollapsed && (
           <hr className="h-[1px] w-full bg-slate-200 mb-[20px]" />
@@ -231,6 +238,7 @@ const SideListing: React.FC<SideListingProps> = ({ onCollapseChange }) => {
           ]}
           isCollapsed={isCollapsed}
         />
+        </div>
       </div>
     </div>
   );
@@ -252,6 +260,8 @@ const Section: React.FC<SectionProps> = ({ title, icon, icon2, coloredIcon, item
   
   // Only truncate for Bookmark and Historique sections
   const shouldTruncate = title === "Bookmark" || title === "Historique";
+  // Hide menu button for Connect section
+  const showMenuButton = title !== "Connect";
   
   // Close menu when clicking outside
   useEffect(() => {
@@ -303,59 +313,61 @@ const Section: React.FC<SectionProps> = ({ title, icon, icon2, coloredIcon, item
                 key={i}
                 className="text-slate-800 text-[14px] font-bricolagegrotesque font-normal flex justify-between items-center py-[4px] hover:bg-[#EFF3F9] rounded-lg px-[10px] transition-colors duration-200 relative"
               >
-                <span className={`w-[93%] leading-relaxed font-vendsans ${shouldTruncate ? 'truncate' : ''}`}>{item}</span>
-                <div className="relative">
-                  <button 
-                    onClick={(e) => handleMenuClick(i, e)}
-                    className="text-slate-500 hover:text-slate-700 transition-colors duration-200 menu-button"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="13" height="4" viewBox="0 0 13 4" fill="none">
-                      <path d="M1.53125 0C1.73234 -4.23758e-09 1.93145 0.0396068 2.11723 0.116559C2.30301 0.193512 2.47182 0.306303 2.61401 0.448493C2.7562 0.590683 2.86899 0.759486 2.94594 0.945266C3.02289 1.13105 3.0625 1.33016 3.0625 1.53125C3.0625 1.73234 3.02289 1.93145 2.94594 2.11723C2.86899 2.30301 2.7562 2.47182 2.61401 2.61401C2.47182 2.7562 2.30301 2.86899 2.11723 2.94594C1.93145 3.02289 1.73234 3.0625 1.53125 3.0625C1.12514 3.0625 0.735658 2.90117 0.448493 2.61401C0.161328 2.32684 0 1.93736 0 1.53125C0 1.12514 0.161328 0.735658 0.448493 0.448493C0.735658 0.161328 1.12514 8.55819e-09 1.53125 0ZM6.125 0C6.32609 -4.23758e-09 6.5252 0.0396068 6.71098 0.116559C6.89676 0.193512 7.06557 0.306303 7.20776 0.448493C7.34995 0.590683 7.46274 0.759486 7.53969 0.945266C7.61664 1.13105 7.65625 1.33016 7.65625 1.53125C7.65625 1.73234 7.61664 1.93145 7.53969 2.11723C7.46274 2.30301 7.34995 2.47182 7.20776 2.61401C7.06557 2.7562 6.89676 2.86899 6.71098 2.94594C6.5252 3.02289 6.32609 3.0625 6.125 3.0625C5.71889 3.0625 5.32941 2.90117 5.04224 2.61401C4.75508 2.32684 4.59375 1.93736 4.59375 1.53125C4.59375 1.12514 4.75508 0.735658 5.04224 0.448493C5.32941 0.161328 5.71889 8.55819e-09 6.125 0ZM10.7188 0C10.9198 -4.23758e-09 11.119 0.0396068 11.3047 0.116559C11.4905 0.193512 11.6593 0.306303 11.8015 0.448493C11.9437 0.590683 12.0565 0.759486 12.1334 0.945266C12.2104 1.13105 12.25 1.33016 12.25 1.53125C12.25 1.73234 12.2104 1.93145 12.1334 2.11723C12.0565 2.30301 11.9437 2.47182 11.8015 2.61401C11.6593 2.7562 11.4905 2.86899 11.3047 2.94594C11.119 3.02289 10.9198 3.0625 10.7188 3.0625C10.3126 3.0625 9.92316 2.90117 9.63599 2.61401C9.34883 2.32684 9.1875 1.93736 9.1875 1.53125C9.1875 1.12514 9.34883 0.735658 9.63599 0.448493C9.92316 0.161328 10.3126 8.55819e-09 10.7188 0Z" fill="#64748B" />
-                    </svg>
-                  </button>
-                  
-                  {/* Popup Menu */}
-                  {openMenuIndex === i && (
-                    <div 
-                      className="menu-popup absolute right-0 top-full mt-1 w-[220px] bg-white rounded-[24px] p-[14px] z-50"
-                      style={{
-                        boxShadow: '0px 4px 20px 0px rgba(0, 0, 0, 0.10)'
-                      }}
+                <span className={`${showMenuButton ? 'w-[93%]' : 'w-full'} leading-relaxed font-vendsans ${shouldTruncate ? 'truncate' : ''}`}>{item}</span>
+                {showMenuButton && (
+                  <div className="relative">
+                    <button 
+                      onClick={(e) => handleMenuClick(i, e)}
+                      className="text-slate-500 hover:text-slate-700 transition-colors duration-200 menu-button"
                     >
-                      <button 
-                        onClick={() => setOpenMenuIndex(null)}
-                        className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-slate-700 hover:bg-slate-50 transition-colors duration-150 font-vendsans"
+                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="4" viewBox="0 0 13 4" fill="none">
+                        <path d="M1.53125 0C1.73234 -4.23758e-09 1.93145 0.0396068 2.11723 0.116559C2.30301 0.193512 2.47182 0.306303 2.61401 0.448493C2.7562 0.590683 2.86899 0.759486 2.94594 0.945266C3.02289 1.13105 3.0625 1.33016 3.0625 1.53125C3.0625 1.73234 3.02289 1.93145 2.94594 2.11723C2.86899 2.30301 2.7562 2.47182 2.61401 2.61401C2.47182 2.7562 2.30301 2.86899 2.11723 2.94594C1.93145 3.02289 1.73234 3.0625 1.53125 3.0625C1.12514 3.0625 0.735658 2.90117 0.448493 2.61401C0.161328 2.32684 0 1.93736 0 1.53125C0 1.12514 0.161328 0.735658 0.448493 0.448493C0.735658 0.161328 1.12514 8.55819e-09 1.53125 0ZM6.125 0C6.32609 -4.23758e-09 6.5252 0.0396068 6.71098 0.116559C6.89676 0.193512 7.06557 0.306303 7.20776 0.448493C7.34995 0.590683 7.46274 0.759486 7.53969 0.945266C7.61664 1.13105 7.65625 1.33016 7.65625 1.53125C7.65625 1.73234 7.61664 1.93145 7.53969 2.11723C7.46274 2.30301 7.34995 2.47182 7.20776 2.61401C7.06557 2.7562 6.89676 2.86899 6.71098 2.94594C6.5252 3.02289 6.32609 3.0625 6.125 3.0625C5.71889 3.0625 5.32941 2.90117 5.04224 2.61401C4.75508 2.32684 4.59375 1.93736 4.59375 1.53125C4.59375 1.12514 4.75508 0.735658 5.04224 0.448493C5.32941 0.161328 5.71889 8.55819e-09 6.125 0ZM10.7188 0C10.9198 -4.23758e-09 11.119 0.0396068 11.3047 0.116559C11.4905 0.193512 11.6593 0.306303 11.8015 0.448493C11.9437 0.590683 12.0565 0.759486 12.1334 0.945266C12.2104 1.13105 12.25 1.33016 12.25 1.53125C12.25 1.73234 12.2104 1.93145 12.1334 2.11723C12.0565 2.30301 11.9437 2.47182 11.8015 2.61401C11.6593 2.7562 11.4905 2.86899 11.3047 2.94594C11.119 3.02289 10.9198 3.0625 10.7188 3.0625C10.3126 3.0625 9.92316 2.90117 9.63599 2.61401C9.34883 2.32684 9.1875 1.93736 9.1875 1.53125C9.1875 1.12514 9.34883 0.735658 9.63599 0.448493C9.92316 0.161328 10.3126 8.55819e-09 10.7188 0Z" fill="#64748B" />
+                      </svg>
+                    </button>
+                    
+                    {/* Popup Menu */}
+                    {openMenuIndex === i && (
+                      <div 
+                        className="menu-popup absolute right-0 top-full mt-1 w-[220px] bg-white rounded-[24px] p-[14px] z-50"
+                        style={{
+                          boxShadow: '0px 4px 20px 0px rgba(0, 0, 0, 0.10)'
+                        }}
                       >
-                        Partager le chat
-                      </button>
-                      <button 
-                        onClick={() => setOpenMenuIndex(null)}
-                        className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-slate-700 hover:bg-slate-50 transition-colors duration-150 font-vendsans"
-                      >
-                        Voir les détails
-                      </button>
-                      <button 
-                        onClick={() => setOpenMenuIndex(null)}
-                        className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-slate-700 hover:bg-slate-50 transition-colors duration-150 font-vendsans"
-                      >
-                        Ouvrir dans le navigateur
-                      </button>
-                      <hr className="my-[12px] border-slate-200" />
-                      <button 
-                        onClick={() => setOpenMenuIndex(null)}
-                        className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-slate-700 hover:bg-slate-50 transition-colors duration-150 font-vendsans"
-                      >
-                        Renommer
-                      </button>
-                      <button 
-                        onClick={() => setOpenMenuIndex(null)}
-                        className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-[#D946EF] hover:bg-slate-50 transition-colors duration-150 font-vendsans"
-                      >
-                        Supprimer
-                      </button>
-                    </div>
-                  )}
-                </div>
+                        <button 
+                          onClick={() => setOpenMenuIndex(null)}
+                          className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-slate-700 hover:bg-slate-50 transition-colors duration-150 font-vendsans"
+                        >
+                          Partager le chat
+                        </button>
+                        <button 
+                          onClick={() => setOpenMenuIndex(null)}
+                          className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-slate-700 hover:bg-slate-50 transition-colors duration-150 font-vendsans"
+                        >
+                          Voir les détails
+                        </button>
+                        <button 
+                          onClick={() => setOpenMenuIndex(null)}
+                          className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-slate-700 hover:bg-slate-50 transition-colors duration-150 font-vendsans"
+                        >
+                          Ouvrir dans le navigateur
+                        </button>
+                        <hr className="my-[12px] border-slate-200" />
+                        <button 
+                          onClick={() => setOpenMenuIndex(null)}
+                          className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-slate-700 hover:bg-slate-50 transition-colors duration-150 font-vendsans"
+                        >
+                          Renommer
+                        </button>
+                        <button 
+                          onClick={() => setOpenMenuIndex(null)}
+                          className="w-full text-left px-4 py-2 text-[14px] rounded-[7px] text-[#D946EF] hover:bg-slate-50 transition-colors duration-150 font-vendsans"
+                        >
+                          Supprimer
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </li>
             ))}
           </ul>

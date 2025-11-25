@@ -20,7 +20,7 @@ function HomePage2() {
                 <Navbar logoColor="normal" background="transparent" iconVariant="transparent" Icon={ColSide}/>
 
                 {/* Desktop Layout - Hidden on mobile */}
-                <div className="hidden md:flex flex-col justify-center items-center h-full mt-2">
+                <div className="hidden md:flex flex-col justify-center items-center h-full mt-[3%]">
                     <div className="flex flex-row items-center justify-center gap-[72px] w-full">
                         {/* Left Section */}
                         <div className='flex flex-col gap-[18px] justify-center items-center w-[559px] h-[335px]'>
@@ -43,7 +43,7 @@ function HomePage2() {
                 </div>
 
                 {/* Mobile Layout - Visible only on mobile */}
-                <div className="md:hidden flex flex-col items-center justify-center mt-[20%] gap-[18px] h-full w-full ">
+                <div className="md:hidden flex flex-col items-center justify-center mt-[25%] gap-[18px] h-full w-full ">
                     {/* Title */}
                     <div className={`flex flex-col justify-center items-center transition-all duration-500 ${mobileFullscreen ? 'blur-sm' : ''}`}>
                         <p className="font-bricolagegrotesque font-semibold text-[24px] text-center text-slate-950 leading-[40px]">Votre logement idéal!</p>
