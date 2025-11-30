@@ -52,6 +52,83 @@ const HotelListing: React.FC = () => {
   const [currentActiveItem, setCurrentActiveItem] = useState('');
   const [isMobile, setIsMobile] = useState(false);
 
+  // Generate markers dynamically from hotels/services/experiences based on selected tab
+  const generateMarkers = () => {
+    const baseLat = 31.6295; // Marrakech base latitude
+    const baseLng = -7.9811; // Marrakech base longitude
+    
+    let items: any[] = [];
+    let itemType: 'hotel' | 'service' | 'experience' | 'health' = 'hotel';
+    
+    if (selectedTab === 'logement') {
+      items = hotels;
+      itemType = 'hotel';
+    } else if (selectedTab === 'service') {
+      items = services;
+      itemType = 'service';
+    } else if (selectedTab === 'experience') {
+      items = experiences;
+      itemType = 'experience';
+    } else if (selectedTab === 'sante') {
+      items = healths;
+      itemType = 'health';
+    }
+
+    return items.map((item, index) => {
+      // Generate slightly different coordinates for each item
+      const latOffset = (Math.sin(index * 0.5) * 0.02); // ~2km variation
+      const lngOffset = (Math.cos(index * 0.5) * 0.02); // ~2km variation
+      
+      // Calculate distance from center (in km)
+      const distance = Math.sqrt(latOffset * latOffset + lngOffset * lngOffset) * 111; // Convert to km
+      
+      const images = item.images || [];
+      
+      return {
+        id: item.id,
+        latitude: baseLat + latOffset,
+        longitude: baseLng + lngOffset,
+        title: item.title,
+        rating: item.rating || 0,
+        distance: distance,
+        images: images,
+        type: itemType,
+        // Hotel fields
+        nbLit: item.nbLit,
+        nbChambre: item.nbChambre,
+        nbNuit: item.nbNuit,
+        totalPrice: item.totalPrice,
+        pricePerNight: item.pricePerNight,
+        // Service/Experience fields
+        genre: item.genre,
+        minimumPrice: item.minimumPrice,
+        maximumPrice: item.maximumPrice,
+        status: item.status,
+        nbRating: item.nbRating,
+        // Experience fields
+        price: item.price,
+        nbPeople: item.nbPeople,
+        // Health fields
+        jourDebut: item.jourDebut,
+        jourFin: item.jourFin,
+        heureDebut: item.heureDebut,
+        heureFin: item.heureFin,
+        onCardClick: () => {
+          // Dynamic navigation based on type with state
+          if (itemType === 'hotel') {
+            navigate(`/details/${item.id}`, { state: { hotel: item } });
+          } else if (itemType === 'service') {
+            navigate(`/details/${item.id}`, { state: { service: item } });
+          } else if (itemType === 'experience') {
+            navigate(`/details/${item.id}`, { state: { experience: item } });
+          } else if (itemType === 'health') {
+            navigate(`/details/${item.id}`, { state: { health: item } });
+          }
+        }
+      };
+    }).filter(marker => (marker.pricePerNight || marker.minimumPrice || marker.price) && marker.images.length > 0);
+  };
+
   // Detect mobile on mount and resize
   useEffect(() => {
     const checkMobile = () => {
@@ -62,12 +139,11 @@ const HotelListing: React.FC = () => {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Animate searchbar on page load
+  // Animate searchbar on initial page load (slide up from bottom)
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsSearchBarVisible(true);
-    }, 100); // Small delay to ensure smooth animation
-    
+    }, 350); // Slight delay so it slides up after content renders
     return () => clearTimeout(timer);
   }, []);
 
@@ -179,10 +255,10 @@ const HotelListing: React.FC = () => {
           </div>
 
           {/* Card listings - Takes remaining width */}
-          <div ref={listRef} className="flex-1 flex overflow-y-auto scrollbar-hide mt-[5%] sm:mt-[18%] md:mt-[5%] lg:mt-[5%] xl:mt-[5%]">
+          <div ref={listRef} className="flex-1 flex overflow-y-auto scrollbar-hide pt-[5%] sm:pt-[10%] md:pt-[5%] lg:pt-[5%] xl:pt-[5%]">
             <div ref={cardsContainerRef} className={`p-6 sm:p-3 md:p-6 lg:p-6 xl:p-6 sm:pt-[28%] md:pt-6 lg:pt-6 xl:pt-6 ${isSidebarCollapsed ? 'sm:w-full md:w-full lg:w-[87%] xl:w-[87%]' : 'sm:w-full md:w-full lg:w-[82%] xl:w-[82%]'} ml-[68px] sm:ml-0 md:ml-0 lg:ml-[68px] xl:ml-[68px]`}>
               {/* Mobile Tab Selection - Fixed position on small devices */}
-              <div ref={tabSelectionRef} className={`fixed top-[11%] left-0 right-0 z-20 sm:block md:hidden lg:hidden xl:hidden px-[12px] mt-1 h-[8%] transform transition-all duration-500 ease-in-out ${isMobileTabVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
+              <div ref={tabSelectionRef} className={`fixed top-[8%] left-0 right-0 z-20 sm:block md:hidden lg:hidden xl:hidden px-[12px] mt-1 h-[8%] transform transition-all duration-500 ease-in-out ${isMobileTabVisible ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'
                 }`}>
                 <TabSelectionMobile
                   selectedTab={selectedTab}
@@ -214,14 +290,14 @@ const HotelListing: React.FC = () => {
               <div className="text-left mb-[28px]">
                 {
                   currentActiveItem === 'heart' && (
-                    <h1 className="text-[36px] sm:text-[24px] md:text-[36px] lg:text-[36px] xl:text-[36px] sm:leading-[36px] md:leading-[48px] lg:leading-[48px] xl:leading-[48px] font-bold font-bricolagegrotesque text-slate-800 mb-4">
+                    <h1 className="text-[30px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[30px] sm:leading-[36px] md:leading-[48px] lg:leading-[48px] xl:leading-[48px] font-bold font-bricolagegrotesque text-slate-800 mb-4">
                       Mes Favoris
                     </h1>
                   )
                 }
                 {
                   currentActiveItem !== 'heart' && (
-                    <h1 className="text-[36px] sm:text-[24px] md:text-[36px] lg:text-[36px] xl:text-[36px] sm:leading-[36px] md:leading-[48px] lg:leading-[48px] xl:leading-[48px] font-bold font-bricolagegrotesque text-slate-800 mb-4">
+                    <h1 className="text-[30px] sm:text-[24px] md:text-[30px] lg:text-[30px] xl:text-[30px] sm:leading-[36px] md:leading-[48px] lg:leading-[48px] xl:leading-[48px] font-bold font-bricolagegrotesque text-slate-800 mb-4">
                       Voyage pour un riad traditionnel à Marrakech
                     </h1>
                   )
@@ -550,54 +626,12 @@ const HotelListing: React.FC = () => {
                   {/* Render Leaflet Map */}
                   <div className="w-full h-[480px] mb-[30px]">
                     <Map 
+                      key={`map-${selectedTab}-${selectedAffichageType}`}
                       latitude={31.6295}
                       longitude={-7.9811}
                       height="480px"
                       className="w-full"
-                      markers={[
-                        {
-                          latitude: 31.6295,
-                          longitude: -7.9811,
-                          title: 'Gaming Kids 212',
-                          rating: 3,
-                          maxRating: 5
-                        },
-                        {
-                          latitude: 31.6350,
-                          longitude: -7.9850,
-                          title: 'Hotel Royal',
-                          rating: 4,
-                          maxRating: 5
-                        },
-                        {
-                          latitude: 31.6250,
-                          longitude: -7.9750,
-                          title: 'Resort Paradise',
-                          rating: 5,
-                          maxRating: 5
-                        },
-                        {
-                          latitude: 31.6400,
-                          longitude: -7.9900,
-                          title: 'City Center Hotel',
-                          rating: 4,
-                          maxRating: 5
-                        },
-                        {
-                          latitude: 31.6200,
-                          longitude: -7.9700,
-                          title: 'Luxury Suites',
-                          rating: 5,
-                          maxRating: 5
-                        },
-                        {
-                          latitude: 31.6320,
-                          longitude: -7.9780,
-                          title: 'Budget Inn',
-                          rating: 3,
-                          maxRating: 5
-                        }
-                      ]}
+                      markers={generateMarkers()}
                     />
                   </div>
                 </div>
@@ -608,14 +642,14 @@ const HotelListing: React.FC = () => {
               <div
                 className={`fixed sm:hidden md:block lg:block xl:block z-20 bottom-4 
                     flex items-end justify-center 
-                    p-4 transition-all duration-300 ease-in-out
+                    p-4 transition-all duration-500 ease-out
                  ${isSearchBarVisible
                     ? 'opacity-100'
                     : 'opacity-0 pointer-events-none'
                   }`}
                 style={{
                   left: `${searchBarPosition.left}px`,
-                  transform: `translateX(-50%) translateY(${isSearchBarVisible ? '0' : '100%'})`,
+                  transform: `translateX(-50%) translateY(${isSearchBarVisible ? '0' : '160%'})`,
                   width: `${Math.min(searchBarPosition.width * 0.9, 700)}px`,
                   height: fullscreen ? '70%' : 'auto',
                   willChange: 'transform, opacity',

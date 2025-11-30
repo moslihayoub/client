@@ -156,12 +156,12 @@ function Details({ id, title, type, genre, minPrice, pricePerNight, totalPrice, 
 
                 {/* Content area */}
                 <div className="flex-1 overflow-y-auto scrollbar-hide mb-[50px]">
-                    <div className={`flex flex-col items-center justify-center px-[12px]  mt-[8%] sm:mt-[28%] md:mt-[8%] lg:mt-[8%] xl:mt-[8%] ${isSidebarCollapsed ? 'sm:w-full md:w-full lg:w-[87%] xl:w-[87%]' : 'sm:w-full md:w-full lg:w-[82%] xl:w-[82%]'} ml-[68px] sm:ml-0 md:ml-0 lg:ml-[68px] xl:ml-[68px] ${isSidebarCollapsed ? 'sm:w-full md:w-full lg:w-[87%] xl:w-[87%]' : 'sm:w-full md:w-full lg:w-[82%] xl:w-[82%]'}`}>
+                    <div className={`flex flex-col items-center justify-center px-[12px]  mt-[8%] sm:mt-[20%] md:mt-[8%] lg:mt-[8%] xl:mt-[8%] ${isSidebarCollapsed ? 'sm:w-full md:w-full lg:w-[87%] xl:w-[87%]' : 'sm:w-full md:w-full lg:w-[82%] xl:w-[82%]'} ml-[68px] sm:ml-0 md:ml-0 lg:ml-[68px] xl:ml-[68px] ${isSidebarCollapsed ? 'sm:w-full md:w-full lg:w-[87%] xl:w-[87%]' : 'sm:w-full md:w-full lg:w-[82%] xl:w-[82%]'}`}>
                         {/* Breadcrumb - desktop only */}
                         <div className="hidden md:flex flex-row gap-2 items-center justify-start w-full mb-[24px]">
                             <span className="text-[16px] font-bricolagegrotesque">
                                 <Link to="/hotels" className="text-sky-500 font-bricolagegrotesque">
-                                    Accueil
+                                    Retour
                                 </Link>
                             </span>
                             <span className="text-gray-500 font-bricolagegrotesque">/</span>
@@ -599,6 +599,11 @@ function Details({ id, title, type, genre, minPrice, pricePerNight, totalPrice, 
                                         longitude={-7.9811}
                                         height="480px"
                                         className="w-full"
+                                        title={title}
+                                        rating={rating}
+                                        maxRating={5}
+                                        pricePerNight={pricePerNight || minPrice}
+                                        isDetailsPage={true}
                                     />
                             </div>
                         </div>
@@ -719,7 +724,7 @@ function Details({ id, title, type, genre, minPrice, pricePerNight, totalPrice, 
                         )}
 
                         {/* Desktop Footer */}
-                        <div className={`fixed bottom-0 left-0 sm:left-0 ${isSidebarCollapsed ? 'md:left-[calc(2%+80px+2px)] lg:left-[calc(2%+80px+2px)] xl:left-[calc(2%+80px+2px)]' : 'md:left-[calc(2%+22%+1px)] lg:left-[calc(2%+22%+1px)] xl:left-[calc(2%+22%+1px)]'} right-0 flex flex-row gap-[12px] items-center justify-center sm:justify-center md:justify-start lg:justify-start xl:justify-start w-full px-4 sm:px-4 md:px-5 lg:px-5 xl:px-5 py-3 sm:py-3 md:py-4 lg:py-4 xl:py-4 bg-white z-20 transition-all duration-300 ease-in-out sm:hidden md:flex`}>
+                        <div className={`fixed bottom-0 left-0 sm:left-0 ${isSidebarCollapsed ? 'md:left-[calc(2%+63px)] lg:left-[calc(2%+63px)] xl:left-[calc(2%+63px)]' : 'md:left-[calc(2%+20%+1px)] lg:left-[calc(2%+20%+1px)] xl:left-[calc(2%+20%+1px)]'} right-0 flex flex-row gap-[12px] items-center justify-center sm:justify-center md:justify-start lg:justify-start xl:justify-start w-full px-4 sm:px-4 md:px-5 lg:px-5 xl:px-5 py-3 sm:py-3 md:py-4 lg:py-4 xl:py-4 bg-white z-20 transition-all duration-300 ease-in-out sm:hidden md:flex`}>
                         <div className='flex flex-row gap-[12px] md:ml-2 lg:ml-[80px] xl:ml-[80px]'>
                                 <button className='h-[40px] sm:h-[38px] md:h-[38px] lg:h-[38px] xl:h-[38px] rounded-[12px] px-[16px] flex gap-[12px] items-center justify-center whitespace-nowrap min-w-[150px] sm:min-w-[150px] md:min-w-[150px] lg:min-w-[171px] xl:min-w-[171px]' style={{ background: 'radial-gradient(262.5% 262.5% at 50% -97.5%, var(--colors-teal-400, #2DD4BF) 0%, var(--colors-sky-500, #0EA5E9) 55%, var(--colors-fuchsia-500, #D946EF) 100%)', boxShadow: '0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1)' }}>
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

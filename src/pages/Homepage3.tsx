@@ -117,7 +117,7 @@ function Homepage3() {
                     </div>
 
                     {/* Desktop Layout */}
-                    <div className="hidden md:flex flex-col items-center justify-center w-full max-w-7xl mx-auto gap-[12px] mt-[3%]">
+                    <div className="hidden md:flex flex-col items-center justify-center w-full max-w-7xl mx-auto gap-[12px] mt-[1%]">
                         {/* Header Section */}
                         <div className="flex flex-col items-center text-center w-full">
                             <h1 className="text-[36px] font-semibold text-slate-950 font-bricolagegrotesque leading-[40px] mb-0">
@@ -138,7 +138,7 @@ function Homepage3() {
 
             {/* SearchBar Container - Fixed at bottom center */}
             {!isMobileMenuOpen && (
-                <div className='fixed rounded-[22px] z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center p-4 mx-0 md:mx-[25%] transition-all duration-500 ease-in-out bg-gradient-to-b from-transparent sm:from-[24.52%] to-transparent backdrop-blur-[1px]'
+                <div className='fixed rounded-[22px] z-20 bottom-0 left-0 h-[23%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center p-4 mx-0 md:mx-[25%] transition-all duration-500 ease-in-out bg-gradient-to-b from-transparent sm:from-[24.52%] to-transparent backdrop-blur-[1px]'
                     style={{ height: fullscreen ? '70%' : '' }}
                 >
                     {isMobile ? ( 

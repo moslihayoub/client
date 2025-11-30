@@ -42,7 +42,7 @@ function NearestSection({ type, items, distance, count }: NearestSectionProps) {
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0" >
           <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="#020617" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-        <div className="flex flex-col gap-[4px] flex-1">
+        <div className="flex flex-col gap-[4px] flex-1 mt-[3px]">
           <p className="text-base font-bold font-vendsans text-slate-950 leading-[16px]">
             Dans la région
           </p>

@@ -121,7 +121,7 @@ function Recommendation({ type, cards, items }: Inputprops) {
                         <div className='flex flex-col items-start justify-center w-full mb-5'>
                             <div className='flex flex-row gap-2 items-center justify-between w-full mb-[16px] flex-shrink-0'>
                                 <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>
-                                    {type === 'Urgences' ? 'Nexa Health' : type}
+                                    {type === 'Urgences' ? 'Nexa Health' : type + " similaires"}
                                 </p>
                                 <button className='text-[16px] w-[171px] h-[36px] bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out text-white pl-[15px] pr-[8px] py-[6px] rounded-[12px] flex flex-row items-center justify-center gap-[12px] flex-shrink-0 sm:hidden md:flex'>
                                     <div className='w-6 h-6 flex items-center justify-center'>
@@ -159,7 +159,7 @@ function Recommendation({ type, cards, items }: Inputprops) {
                         <div className='flex flex-col items-start justify-center w-full mb-5'>
                             <div className='flex flex-row gap-2 items-center justify-between w-full mb-[16px] flex-shrink-0'>
                                 <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>
-                                    {type === 'Urgences' ? 'Nexa Health' : type}
+                                    {type === 'Urgences' ? 'Nexa Health similaires' : type + " similaires"}
                                 </p>
                                 <button className='text-[16px] w-[171px] h-[36px] bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out text-white pl-[15px] pr-[8px] py-[6px] rounded-[12px] flex flex-row items-center justify-center gap-[12px] flex-shrink-0'>
                                     <div className='w-6 h-6 flex items-center justify-center'>
@@ -239,10 +239,10 @@ function Recommendation({ type, cards, items }: Inputprops) {
                     <div className='flex flex-col items-start justify-center w-full mb-5'>
                         <div className='flex flex-row gap-2 items-center justify-between w-full mb-[16px] flex-shrink-0'>
                             {type === 'Hotels' && (
-                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] text-slate-700 font-bold font-bricolagegrotesque'>Nexa Health</p>
+                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] text-slate-700 font-bold font-bricolagegrotesque'>Nexa Health similaires</p>
                             )}
                             {type !== 'Hotels' && (
-                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>{type} </p>
+                                <p className='text-[24px] sm:text-[20px] md:text-[16px] lg:text-[24px] xl:text-[24px] font-bold font-bricolagegrotesque'>{type} similaires</p>
                             )}
                             <button className='text-[16px] w-[171px] h-[36px] bg-cyan-500 hover:bg-slate-800 transition-all duration-300 ease-in-out text-white pl-[15px] pr-[8px] py-[6px] rounded-[12px] flex flex-row items-center justify-center gap-[12px] flex-shrink-0 sm:hidden md:flex'>
                                 <div className='w-6 h-6 flex items-center justify-center'>

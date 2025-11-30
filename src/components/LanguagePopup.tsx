@@ -8,6 +8,7 @@ interface LanguagePopupProps {
   onClose: () => void;
   onLanguageChange: (language: string) => void;
   currentLanguage: string;
+  position?: { top: number; right: number };
 }
 
 interface Language {
@@ -34,7 +35,7 @@ const languages: Language[] = [
   }
 ];
 
-export default function LanguagePopup({ isOpen, onClose, onLanguageChange, currentLanguage }: LanguagePopupProps) {
+export default function LanguagePopup({ isOpen, onClose, onLanguageChange, currentLanguage, position }: LanguagePopupProps) {
   const [selectedLanguage, setSelectedLanguage] = useState(currentLanguage);
 
   const handleLanguageSelect = (languageCode: string) => {
@@ -54,8 +55,14 @@ export default function LanguagePopup({ isOpen, onClose, onLanguageChange, curre
       />
 
       {/* Popup */}
-      <div className="fixed top-[54px] right-[172px] z-50">
-        <div className="bg-white border border-slate-300 rounded-3xl p-[14px] shadow-lg min-w-[180px]">
+      <div 
+        className="fixed z-50"
+        style={{
+          top: position?.top ?? 54,
+          right: position?.right ?? 172
+        }}
+      >
+        <div className="bg-white rounded-3xl p-[14px] shadow-lg min-w-[180px]">
           <div className="flex flex-col gap-[2px]">
             {languages.map((language) => (
               <button
