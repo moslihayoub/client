@@ -9,6 +9,10 @@ import TabSelectionMobile from '../components/TabSelectionMobile';
 import SearchBar from '../components/SearchBar';
 import { useNavigate } from 'react-router-dom';
 
+const DotLottie: React.FC<React.HTMLAttributes<HTMLElement> & { src: string; autoplay?: boolean; loop?: boolean; }> = (props) => {
+  return React.createElement('dotlottie-wc', props);
+};
+
 const Favorites: React.FC = () => {
   const { favorites } = useFavorites();
   const { isCollapsed: isSidebarCollapsed } = useSideListing();
@@ -20,6 +24,18 @@ const Favorites: React.FC = () => {
   const listRef = useRef<HTMLDivElement>(null);
   const cardsContainerRef = useRef<HTMLDivElement>(null);
   const cardsGridRef = useRef<HTMLDivElement>(null);
+
+  // Load Lottie script once
+  useEffect(() => {
+    const scriptId = 'dotlottie-wc-script';
+    if (!document.getElementById(scriptId)) {
+      const script = document.createElement('script');
+      script.id = scriptId;
+      script.type = 'module';
+      script.src = 'https://unpkg.com/@lottiefiles/dotlottie-wc@0.8.5/dist/dotlottie-wc.js';
+      document.body.appendChild(script);
+    }
+  }, []);
 
   // Filter favorites based on selected tab
   const filteredFavorites = favorites.filter(item => {
@@ -145,7 +161,7 @@ const Favorites: React.FC = () => {
                 <path d="M15 18L9 12L15 6" stroke="#475569" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </button>
-            <h1 className="text-[40px] sm:text-[32px] md:text-[36px] lg:text-[40px] xl:text-[40px] font-bold text-slate-800 font-bricolagegrotesque">
+            <h1 className="text-[30px] sm:text-[32px] md:text-[36px] lg:text-[30px] xl:text-[30px] font-bold text-slate-800 font-bricolagegrotesque">
               Mes Favoris
             </h1>
           </div>
@@ -163,12 +179,14 @@ const Favorites: React.FC = () => {
         </div>
 
         {filteredFavorites.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20">
-            <div className="w-32 h-32 mb-6 flex items-center justify-center">
-              <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M64 112C38.4 112 16 89.6 16 64C16 38.4 38.4 16 64 16C89.6 16 112 38.4 112 64C112 89.6 89.6 112 64 112ZM64 24C42.88 24 24 42.88 24 64C24 85.12 42.88 104 64 104C85.12 104 104 85.12 104 64C104 42.88 85.12 24 64 24Z" fill="#CBD5E1"/>
-                <path d="M64 92C46.32 92 32 77.68 32 60C32 42.32 46.32 28 64 28C81.68 28 96 42.32 96 60C96 77.68 81.68 92 64 92ZM64 36C50.8 36 40 46.8 40 60C40 73.2 50.8 84 64 84C77.2 84 88 73.2 88 60C88 46.8 77.2 36 64 36Z" fill="#E11D48"/>
-              </svg>
+          <div className="flex flex-col items-center justify-center">
+            <div className="flex items-center justify-center">
+              <DotLottie
+                src="https://lottie.host/426b3fd1-f036-4052-8e96-f1288e55d9cd/bSXz71PK1C.lottie"
+                style={{ width: '300px', height: '300px' }}
+                autoplay
+                loop
+              />
             </div>
             <p className="text-[20px] text-slate-500 font-vendsans mb-4">
               Aucun favori dans {selectedTab === 'logement' ? 'Logement' : selectedTab === 'service' ? 'Services' : selectedTab === 'experience' ? 'Expériences' : 'Health'}

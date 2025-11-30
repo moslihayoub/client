@@ -40,7 +40,7 @@ function Avis({ name, userImg, rating, comment, date, like, dislike }: AvisProps
                 </div>
             </div>
             </div>
-            <div className='flex items-start gap-2 w-[80%]'>
+            <div className='flex items-start gap-2 w-full'>
                 <p className='text-[16px] text-slate-800 font-bricolagegrotesque text-start'>{comment}</p>
             </div>
 

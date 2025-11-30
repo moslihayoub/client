@@ -50,8 +50,8 @@ function MenuComponent({ menu, description = "Découvrez notre menu riche et var
         <div className="flex flex-col gap-[16px] sm:gap-[22px] items-start justify-center w-full mb-[40px]">
             {/* Header */}
             <div className="flex flex-col gap-[12px] items-start justify-center w-full">
-                <p className="text-2xl font-bold font-bricolagegrotesque text-slate-800">Menu</p>
-                <p className="text-[16px] sm:text-lg text-slate-700 font-vendsans leading-[24px] sm:leading-[28px]">
+                <p className="text-[20px] font-bold font-bricolagegrotesque text-slate-800">Menu</p>
+                <p className="text-normal sm:text-lg text-slate-700 font-vendsans leading-[24px] sm:leading-[28px]">
                     {description}
                 </p>
             </div>
@@ -68,7 +68,7 @@ function MenuComponent({ menu, description = "Découvrez notre menu riche et var
                         return (
                             <div
                                 key={index}
-                                className="rounded-full p-[1.5px] shrink-0"
+                                className="rounded-full p-[1px] shrink-0"
                                 style={{
                                     background: 'radial-gradient(141.56% 141.56% at 50% -7.74%, #2DD4BF 0%, #0EA5E9 50.96%, #D946EF 100%)'
                                 }}
@@ -77,12 +77,12 @@ function MenuComponent({ menu, description = "Découvrez notre menu riche et var
                                     onClick={() => {
                                         setSelectedTag(tag);
                                     }}
-                                    className={`flex gap-[8px] items-center pl-[8px] pr-[16px] py-[8px] rounded-full shrink-0 transition-colors w-full h-full ${isActive
+                                    className={`flex gap-[6px] items-center pl-[6px] pr-[12px] py-[6px] rounded-full shrink-0 transition-colors w-full h-full ${isActive
                                             ? 'bg-sky-100'
                                             : 'bg-white'
                                         }`}
                                 >
-                                    <div className="w-[42px] h-[42px] rounded-full overflow-hidden shrink-0 bg-slate-200">
+                                    <div className="w-[32px] h-[32px] rounded-full overflow-hidden shrink-0 bg-slate-200">
                                         <img
                                             src={
                                                 tag === 'Tout'
@@ -93,7 +93,7 @@ function MenuComponent({ menu, description = "Découvrez notre menu riche et var
                                             className="w-full h-full object-cover"
                                         />
                                     </div>
-                                    <p className={`font-semibold text-base font-bricolagegrotesque ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-sky-500' : 'text-slate-600'
+                                    <p className={`font-semibold text-sm font-bricolagegrotesque ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-sky-500' : 'text-slate-600'
                                         }`}>
                                         {tag}
                                     </p>

@@ -22,13 +22,13 @@ function MobileListingPage({
   // Mock publicity banners - in real app, these would come from props or API
   const publicityBanners = [
     {
-      image: '/services/service-prop1.png',
+      image: '/pub/pub1.png',
       title: 'Réservez vos billets',
       subtitle: 'Profitez de 30 % de réduction sur les trois premiers matchs de la Coupe du Monde 2030 ! Réservez dès maintenant !',
       buttonText: 'Contactez-nous au : 0522 67 67 67',
     },
     {
-      image: '/services/service-prop2.png',
+      image: '/pub/pub2.png',
       title: 'Découvrez notre atelier de travail du bois !',
       subtitle: 'Réservez vos places dès maintenant pour une expérience créative inoubliable.',
       buttonText: 'Contactez-nous au : 0522 67 67 67',
@@ -36,7 +36,7 @@ function MobileListingPage({
   ];
 
   const singlePublicityBanner = {
-    image: '/services/service-prop3.png',
+    image: '/pub/pub2.png',
     title: 'Découvrez notre atelier de travail du bois !',
     subtitle: 'Réservez vos places dès maintenant pour une expérience créative inoubliable.',
     buttonText: 'Contactez-nous au : 0522 67 67 67',
@@ -75,26 +75,6 @@ function MobileListingPage({
             alt={singlePublicityBanner.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 flex flex-col justify-start items-start px-[25px] py-[24px]">
-            <div className="flex flex-col gap-[6px] items-start mb-[12px]">
-              <p className="text-[19.96px] font-bold font-bricolagegrotesque text-white leading-[21.9px] mb-0">
-                {singlePublicityBanner.title}
-              </p>
-              <p className="text-[12.96px] font-normal font-bricolagegrotesque text-white leading-[16px]">
-                {singlePublicityBanner.subtitle}
-              </p>
-            </div>
-            <button
-              className="bg-black rounded-[836.92px] px-[19.93px] py-[11.63px] flex gap-[9.97px] items-center justify-center shadow-lg mt-auto"
-            >
-              <p className="text-[13.29px] font-medium font-bricolagegrotesque text-white leading-[19.93px]">
-                {singlePublicityBanner.buttonText}
-              </p>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
         </div>
       </div>
     </div>

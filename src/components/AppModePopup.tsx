@@ -13,6 +13,7 @@ interface AppModePopupProps {
   onClose: () => void;
   onAppModeChange: (appMode: string) => void;
   currentAppMode: string;
+  position?: { top: number; right: number };
 }
 
 const SunCol: React.ComponentType = () => {
@@ -114,7 +115,7 @@ const appModes: AppMode[] = [
   }
 ];
 
-export default function AppModePopup({ isOpen, onClose, onAppModeChange, currentAppMode = 'system' }: AppModePopupProps) {
+export default function AppModePopup({ isOpen, onClose, onAppModeChange, currentAppMode = 'system', position }: AppModePopupProps) {
   const [selectedAppMode, setSelectedAppMode] = useState(currentAppMode);
 
   const handleAppModeSelect = (appModeCode: string) => {
@@ -134,8 +135,14 @@ export default function AppModePopup({ isOpen, onClose, onAppModeChange, current
       />
 
       {/* Popup */}
-      <div className="fixed top-[54px] right-[48px] z-50">
-        <div className="bg-white border border-slate-300 rounded-3xl p-[14px] shadow-lg min-w-[180px]">
+      <div 
+        className="fixed z-50"
+        style={{
+          top: position?.top ?? 54,
+          right: position?.right ?? 48
+        }}
+      >
+        <div className="bg-white rounded-3xl p-[14px] shadow-lg min-w-[180px]">
           <div className="flex flex-col gap-[2px]">
             {appModes.map((appMode) => (
               <button

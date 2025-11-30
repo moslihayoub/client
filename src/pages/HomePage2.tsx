@@ -43,7 +43,7 @@ function HomePage2() {
                 </div>
 
                 {/* Mobile Layout - Visible only on mobile */}
-                <div className="md:hidden flex flex-col items-center justify-center mt-[25%] gap-[18px] h-full w-full ">
+                <div className="md:hidden flex flex-col items-center justify-center mt-[20%] gap-[18px] h-full w-full ">
                     {/* Title */}
                     <div className={`flex flex-col justify-center items-center transition-all duration-500 ${mobileFullscreen ? 'blur-sm' : ''}`}>
                         <p className="font-bricolagegrotesque font-semibold text-[24px] text-center text-slate-950 leading-[40px]">Votre logement idéal!</p>

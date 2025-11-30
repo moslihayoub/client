@@ -21,7 +21,7 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import LanguagePopup from "./LanguagePopup";
-import ProfilePopup from "./ProfilePopup";
+import MorePopup from "./MorePopup";
 import Heart from "../svgs/white/Heart";
 import Bell from "../svgs/white/Bell";
 import Comparator from "../svgs/white/Comparator";
@@ -76,6 +76,7 @@ import ColAssistant from "../svgs/colored/ColAssistant";
 import CliAssistant from "../svgs/clicked/CliAssistant";
 import ColPlus from "../svgs/colored/ColPlus";
 import CliPlus from "../svgs/clicked/CliPlus";
+import AssistantChat from "./Assistant";
 
 interface NavbarProps {
     iconVariant?: "white" | "transparent"; // optional prop, defaults to transparent
@@ -135,9 +136,12 @@ export default function Navbar({
     const [pressedItems, setPressedItems] = useState<Set<string>>(new Set());
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [currentActiveItemState, setCurrentActiveItemState] = useState(currentActiveItem);
-    const [isProfilePopupOpen, setIsProfilePopupOpen] = useState(false);
-    const [profilePopupPosition, setProfilePopupPosition] = useState<{ top: number; right: number } | null>(null);
-    const profileButtonRef = useRef<HTMLButtonElement>(null);
+    const [isAssistantOpen, setIsAssistantOpen] = useState(false);
+    const [isMorePopupOpen, setIsMorePopupOpen] = useState(false);
+    const [morePopupPosition, setMorePopupPosition] = useState<{ top: number; right: number } | null>(null);
+    const moreButtonRef = useRef<HTMLButtonElement>(null);
+    const [languagePopupPosition, setLanguagePopupPosition] = useState<{ top: number; right: number } | null>(null);
+    const [appModePopupPosition, setAppModePopupPosition] = useState<{ top: number; right: number } | null>(null);
 
     const handleLanguageChanging = () => {
         setIsLanguagePopupOpen(!isLanguagePopupOpen);
@@ -263,17 +267,7 @@ export default function Navbar({
             ColoredIcon: ColProfile,
             ClickedIcon: CliProfile,
             size: "large",
-            img: profileImg,
-            onClick: () => {
-                if (profileButtonRef.current) {
-                    const rect = profileButtonRef.current.getBoundingClientRect();
-                    setProfilePopupPosition({
-                        top: rect.bottom + 8, // 8px below the button
-                        right: window.innerWidth - rect.right
-                    });
-                }
-                setIsProfilePopupOpen(!isProfilePopupOpen);
-            }
+            img: profileImg
         },
         {
             id: "assistant",
@@ -282,7 +276,8 @@ export default function Navbar({
             WhiteIcon: Assistant,
             ColoredIcon: ColAssistant,
             ClickedIcon: CliAssistant,
-            size: "large"
+            size: "large",
+            onClick: () => setIsAssistantOpen(!isAssistantOpen)
         },
         {
             id: "more",
@@ -291,7 +286,17 @@ export default function Navbar({
             WhiteIcon: Plus,
             ColoredIcon: ColPlus,
             ClickedIcon: CliPlus,
-            size: "normal"
+            size: "normal",
+            onClick: () => {
+                if (moreButtonRef.current) {
+                    const rect = moreButtonRef.current.getBoundingClientRect();
+                    setMorePopupPosition({
+                        top: rect.bottom + 8, // 8px below the button
+                        right: window.innerWidth - rect.right
+                    });
+                }
+                setIsMorePopupOpen(!isMorePopupOpen);
+            }
         }
     ]
 
@@ -330,12 +335,13 @@ export default function Navbar({
                             return (
                                 <button
                                     key={id}
-                                    className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`}
+                                    className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95 tooltip-container`}
                                     onMouseDown={() => handleItemPress(id)}
                                     onMouseUp={() => handleItemRelease(id, onClick)}
                                     onTouchStart={() => handleItemPress(id)}
                                     onTouchEnd={() => handleItemRelease(id, onClick)}
                                     aria-label={`App Mode: ${currentAppMode}`}
+                                    data-tooltip={`Mode: ${currentAppMode === 'light' ? 'Clair' : currentAppMode === 'dark' ? 'Sombre' : 'Système'}`}
                                 >
                                     <IconToShow />
                                     {!isPressed && <currentModeIcons.ColoredIcon />}
@@ -346,25 +352,24 @@ export default function Navbar({
                         // Regular handling for other buttons
                         const DefaultIcon = TransparentIcon;
                         const isActive = id === currentActiveItemState;
+                        const tooltipText = id === "heart" ? "Favoris" : 
+                                          id === "bell" ? "Notifications" : 
+                                          id === "comparator" ? "Comparateur" : 
+                                          id === "connect" ? "Connect" : name;
 
                         return (
                             <button
                                 key={id}
-                                className={`${buttonSize} group transition-all duration-150 h-full w-[45px] flex items-center justify-center relative `}
+                                className={`${buttonSize} group transition-all duration-150 h-full w-[45px] flex items-center justify-center relative tooltip-container`}
                                 onMouseDown={() => handleItemPress(id)}
                                 onMouseUp={() => handleItemRelease(id, onClick)}
                                 onTouchStart={() => handleItemPress(id)}
                                 onTouchEnd={() => handleItemRelease(id, onClick)}
                                 aria-label={name}
+                                data-tooltip={tooltipText}
                             >
-                                {/* Gradient bottom border for active state */}
-                                {isActive && (
-                                    <div className="absolute bottom-[-3px] sm:bottom-0 md:bottom-[-1px] lg:bottom-[-3px] xl:bottom-[-3px] left-[-8px] right-[-8px] h-[1.5px] bg-gradient-to-r from-teal-400 via-sky-500 to-fuchsia-500 origin-center" 
-                                         style={{
-                                             animation: 'borderSlide 0.4s ease-out, shimmer 3s ease-in-out infinite'
-                                         }} />
-                                )}
-                                
+                                {/* Removed gradient underline for active state */}
+
                                 {img ? (
                                     <img src={img} alt="Profile" className="w-full h-full rounded-full object-cover" />
                                 ) : (
@@ -432,17 +437,21 @@ export default function Navbar({
 
                         const DefaultIcon = TransparentIcon;
                         const IconToShow = isPressed ? ClickedIcon : DefaultIcon;
+                        const tooltipText = id === "profile" ? "Profil" : 
+                                          id === "assistant" ? "Assistant" : 
+                                          id === "more" ? "Plus" : name;
 
                         return (
                             <button 
                                 key={id} 
-                                ref={id === "profile" ? profileButtonRef : null}
-                                className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`} 
+                                ref={id === "more" ? moreButtonRef : null}
+                                className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95 tooltip-container`} 
                                 onMouseDown={() => handleItemPress(id)} 
                                 onMouseUp={() => handleItemRelease(id, onClick)} 
                                 onTouchStart={() => handleItemPress(id)} 
                                 onTouchEnd={() => handleItemRelease(id, onClick)} 
                                 aria-label={name}
+                                data-tooltip={tooltipText}
                             >
                                 {img ? (
                                     <img src={img} alt="Profile" className="w-full h-full rounded-full object-cover" />
@@ -458,12 +467,13 @@ export default function Navbar({
                 </div>
                 {/* Mobile: Hamburger Menu */}
                 <button
-                    className="md:hidden w-[34px] h-[34px] flex flex-col justify-center items-center gap-1"
+                    className="md:hidden w-[34px] h-[34px] flex flex-col justify-center items-center gap-1 tooltip-container"
                     onClick={() => {
                         setIsMobileMenuOpen(!isMobileMenuOpen);
                         setIsMobileMenu(!isMobileMenuOpen);
                     }}
                     aria-label="Toggle mobile menu"
+                    data-tooltip="Menu"
                 >
                     {/*<Icon />*/}
                     <ColSide />
@@ -485,6 +495,7 @@ export default function Navbar({
                 onClose={() => setIsLanguagePopupOpen(false)}
                 onLanguageChange={handleLanguageChange}
                 currentLanguage={currentLanguage}
+                position={languagePopupPosition || undefined}
             />
 
             {/* App Mode Popup */}
@@ -493,14 +504,44 @@ export default function Navbar({
                 onClose={() => setIsAppModePopupOpen(false)}
                 onAppModeChange={handleAppModeChange}
                 currentAppMode={currentAppMode}
+                position={appModePopupPosition || undefined}
             />
 
-            {/* Profile Popup */}
-            <ProfilePopup
-                isOpen={isProfilePopupOpen}
-                onClose={() => setIsProfilePopupOpen(false)}
-                position={profilePopupPosition || undefined}
+            {/* More Popup */}
+            <MorePopup
+                isOpen={isMorePopupOpen}
+                onClose={() => {
+                    setIsMorePopupOpen(false);
+                    setIsAppModePopupOpen(false);
+                    setIsLanguagePopupOpen(false);
+                }}
+                position={morePopupPosition || undefined}
+                onAppModeClick={() => {
+                    setIsLanguagePopupOpen(false);
+                    if (morePopupPosition) {
+                        // Position AppMode popup to the right of More popup
+                        setAppModePopupPosition({
+                            top: morePopupPosition.top,
+                            right: morePopupPosition.right - 180 - 8 // Language popup width (~180px) + gap (8px)
+                        });
+                    }
+                    setIsAppModePopupOpen(true);
+                }}
+                onLanguageClick={() => {
+                    setIsAppModePopupOpen(false);
+                    if (morePopupPosition) {
+                        // Position Language popup to the right of More popup
+                        setLanguagePopupPosition({
+                            top: morePopupPosition.top,
+                            right: morePopupPosition.right - 180 - 8 // Language popup width (~180px) + gap (8px)
+                        });
+                    }
+                    setIsLanguagePopupOpen(true);
+                }}
             />
+
+            {/* Assistant Chat */}
+            <AssistantChat isOpen={isAssistantOpen} onClose={() => setIsAssistantOpen(false)} />
         </>
     );
 }

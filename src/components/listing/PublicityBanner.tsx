@@ -101,35 +101,6 @@ function PublicityBanner({ banners }: PublicityBannerProps) {
               alt={banner.title || 'Publicity banner'}
               className="w-full h-full object-cover"
             />
-            {banner.title && (
-              <div className="absolute inset-0 flex flex-col justify-center items-start px-[25px] py-[24px]">
-                <div className="flex flex-col gap-[12px] items-start">
-                  {banner.title && (
-                    <p className="text-[23.96px] font-bold font-bricolagegrotesque text-yellow-300 leading-[31.95px]">
-                      {banner.title}
-                    </p>
-                  )}
-                  {banner.subtitle && (
-                    <p className="text-[12.78px] font-extrabold font-bricolagegrotesque text-white leading-[14.2px]">
-                      {banner.subtitle}
-                    </p>
-                  )}
-                </div>
-                {banner.buttonText && (
-                  <button
-                    onClick={banner.buttonAction}
-                    className="absolute bottom-[24px] left-[25px] bg-black rounded-[836.92px] px-[19.93px] py-[11.63px] flex gap-[9.97px] items-center justify-center shadow-lg"
-                  >
-                    <p className="text-[13.29px] font-medium font-bricolagegrotesque text-white leading-[19.93px]">
-                      {banner.buttonText}
-                    </p>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                    </svg>
-                  </button>
-                )}
-              </div>
-            )}
           </div>
         ))}
       </div>
