@@ -44,7 +44,6 @@ const HotelListing: React.FC = () => {
         setSearchResults(searchData.results || []);
         setSearchType(searchData.searchType || null);
         setCollectedInfo(searchData.collectedInfo || null);
-        console.log('Loaded search results from localStorage:', searchData);
       } catch (error) {
         console.error('Error loading search results from localStorage:', error);
       }

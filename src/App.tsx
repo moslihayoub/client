@@ -19,9 +19,10 @@ import { SideListingProvider } from './contexts/SideListingContext';
 import { FavoritesProvider } from './contexts/FavoritesContext';
 import { AssistantProvider } from './contexts/AssistantContext';
 import { NoteModalProvider } from './contexts/NoteModalContext';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import RequireAuth from './routes/RequireAuth';
+import { useNavigate } from 'react-router-dom';
 import ImgDetails from './components/details/ImgDetails';
 import Sitemap from './pages/Sitemap';
 import Cards from './components/Cards';
@@ -33,49 +34,51 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Unauthorized from './pages/Unauthorized';
 
-// Component that randomly displays a homepage (excluding HomePage1)
-function RandomHomepage() {
-  const [selectedHomepage, setSelectedHomepage] = useState<string | null>(null);
+// Component that displays homepage based on auth status
+function HomePageRouter() {
+  const { user, isLoading } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Array of homepage names (excluding HomePage1)
-    const homepages = ['HomePage2', 'Homepage3', 'HomePage4', 'HomePage5', 'Video'];
+    if (!isLoading) {
+      if (user) {
+        // User is authenticated, redirect to Homepage3
+        navigate('/homepage3', { replace: true });
+      } else {
+        // User is not authenticated, show random homepage (excluding Homepage3)
+        const homepages = ['HomePage2', 'HomePage4', 'HomePage5', 'Video'];
+        const randomIndex = Math.floor(Math.random() * homepages.length);
+        const selected = homepages[randomIndex];
+        
+        switch (selected) {
+          case 'HomePage2':
+            navigate('/homepage2', { replace: true });
+            break;
+          case 'HomePage4':
+            navigate('/homepage4', { replace: true });
+            break;
+          case 'HomePage5':
+            navigate('/homepage5', { replace: true });
+            break;
+          case 'Video':
+            navigate('/bg-video', { replace: true });
+            break;
+          default:
+            navigate('/homepage2', { replace: true });
+        }
+      }
+    }
+  }, [user, isLoading, navigate]);
 
-    // Randomly select a homepage
-    const randomIndex = Math.floor(Math.random() * homepages.length);
-    const selected = homepages[randomIndex];
-    
-    console.log(`🎲 Randomly selected: ${selected}`);
-    setSelectedHomepage(selected);
-  }, []); // Empty dependency array means this runs only once on mount
-
-  // Show loading or fallback while random homepage is being selected
-  if (!selectedHomepage) {
-    return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-100">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading...</p>
-        </div>
+  // Show loading while checking auth status
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-600">Loading...</p>
       </div>
-    );
-  }
-
-  // Render the randomly selected homepage based on the selected name
-  switch (selectedHomepage) {
-    case 'HomePage2':
-      return <HomePage2 />;
-    case 'Homepage3':
-      return <Homepage3 />;
-    case 'HomePage4':
-      return <HomePage4 />;
-    case 'HomePage5':
-      return <HomePage5 input={{ type: 'background'}} />;
-    case 'Video':
-      return <HomePage5 input={{ type: 'video'}} />;
-    default:
-      return <HomePage2 />; // Fallback
-  }
+    </div>
+  );
 }
 
 const desc = "Plongez dans l'envoûtement d'un riad marocain traditionnel, où chaque coin respire l'authenticité. Imaginez-vous vous détendre au bord d'une piscine scintillante, entouré de chambres somptueusement décorées qui allient confort moderne et touches artisanales.\n \n Ne manquez pas la terrasse sur le toit, un véritable havre de paix, offrant une vue panoramique à couper le souffle sur les toits de Marrakech, surtout au coucher du soleil. Ce riad est l'endroit idéal pour vivre une expérience inoubliable, mêlant luxe et culture."
@@ -93,10 +96,10 @@ export default function App() {
                 <AnimatePresence mode='wait'>
                   <Router>
             <Routes>
-        <Route path="/" element={<RandomHomepage />} />
+        <Route path="/" element={<HomePageRouter />} />
         <Route path="/homepage1" element={<HomePage1 />} />
         <Route path="/homepage2" element={<HomePage2 />} />
-        <Route path="/homepage3" element={<Homepage3 />} />
+        <Route path="/homepage3" element={<RequireAuth><Homepage3 /></RequireAuth>} />
         <Route path="/homepage4" element={<HomePage4 />} />
         <Route path="/homepage5" element={<HomePage5 input={{type: 'background'}} />} />
         <Route path="/bg-video" element={<HomePage5 input={{ type: 'video'}} />} />

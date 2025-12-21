@@ -10,7 +10,6 @@ interface ProfileUpdateProps {
 
 function ProfileUpdate({ onBack }: ProfileUpdateProps) {
     const handleUpdate = (data: any) => {
-        console.log('Updated user data:', data);
         // Here you would typically send the data to your backend API
     };
 
