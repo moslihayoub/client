@@ -12,6 +12,9 @@ import TrMinScreen from "../svgs/transparent/TrMinScreen";
 import ColFullScreen from "../svgs/colored/ColFullScreen";
 import ColSearch from "../svgs/colored/ColSearch";
 import { useNavigate } from "react-router-dom";
+import { useAssistant } from "../contexts/AssistantContext";
+import { useNoteModal } from "../contexts/NoteModalContext";
+import api from "../services/api";
 
 interface NexaStayTextareaProps {
     fullscreen: boolean;
@@ -19,17 +22,40 @@ interface NexaStayTextareaProps {
     width: number;
     height: number;
     fullHeight: number;
+    onSend?: (message: string) => void; // For conversation page
+    isLoading?: boolean; // For conversation page
+    disabled?: boolean; // For conversation page
 }
 
-export default function NexaStayTextarea({ fullscreen, setFullscreen, width, height, fullHeight }: NexaStayTextareaProps) {
+export default function NexaStayTextarea({ fullscreen, setFullscreen, width, height, fullHeight, onSend, isLoading: externalIsLoading, disabled: externalDisabled }: NexaStayTextareaProps) {
+    const { isAssistantOpen } = useAssistant();
+    const { isNoteModalOpen } = useNoteModal();
     const [value, setValue] = useState("");
+    const [isEnhancing, setIsEnhancing] = useState(false);
+    const navigate = useNavigate();
+    
+    const sendMessage = () => {
+        if (value.trim().length > 0) {
+            if (onSend) {
+                // Use callback for conversation page
+                onSend(value.trim());
+                setValue("");
+            } else {
+                // Navigate to conversation page (default behavior)
+                navigate('/conversation', {
+                    state: { initialMessage: value.trim() }
+                });
+            }
+        }
+    };
     const maxWords = 200;
     const [currentTextIndex, setCurrentTextIndex] = useState(0);
-    const navigate = useNavigate();
-    // Debug logging
     const [isVisible, setIsVisible] = useState(true);
     const [showVoiceTranscriber, setShowVoiceTranscriber] = useState(false);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
+    
+    const isLoading = externalIsLoading || false;
+    const disabled = externalDisabled || false;
 
     const animatedTexts = [
         "Où vous voulez passer vos vacances",
@@ -53,6 +79,11 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
 
         return () => clearInterval(interval);
     }, []);
+
+    // Hide search bar when assistant or note modal is open
+    if (isAssistantOpen || isNoteModalOpen) {
+        return null;
+    }
 
     // Responsive padding and spacing
     const padding = width <= 492 ? '10px 14px' : width <= 768 ? '12px 16px' : '12px 18px';
@@ -90,7 +121,7 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                         }
                     }}
                 >
-                    <ColSearch />
+                    <ColSearch  />
 
                     <div className="flex flex-col gap-[5px] h-full" style={{ paddingRight: '45px' }}>
                         {/* Column text above textarea */}
@@ -129,7 +160,14 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
 
                                     setValue(newValue);
                                 }}
-                                className="w-full h-full resize-none outline-none border-none text-gray-800 text-base bg-transparent cursor-text"
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter' && !e.shiftKey) {
+                                        e.preventDefault();
+                                        sendMessage();
+                                    }
+                                }}
+                                disabled={isLoading || disabled}
+                                className="w-full h-full resize-none outline-none border-none text-gray-800 text-base bg-transparent cursor-text disabled:opacity-50 disabled:cursor-not-allowed"
                                 style={{ paddingLeft: '26px', position: 'relative', zIndex: 0 }}
                             />
                         )}
@@ -159,14 +197,13 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                     {/* Send button - disabled when empty, colorful when active */}
                     <button
                         type="submit"
-                        disabled={value.trim().length === 0}
+                        disabled={value.trim().length === 0 || isLoading || disabled}
                         onClick={(e) => {
                             e.stopPropagation();
-                            navigate("/hotels");
-                            console.log("send button clicked");
+                            sendMessage();
                         }}
                         className={`absolute top-0 right-0 w-[44px] h-[44px] flex items-center justify-center group ${
-                            value.trim().length === 0 ? 'cursor-not-allowed' : ''
+                            value.trim().length === 0 || isLoading || disabled ? 'cursor-not-allowed opacity-50' : ''
                         }`}
                     >
                         {value.trim().length === 0 ? (
@@ -191,12 +228,33 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                     {/*Enhancement button*/}
                     <button 
                         className="flex items-center justify-center group relative"
+                        disabled={isEnhancing || value.trim().length === 0 || isLoading || disabled}
+                        onClick={async () => {
+                            if (!value.trim()) return;
+                            try {
+                                setIsEnhancing(true);
+                                const res = await api.enhancePrompt(value.trim());
+                                setValue(res.enhanced_prompt);
+                            } catch (e) {
+                                console.error("Enhance prompt error", e);
+                            } finally {
+                                setIsEnhancing(false);
+                            }
+                        }}
                         style={{ width: buttonSize, height: buttonSize }}
                     >
-                        <TrEnhance className="absolute opacity-100 group-hover:opacity-0 transition-opacity duration-300" />
-                        <ColEnhance className="absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        {isEnhancing ? (
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="h-5 w-5 border-2 border-slate-300 border-t-sky-500 rounded-full animate-spin" />
+                            </div>
+                        ) : (
+                            <>
+                                <TrEnhance className={`absolute opacity-100 group-hover:opacity-0 transition-opacity duration-300 `} />
+                                <ColEnhance className={`absolute opacity-0 group-hover:opacity-100 transition-opacity duration-300 `} />
+                            </>
+                        )}
                         <span className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-2 py-1 bg-black/85 text-white text-[10px] font-vendsans rounded-full whitespace-nowrap opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-200 z-50">
-                            Améliorer
+                            {isEnhancing ? "Amélioration..." : "Améliorer"}
                         </span>
                     </button>
 
@@ -216,7 +274,7 @@ export default function NexaStayTextarea({ fullscreen, setFullscreen, width, hei
                     {/*Voice Button*/}
                     <button
                         className="flex items-center justify-center group relative"
-                        onClick={() => navigate("/voiceai")}
+                        onClick={() => navigate("/voice-chat")}
                         style={{ width: buttonSize, height: buttonSize }}
                     >
                         <TrWave className="absolute opacity-100 group-hover:opacity-0 transition-opacity duration-300" />

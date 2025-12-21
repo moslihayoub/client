@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { HotelCardProps, ServiceCardProps, ExperienceCardProps, HealthCardProps } from '../components/HoltelCard';
 
 interface FavoriteItem {
-  id: number;
+  id: string | number; // Support both UUID strings and numeric IDs
   type: 'Hotel' | 'Service' | 'Experience' | 'Health';
   hotel?: HotelCardProps;
   service?: ServiceCardProps;
@@ -13,8 +13,8 @@ interface FavoriteItem {
 interface FavoritesContextType {
   favorites: FavoriteItem[];
   addFavorite: (item: FavoriteItem) => void;
-  removeFavorite: (id: number, type: 'Hotel' | 'Service' | 'Experience' | 'Health') => void;
-  isFavorite: (id: number, type: 'Hotel' | 'Service' | 'Experience' | 'Health') => boolean;
+  removeFavorite: (id: string | number, type: 'Hotel' | 'Service' | 'Experience' | 'Health') => void;
+  isFavorite: (id: string | number, type: 'Hotel' | 'Service' | 'Experience' | 'Health') => boolean;
   toggleFavorite: (item: FavoriteItem) => void;
 }
 
@@ -33,11 +33,11 @@ export const FavoritesProvider: React.FC<{ children: ReactNode }> = ({ children 
     });
   };
 
-  const removeFavorite = (id: number, type: 'Hotel' | 'Service' | 'Experience' | 'Health') => {
+  const removeFavorite = (id: string | number, type: 'Hotel' | 'Service' | 'Experience' | 'Health') => {
     setFavorites(prev => prev.filter(fav => !(fav.id === id && fav.type === type)));
   };
 
-  const isFavorite = (id: number, type: 'Hotel' | 'Service' | 'Experience' | 'Health') => {
+  const isFavorite = (id: string | number, type: 'Hotel' | 'Service' | 'Experience' | 'Health') => {
     return favorites.some(fav => fav.id === id && fav.type === type);
   };
 

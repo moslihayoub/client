@@ -61,7 +61,7 @@ function HomePage2() {
                     </div>
 
                     {/* Mobile Search Bar - Fixed at bottom */}
-                    <div className='fixed rounded-[22px] z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center px-[16px] mx-0 md:mx-[25%] transition-all duration-500 ease-in-out mb-[40px] '
+                    <div className='fixed rounded-[22px] z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center px-[16px] mx-0 md:mx-[25%] transition-all duration-500 ease-in-out mb-[50px] '
                     style={{ height: mobileFullscreen ? '70%' : '' }}
                     >
                         <MobileSearchbar

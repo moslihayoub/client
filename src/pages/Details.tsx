@@ -7,7 +7,7 @@ import Recommendation from '../components/details/Recommendation';
 import SideListing from '../components/SideListing';
 import Navbar from '../components/Navbar';
 import { useSideListing } from '../contexts/SideListingContext';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ImgDetails from '../components/details/ImgDetails';
 import MenuComponent from '../components/details/MenuComponent';
 import FormuleComponent from '../components/details/Formule';
@@ -52,6 +52,7 @@ interface DetailsProps {
 
 function Details({ id, title, type, genre, minPrice, pricePerNight, totalPrice, status, description, tags, rating, nbRating, avis, hoteInfo, images, menu, formules, jourDebut, jourFin, heureDebut, heureFin, nbLit, nbChambre, nbNuit, maximumPrice, nbPeople, distance, address }: DetailsProps) {
     const { isCollapsed: isSidebarCollapsed } = useSideListing();
+    const navigate = useNavigate();
     const [showAllAvis, setShowAllAvis] = useState(false);
     const [showAllTags, setShowAllTags] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
@@ -85,6 +86,70 @@ function Details({ id, title, type, genre, minPrice, pricePerNight, totalPrice, 
                 type === 'Experience' ? "Réserver" :
                     type === 'Health' ? "Réserver" :
                         "Valider la réservation";
+
+    // Function to save reservation reminder to calendar
+    const handleReservation = () => {
+        // Format reservation date
+        let reservationDate = '';
+        let reservationDateISO = new Date().toISOString();
+        
+        if (jourDebut && jourFin) {
+            reservationDate = `Du ${jourDebut} au ${jourFin}`;
+        } else if (jourDebut) {
+            reservationDate = `Le ${jourDebut}`;
+        } else {
+            // Default: 7 days from now
+            const defaultDate = new Date();
+            defaultDate.setDate(defaultDate.getDate() + 7);
+            const day = defaultDate.getDate();
+            const month = defaultDate.toLocaleDateString('fr-FR', { month: 'long' });
+            const year = defaultDate.getFullYear();
+            reservationDate = `${day} ${month} ${year}`;
+            reservationDateISO = defaultDate.toISOString();
+        }
+
+        // Create reminder description
+        let reminderDescription = `Réservation: ${title}\n`;
+        reminderDescription += `Date: ${reservationDate}\n`;
+        
+        if (nbNuit) {
+            reminderDescription += `Durée: ${nbNuit} nuit${nbNuit > 1 ? 's' : ''}\n`;
+        }
+        if (nbPeople) {
+            reminderDescription += `Personnes: ${nbPeople}\n`;
+        }
+        if (totalPrice || pricePerNight) {
+            const price = totalPrice || (pricePerNight && nbNuit ? pricePerNight * nbNuit : pricePerNight) || minPrice;
+            reminderDescription += `Prix: ${formatNumber(price)} MAD`;
+        }
+
+        // Load existing calendar reminders
+        const existingReminders = localStorage.getItem('nexastay_calendar_reminders');
+        let reminders = existingReminders ? JSON.parse(existingReminders) : [];
+
+        // Create new reminder
+        const newReminder = {
+            id: Date.now().toString(),
+            title: `Réservation: ${title}`,
+            description: reminderDescription,
+            date: reservationDate,
+            reservationDate: reservationDateISO,
+            type: type,
+            createdAt: Date.now(),
+        };
+
+        // Add to reminders array
+        reminders.push(newReminder);
+
+        // Save to localStorage
+        localStorage.setItem('nexastay_calendar_reminders', JSON.stringify(reminders));
+
+        // Trigger custom event for same-tab updates
+        window.dispatchEvent(new Event('localStorageChange'));
+
+        // Navigate to Homepage3 (calendar page)
+        navigate('/homepage3');
+    };
 
     // Detect mobile on mount and resize
     useEffect(() => {
@@ -681,7 +746,9 @@ function Details({ id, title, type, genre, minPrice, pricePerNight, totalPrice, 
                                 <div className='w-full bg-white rounded-[25px] p-[12px] flex flex-col gap-[8px] items-center justify-center'>
                                     
                                     {/* Reservation Button */}
-                                    <button className='w-full rounded-2xl px-[24px] py-[14px] flex gap-[12px] items-center justify-center shadow-sm' style={{ 
+                                    <button 
+                                        onClick={handleReservation}
+                                        className='w-full rounded-2xl px-[24px] py-[14px] flex gap-[12px] items-center justify-center shadow-sm' style={{ 
                                         background: 'radial-gradient(262.5% 262.5% at 50% -97.5%, var(--colors-teal-400, #2DD4BF) 0%, var(--colors-sky-500, #0EA5E9) 55%, var(--colors-fuchsia-500, #D946EF) 100%)', 
                                         boxShadow: '0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1)' 
                                     }}>
@@ -712,7 +779,9 @@ function Details({ id, title, type, genre, minPrice, pricePerNight, totalPrice, 
                                         <p className='text-lg font-semibold text-white font-bricolagegrotesque leading-[28px] whitespace-nowrap'>{contactButtonText}</p>
                                     </button>
                                     {/* Reservation Button */}
-                                    <button className='w-full bg-slate-900 rounded-[12px] px-[13px] py-[12px] flex gap-[12px] items-center justify-center'>
+                                    <button 
+                                        onClick={handleReservation}
+                                        className='w-full bg-slate-900 rounded-[12px] px-[13px] py-[12px] flex gap-[12px] items-center justify-center'>
                                         <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
                                             <path d="M0.75 10.25C0.75 6.479 0.75 4.593 1.922 3.422C3.094 2.251 4.979 2.25 8.75 2.25H12.75C16.521 2.25 18.407 2.25 19.578 3.422C20.749 4.594 20.75 6.479 20.75 10.25V12.25C20.75 16.021 20.75 17.907 19.578 19.078C18.406 20.249 16.521 20.25 12.75 20.25H8.75C4.979 20.25 3.093 20.25 1.922 19.078C0.751 17.906 0.75 16.021 0.75 12.25V10.25Z" stroke="white" strokeWidth="1.5" />
                                             <path d="M5.75 2.25V0.75M15.75 2.25V0.75M1.25 7.25H20.25" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
@@ -724,8 +793,8 @@ function Details({ id, title, type, genre, minPrice, pricePerNight, totalPrice, 
                         )}
 
                         {/* Desktop Footer */}
-                        <div className={`fixed bottom-0 left-0 sm:left-0 ${isSidebarCollapsed ? 'md:left-[calc(2%+63px)] lg:left-[calc(2%+63px)] xl:left-[calc(2%+63px)]' : 'md:left-[calc(2%+20%+1px)] lg:left-[calc(2%+20%+1px)] xl:left-[calc(2%+20%+1px)]'} right-0 flex flex-row gap-[12px] items-center justify-center sm:justify-center md:justify-start lg:justify-start xl:justify-start w-full px-4 sm:px-4 md:px-5 lg:px-5 xl:px-5 py-3 sm:py-3 md:py-4 lg:py-4 xl:py-4 bg-white z-20 transition-all duration-300 ease-in-out sm:hidden md:flex`}>
-                        <div className='flex flex-row gap-[12px] md:ml-2 lg:ml-[80px] xl:ml-[80px]'>
+                        <div className={`fixed bottom-0 left-0 sm:left-0 ${isSidebarCollapsed ? 'md:left-[calc(2%+84px)] lg:left-[calc(2%+84px)] xl:left-[calc(2%+84px)]' : 'md:left-[calc(2%+22%+1px)] lg:left-[calc(2%+22%+1px)] xl:left-[calc(2%+22%+1px)]'} right-0 flex flex-row gap-[12px] items-center justify-center sm:justify-center md:justify-start lg:justify-start xl:justify-start w-full px-4 sm:px-4 md:px-5 lg:px-5 xl:px-5 py-3 sm:py-3 md:py-4 lg:py-4 xl:py-4 bg-white z-20 transition-all duration-300 ease-in-out sm:hidden md:flex`}>
+                        <div className='flex flex-row gap-[12px] md:ml-2 lg:ml-[55px] xl:ml-[55px]'>
                                 <button className='h-[40px] sm:h-[38px] md:h-[38px] lg:h-[38px] xl:h-[38px] rounded-[12px] px-[16px] flex gap-[12px] items-center justify-center whitespace-nowrap min-w-[150px] sm:min-w-[150px] md:min-w-[150px] lg:min-w-[171px] xl:min-w-[171px]' style={{ background: 'radial-gradient(262.5% 262.5% at 50% -97.5%, var(--colors-teal-400, #2DD4BF) 0%, var(--colors-sky-500, #0EA5E9) 55%, var(--colors-fuchsia-500, #D946EF) 100%)', boxShadow: '0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1)' }}>
                                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M14 5.75098C14.0663 5.75098 14.1299 5.7774 14.1768 5.82422L20.1768 11.8242C20.2232 11.871 20.2489 11.9341 20.249 12C20.249 12.0662 20.2226 12.1299 20.1758 12.1768L14.1768 18.1768L14.1699 18.1826L14.1641 18.1895C14.1412 18.214 14.1136 18.2334 14.083 18.2471C14.0523 18.2607 14.0189 18.268 13.9854 18.2686C13.9519 18.2691 13.9187 18.2635 13.8877 18.251C13.8567 18.2385 13.8284 18.2199 13.8047 18.1963C13.7809 18.1725 13.7616 18.1434 13.749 18.1123C13.7366 18.0813 13.7309 18.048 13.7314 18.0146C13.732 17.9811 13.7393 17.9477 13.7529 17.917C13.7666 17.8865 13.7861 17.8588 13.8105 17.8359L13.8174 17.8301L19.3975 12.25H4C3.9337 12.25 3.87013 12.2236 3.82324 12.1768C3.77646 12.1299 3.75 12.0662 3.75 12C3.75008 11.9338 3.77643 11.8701 3.82324 11.8232C3.87011 11.7765 3.93377 11.75 4 11.75H19.3975L18.5439 10.8965L13.8242 6.17676C13.7774 6.12988 13.751 6.06625 13.751 6C13.7511 5.93412 13.7768 5.87097 13.8232 5.82422C13.8701 5.7774 13.9337 5.75098 14 5.75098Z" stroke="white" />
@@ -733,7 +802,9 @@ function Details({ id, title, type, genre, minPrice, pricePerNight, totalPrice, 
 
                                     <p className='text-sm text-white font-normal text-center font-bricolagegrotesque whitespace-nowrap'>{contactButtonText}</p>
                                 </button>
-                                <button className='w-full sm:w-[150px] md:w-[150px] lg:w-[171px] xl:w-[171px] h-[40px] sm:h-[38px] md:h-[38px] lg:h-[38px] xl:h-[38px] bg-slate-900 rounded-[12px] px-[16px] flex gap-[12px] items-center justify-center' 
+                                <button 
+                                    onClick={handleReservation}
+                                    className='w-full sm:w-[150px] md:w-[150px] lg:w-[171px] xl:w-[171px] h-[40px] sm:h-[38px] md:h-[38px] lg:h-[38px] xl:h-[38px] bg-slate-900 rounded-[12px] px-[16px] flex gap-[12px] items-center justify-center' 
                                 style={{ boxShadow: '0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1)' }}>
                                     <svg width="22" height="21" viewBox="0 0 22 21" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M0.75 10.25C0.75 6.479 0.75 4.593 1.922 3.422C3.094 2.251 4.979 2.25 8.75 2.25H12.75C16.521 2.25 18.407 2.25 19.578 3.422C20.749 4.594 20.75 6.479 20.75 10.25V12.25C20.75 16.021 20.75 17.907 19.578 19.078C18.406 20.249 16.521 20.25 12.75 20.25H8.75C4.979 20.25 3.093 20.25 1.922 19.078C0.751 17.906 0.75 16.021 0.75 12.25V10.25Z" stroke="white" stroke-width="1.5" />

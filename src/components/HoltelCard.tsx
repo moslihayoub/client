@@ -22,7 +22,7 @@ export interface FormuleProps {
 }
 
 interface HotelCardProps {
-  id: number;
+  id: string | number; // Support both UUID strings and numeric IDs
   title: string;
   nbLit: number;
   nbChambre: number;
@@ -35,7 +35,7 @@ interface HotelCardProps {
 }
 
 interface ServiceCardProps {
-  id: number;
+  id: string | number; // Support both UUID strings and numeric IDs
   title: string;
   genre: string[];
   rating: number;
@@ -49,7 +49,7 @@ interface ServiceCardProps {
 }
 
 interface ExperienceCardProps {
-  id: number;
+  id: string | number; // Support both UUID strings and numeric IDs
   title: string;
   genre: string[];
   rating: number;
@@ -62,7 +62,7 @@ interface ExperienceCardProps {
 }
 
 interface HealthCardProps {
-  id: number;
+  id: string | number; // Support both UUID strings and numeric IDs
   title: string;
   genre: string[];
   jourDebut: string;
@@ -77,7 +77,7 @@ interface HealthCardProps {
 }
 
 interface ItemCardProps {
-  id: number;
+  id: string | number; // Support both UUID strings and numeric IDs
   type: 'Hotel' | 'Service' | 'Experience' | 'Health';
   hotel?: HotelCardProps;
   service?: ServiceCardProps;

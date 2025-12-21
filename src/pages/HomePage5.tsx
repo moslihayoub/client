@@ -55,16 +55,16 @@ function HomePage5({ input }: { input: Input }) {
 
                 {/* Main content area - takes remaining space and centers content */}
                 {input.type === 'background' && (
-                    <div className={`flex-1 flex items-center justify-center ${fullscreen ? "blur-md" : ""}`}>
+                    <div className={`flex-1 flex items-center justify-center  ${fullscreen ? "blur-md" : ""}`}>
                         <div className='flex flex-col gap-[26px] justify-center items-center w-[1160px] h-[198px] px-0 sm:px-[16px] md:px-0 '>
-                            <p className='font-bricolagegrotesque font-semibold text-[56px] sm:text-[40px] md:text-[56px] text-center text-white leading-[64px]'>Votre logement idéal, un espace où l'IA améliore votre expérience !</p>
-                            <p className=' text-[24px] sm:text-[24px] md:text-[24px] text-center font-vendsans font-medium text-white leading-[36px]'>Découvrez notre marketplace intelligente</p>
+                            <p className='font-bricolagegrotesque font-semibold text-[56px] sm:text-[36px] md:text-[56px] text-center text-white leading-[64px] sm:leading-[48px] md:leading-[64px]'>Votre logement idéal, un espace où l'IA améliore votre expérience !</p>
+                            <p className=' text-[24px] sm:text-[20px] md:text-[24px] text-center font-vendsans font-medium text-white leading-[36px] sm:leading-[24px] md:leading-[36px]'>Découvrez notre marketplace intelligente</p>
                         </div>
                     </div>
                 )}
 
-                <div className='fixed rounded-[22px] z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center p-4 mx-0 md:mx-[25%] transition-all duration-500 ease-in-out bg-gradient-to-b from-transparent sm:from-[24.52%] to-transparent backdrop-blur-[2px]'
-                    style={{ height: fullscreen ? '70%' : '' }}
+                    <div className={`fixed rounded-[22px] z-20 bottom-0 left-0 h-[25%] w-[30%] sm:w-full md:w-[50%] flex items-end justify-center p-4 mx-0 md:mx-[25%] transition-all duration-500 ease-in-out ${isMobile ? 'mb-[50px]' : ''} `}
+                        style={{ height: fullscreen ? '70%' : '' }}
                 >
                     {isMobile ? ( 
                     <MobileSearchbar
@@ -80,7 +80,7 @@ function HomePage5({ input }: { input: Input }) {
                             setFullscreen={setFullscreen}
                             width={100}
                         fullHeight={90}
-                        height={100}
+                        height={87}
                     />
                     )}
 

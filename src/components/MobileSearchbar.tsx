@@ -11,6 +11,8 @@ import ColWave from '../svgs/colored/ColWave';
 import TrMinScreen from '../svgs/transparent/TrMinScreen';
 import ColFullScreen from '../svgs/colored/ColFullScreen';
 import { useNavigate } from 'react-router-dom';
+import { useAssistant } from '../contexts/AssistantContext';
+import { useNoteModal } from '../contexts/NoteModalContext';
 
 interface MobileSearchbarProps {
   fullscreen?: boolean;
@@ -27,12 +29,15 @@ function MobileSearchbar({
   height = 30,
   fullHeight = 60
 }: MobileSearchbarProps) {
+  const { isAssistantOpen } = useAssistant();
+  const { isNoteModalOpen } = useNoteModal();
   const [value, setValue] = useState("");
   const maxWords = 200;
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [isVisible, setIsVisible] = useState(true);
   const [showVoiceTranscriber, setShowVoiceTranscriber] = useState(false);
   const navigate = useNavigate();
+
   const animatedTexts = [
     "Où vous voulez passer vos vacances",
     "Comment je peux vous aidez",
@@ -55,6 +60,11 @@ function MobileSearchbar({
 
     return () => clearInterval(interval);
   }, []);
+
+  // Hide mobile search bar when assistant or note modal is open
+  if (isAssistantOpen || isNoteModalOpen) {
+    return null;
+  }
 
   return (
     <div className={`w-full flex flex-col items-cente gap-4 px-4 transition-all duration-500 ease-in-out `}
@@ -233,8 +243,11 @@ function MobileSearchbar({
           className={`w-[48px] h-[48px] flex items-center justify-center rounded-full bg-white shadow-lg border border-gray-200 ${value.trim().length === 0 ? 'cursor-not-allowed opacity-50' : 'hover:shadow-xl transition-shadow duration-200'
             }`}
             onClick={() => {
-              console.log("send button clicked");
-              navigate("/hotels");
+              if (value.trim().length > 0) {
+                navigate('/conversation', {
+                  state: { initialMessage: value.trim() }
+                });
+              }
             }}
         >
           {value.trim().length === 0 ? (

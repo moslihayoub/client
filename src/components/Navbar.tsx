@@ -20,6 +20,7 @@
 
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAssistant } from "../contexts/AssistantContext";
 import LanguagePopup from "./LanguagePopup";
 import MorePopup from "./MorePopup";
 import Heart from "../svgs/white/Heart";
@@ -77,6 +78,7 @@ import CliAssistant from "../svgs/clicked/CliAssistant";
 import ColPlus from "../svgs/colored/ColPlus";
 import CliPlus from "../svgs/clicked/CliPlus";
 import AssistantChat from "./Assistant";
+import { useAuth } from "../contexts/AuthContext";
 
 interface NavbarProps {
     iconVariant?: "white" | "transparent"; // optional prop, defaults to transparent
@@ -136,12 +138,14 @@ export default function Navbar({
     const [pressedItems, setPressedItems] = useState<Set<string>>(new Set());
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [currentActiveItemState, setCurrentActiveItemState] = useState(currentActiveItem);
-    const [isAssistantOpen, setIsAssistantOpen] = useState(false);
+    const { isAssistantOpen, toggleAssistant } = useAssistant();
     const [isMorePopupOpen, setIsMorePopupOpen] = useState(false);
     const [morePopupPosition, setMorePopupPosition] = useState<{ top: number; right: number } | null>(null);
     const moreButtonRef = useRef<HTMLButtonElement>(null);
     const [languagePopupPosition, setLanguagePopupPosition] = useState<{ top: number; right: number } | null>(null);
     const [appModePopupPosition, setAppModePopupPosition] = useState<{ top: number; right: number } | null>(null);
+    const { logout, user } = useAuth();
+    const isAuthenticated = !!user;
 
     const handleLanguageChanging = () => {
         setIsLanguagePopupOpen(!isLanguagePopupOpen);
@@ -243,7 +247,7 @@ export default function Navbar({
             WhiteIcon: Comparator,
             ColoredIcon: ColComparator,
             ClickedIcon: CliComparator,
-            ActiveIcon: ActComparator,
+            ActiveIcon: ColComparator,
             size: "normal"
         },
         {
@@ -266,7 +270,7 @@ export default function Navbar({
             WhiteIcon: Profile,
             ColoredIcon: ColProfile,
             ClickedIcon: CliProfile,
-            size: "large",
+            size: "normal",
             img: profileImg
         },
         {
@@ -277,7 +281,7 @@ export default function Navbar({
             ColoredIcon: ColAssistant,
             ClickedIcon: CliAssistant,
             size: "large",
-            onClick: () => setIsAssistantOpen(!isAssistantOpen)
+            onClick: toggleAssistant
         },
         {
             id: "more",
@@ -315,7 +319,9 @@ export default function Navbar({
                 {/* Left: Desktop Logo - Visible on lg and xl devices */}
                 <div className="flex items-center gap-2 justify-start">
                     {/*logoColor === "normal" ? <NexaLogo /> : <WhiteNexaLogo />*/}
-                    <NexaLogo />
+                    <button onClick={() => navigate('/')} className="cursor-pointer">
+                        <NexaLogo />
+                    </button>
                 </div>
 
                 {/* Desktop: Icons */}
@@ -323,6 +329,9 @@ export default function Navbar({
                 <div className="hidden md:flex items-center gap-[40px] justify-center h-full">
                     {middleNavItems.map((item) => {
                         const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, ActiveIcon, size, onClick, img } = item;
+                        if (!isAuthenticated && ["heart", "bell", "comparator", "connect"].includes(id)) {
+                            return null;
+                        }
                         const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-full";
                         const isPressed = pressedItems.has(id);
 
@@ -408,8 +417,27 @@ export default function Navbar({
 
                 {/* Right Icons */}
                 <div className="hidden md:flex items-center gap-[24px] justify-end">
+                    {!isAuthenticated && (
+                        <div className="flex items-center gap-3">
+                            <button
+                                onClick={() => navigate('/login')}
+                                className="px-3 py-2 text-[15px] font-semibold text-slate-800 rounded-md hover:text-slate-600"
+                            >
+                                Connexion
+                            </button>
+                            <button
+                                onClick={() => navigate('/signup')}
+                                className="px-4 py-2 rounded-full text-slate-600 font-semibold shadow-sm bg-transparent border-2 border-slate-200 transition"
+                            >
+                                Inscription
+                            </button>
+                        </div>
+                    )}
                     {rightNavItems.map((item) => {
                         const { id, name, TransparentIcon, WhiteIcon, ColoredIcon, ClickedIcon, size, onClick, img } = item;
+                        if (!isAuthenticated && ["profile", "assistant", "more"].includes(id)) {
+                            return null;
+                        }
                         const buttonSize = size === "large" ? "w-[36px] h-[34px]" : "w-[34px] h-[34px]";
                         const isPressed = pressedItems.has(id);
 
@@ -422,7 +450,7 @@ export default function Navbar({
                             return (
                                 <button
                                     key={id}
-                                    className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95`}
+                                    className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95 justify-center items-center`}
                                     onMouseDown={() => handleItemPress(id)}
                                     onMouseUp={() => handleItemRelease(id, onClick)}
                                     onTouchStart={() => handleItemPress(id)}
@@ -445,7 +473,7 @@ export default function Navbar({
                             <button 
                                 key={id} 
                                 ref={id === "more" ? moreButtonRef : null}
-                                className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95 tooltip-container`} 
+                                className={`${buttonSize} group transition-all duration-150 hover:scale-105 active:scale-95 tooltip-container justify-center items-center`} 
                                 onMouseDown={() => handleItemPress(id)} 
                                 onMouseUp={() => handleItemRelease(id, onClick)} 
                                 onTouchStart={() => handleItemPress(id)} 
@@ -538,10 +566,18 @@ export default function Navbar({
                     }
                     setIsLanguagePopupOpen(true);
                 }}
+                onLogout={
+                    user
+                        ? () => {
+                            logout();
+                            navigate('/login');
+                        }
+                        : undefined
+                }
             />
 
             {/* Assistant Chat */}
-            <AssistantChat isOpen={isAssistantOpen} onClose={() => setIsAssistantOpen(false)} />
+            <AssistantChat isOpen={isAssistantOpen} onClose={() => toggleAssistant()} />
         </>
     );
 }

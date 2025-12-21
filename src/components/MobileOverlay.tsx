@@ -60,7 +60,7 @@ function MobileOverlay({ setIsMobileSearchOpen }: { setIsMobileSearchOpen: (isOp
 
         {/* Mobile Search Bar */}
         <div
-          className="flex items-end justify-end w-full h-full bg-transparent transition-all duration-400 ease-in-out"
+          className="flex items-end justify-end w-full h-full bg-transparent transition-all duration-400 ease-in-out mb-[50px]"
           style={{
             height: fullscreen ? '100%' : '70%',
           }}
