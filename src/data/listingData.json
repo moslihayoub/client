@@ -19,7 +19,12 @@
         "/hotels/hotel4.png",
         "/hotels/hotel5.png",
         "/hotels/hotel6.png"
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.606785,
+        "long": -7.975527
+      }
     },
     {
       "id": 2,
@@ -37,7 +42,12 @@
         "/hotels/hotel2.png",
         "/hotels/hotel3.png",
         "/hotels/hotel4.png"
-      ]
+      ],
+      "city": "Agadir",
+      "geolocation": {
+        "lat": 30.407442,
+        "long": -9.583164
+      }
     },
     {
       "id": 3,
@@ -55,7 +65,12 @@
         "/hotels/hotel3.png",
         "/hotels/hotel6.png",
         "/hotels/hotel5.png"
-      ]
+      ],
+      "city": "Casablanca",
+      "geolocation": {
+        "lat": 33.560498,
+        "long": -7.584716
+      }
     },
     {
       "id": 4,
@@ -73,7 +88,12 @@
         "/hotels/hotel6.png",
         "/hotels/hotel4.png",
         "/hotels/hotel1.png"
-      ]
+      ],
+      "city": "Chefchaouen",
+      "geolocation": {
+        "lat": 35.161449,
+        "long": -5.241391
+      }
     },
     {
       "id": 5,
@@ -91,7 +111,12 @@
         "/hotels/hotel5.png",
         "/hotels/hotel6.png",
         "/hotels/hotel1.png"
-      ]
+      ],
+      "city": "Casablanca",
+      "geolocation": {
+        "lat": 33.574679,
+        "long": -7.578102
+      }
     },
     {
       "id": 6,
@@ -109,7 +134,12 @@
         "/hotels/hotel6.png",
         "/hotels/hotel4.png",
         "/hotels/hotel1.png"
-      ]
+      ],
+      "city": "Agadir",
+      "geolocation": {
+        "lat": 30.400277,
+        "long": -9.625999
+      }
     },
     {
       "id": 7,
@@ -127,7 +157,12 @@
         "/hotels/hotel1.png",
         "/hotels/hotel2.png",
         "/hotels/hotel3.png"
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.602817,
+        "long": -7.990534
+      }
     },
     {
       "id": 8,
@@ -145,7 +180,12 @@
         "/hotels/hotel1.png",
         "/hotels/hotel2.png",
         "/hotels/hotel3.png"
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.61155,
+        "long": -7.994729
+      }
     },
     {
       "id": 9,
@@ -163,7 +203,12 @@
         "/hotels/hotel1.png",
         "/hotels/hotel2.png",
         "/hotels/hotel3.png"
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.619173,
+        "long": -7.963057
+      }
     },
     {
       "id": 10,
@@ -189,7 +234,12 @@
         "/hotels/hotel1.png",
         "/hotels/hotel2.png",
         "/hotels/hotel3.png"
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.650887,
+        "long": -7.99871
+      }
     }
   ],
   "services": [
@@ -198,7 +248,10 @@
       "title": "Restaurant Marrakech Gourmet",
       "description": "Découvrez une expérience culinaire authentique au Restaurant Marrakech Gourmet, où la richesse des saveurs locales rencontre une ambiance chaleureuse. Profitez d'une carte raffinée inspirée du terroir marocain, avec des plats préparés avec passion par notre chef. Installez-vous sur notre terrasse accueillante et savourez une vue exceptionnelle sur la place des Saveurs, que vous veniez entre amis, en famille ou pour un dîner romantique.",
       "type": "Service",
-      "genre": ["Restaurant", "Cuisine locale"],
+      "genre": [
+        "Restaurant",
+        "Cuisine locale"
+      ],
       "rating": 4.7,
       "distance": 0.3,
       "minimumPrice": 150,
@@ -263,13 +316,21 @@
             "https://iwashyoudry.com/wp-content/uploads/2018/11/Better-Than-Anything-Cake-Trifles-6-640x640.jpg"
           ]
         }
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.635598,
+        "long": -8.009344
+      }
     },
     {
       "id": 2,
       "title": "Spa & Wellness Center",
       "type": "Service",
-      "genre": ["Spa", "Bien-être"],
+      "genre": [
+        "Spa",
+        "Bien-être"
+      ],
       "rating": 4.9,
       "distance": 1.5,
       "minimumPrice": 200,
@@ -291,13 +352,21 @@
             "/services/service-prop3.png"
           ]
         }
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.621007,
+        "long": -7.97242
+      }
     },
     {
       "id": 3,
       "title": "Night Club Le Riad",
       "type": "Service",
-      "genre": ["Nightlife", "Bar"],
+      "genre": [
+        "Nightlife",
+        "Bar"
+      ],
       "rating": 4.5,
       "distance": 0.8,
       "minimumPrice": 100,
@@ -319,13 +388,21 @@
             "/services/service-prop3.png"
           ]
         }
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.647056,
+        "long": -7.979514
+      }
     },
     {
       "id": 4,
       "title": "Golf Club Marrakech",
       "type": "Service",
-      "genre": ["Sport", "Golf"],
+      "genre": [
+        "Sport",
+        "Golf"
+      ],
       "rating": 4.8,
       "distance": 5.2,
       "minimumPrice": 400,
@@ -347,13 +424,21 @@
             "/services/service-prop3.png"
           ]
         }
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.614929,
+        "long": -7.978975
+      }
     },
     {
       "id": 5,
       "title": "Boutique Artisanale",
       "type": "Service",
-      "genre": ["Shopping", "Artisanat"],
+      "genre": [
+        "Shopping",
+        "Artisanat"
+      ],
       "rating": 4.3,
       "distance": 0.5,
       "minimumPrice": 50,
@@ -376,13 +461,21 @@
             "/services/service-prop3.png"
           ]
         }
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.644844,
+        "long": -7.995508
+      }
     },
     {
       "id": 6,
       "title": "Cinéma Majorelle",
       "type": "Service",
-      "genre": ["Divertissement", "Cinéma"],
+      "genre": [
+        "Divertissement",
+        "Cinéma"
+      ],
       "rating": 4.6,
       "distance": 1.1,
       "minimumPrice": 80,
@@ -404,7 +497,12 @@
             "/services/service-prop3.png"
           ]
         }
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.649423,
+        "long": -7.968074
+      }
     }
   ],
   "experiences": [
@@ -413,7 +511,10 @@
       "title": "Balade en chameau dans le désert",
       "description": "Experience Elégante dans le désert pour 2 personnes avec un guide expérimenté et un transport en chameau. Cette formation est idéale pour les débutants et les expérimentés. Etant donné que le désert est un environnement naturel, il est important de respecter les règles de sécurité et de respecter la nature.",
       "type": "Experience",
-      "genre": ["Aventure", "Desert"],
+      "genre": [
+        "Aventure",
+        "Desert"
+      ],
       "rating": 4.8,
       "distance": 8.5,
       "price": 350,
@@ -478,13 +579,21 @@
             "https://tse4.mm.bing.net/th/id/OIP.FAANNytKKB1Sbwts2ZN8IwHaHa?w=800&h=800&rs=1&pid=ImgDetMain&o=7&rm=3"
           ]
         }
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.649862,
+        "long": -7.954822
+      }
     },
     {
       "id": 2,
       "title": "Visite guidée des souks de Marrakech",
       "type": "Experience",
-      "genre": ["Culture", "Shopping"],
+      "genre": [
+        "Culture",
+        "Shopping"
+      ],
       "rating": 4.9,
       "distance": 0.5,
       "price": 120,
@@ -525,13 +634,21 @@
             "/experiences/exp3.png"
           ]
         }
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.613164,
+        "long": -7.984124
+      }
     },
     {
       "id": 3,
       "title": "Cours de cuisine marocaine",
       "type": "Experience",
-      "genre": ["Gastronomie", "Atelier"],
+      "genre": [
+        "Gastronomie",
+        "Atelier"
+      ],
       "rating": 4.7,
       "distance": 1.2,
       "price": 250,
@@ -572,13 +689,21 @@
             "/experiences/exp3.png"
           ]
         }
-      ]
+      ],
+      "city": "Rabat",
+      "geolocation": {
+        "lat": 34.028039,
+        "long": -6.864718
+      }
     },
     {
       "id": 4,
       "title": "Vol en montgolfière au lever du soleil",
       "type": "Experience",
-      "genre": ["Aventure", "Panoramique"],
+      "genre": [
+        "Aventure",
+        "Panoramique"
+      ],
       "rating": 5.0,
       "distance": 12.0,
       "price": 850,
@@ -619,13 +744,21 @@
             "/experiences/exp3.png"
           ]
         }
-      ]
+      ],
+      "city": "Casablanca",
+      "geolocation": {
+        "lat": 33.558667,
+        "long": -7.566099
+      }
     },
     {
       "id": 5,
       "title": "Balade à vélo dans la Palmeraie",
       "type": "Experience",
-      "genre": ["Sport", "Nature"],
+      "genre": [
+        "Sport",
+        "Nature"
+      ],
       "rating": 4.6,
       "distance": 4.0,
       "price": 180,
@@ -667,13 +800,21 @@
             "/experiences/exp3.png"
           ]
         }
-      ]
+      ],
+      "city": "Marrakech",
+      "geolocation": {
+        "lat": 31.644361,
+        "long": -7.980742
+      }
     },
     {
       "id": 6,
       "title": "Spectacle de danse berbère",
       "type": "Experience",
-      "genre": ["Spectacle", "Culture"],
+      "genre": [
+        "Spectacle",
+        "Culture"
+      ],
       "rating": 4.5,
       "distance": 0.3,
       "price": 150,
@@ -715,7 +856,12 @@
             "/experiences/exp3.png"
           ]
         }
-      ]
+      ],
+      "city": "Casablanca",
+      "geolocation": {
+        "lat": 33.551741,
+        "long": -7.619454
+      }
     }
   ],
   "healths": [
@@ -727,7 +873,10 @@
       "jourFin": "Vendredi",
       "heureDebut": "08:00",
       "heureFin": "18:00",
-      "genre": ["Health", "Wellness"],
+      "genre": [
+        "Health",
+        "Wellness"
+      ],
       "rating": 4.8,
       "nbRating": 10,
       "distance": 0.5,
@@ -754,7 +903,7 @@
           "text": "Consultation médicale"
         }
       ],
-      "avis":[
+      "avis": [
         {
           "name": "Maman de Youssef",
           "userImg": "/users/user1.png",
@@ -823,7 +972,12 @@
         "/cliniques/cli4.png",
         "/cliniques/cli5.png",
         "/cliniques/cli6.png"
-      ]
+      ],
+      "city": "Rabat",
+      "geolocation": {
+        "lat": 34.008014,
+        "long": -6.832973
+      }
     },
     {
       "id": 2,
@@ -833,7 +987,10 @@
       "jourFin": "Vendredi",
       "heureDebut": "08:00",
       "heureFin": "18:00",
-      "genre": ["Health", "Wellness"],
+      "genre": [
+        "Health",
+        "Wellness"
+      ],
       "rating": 4.8,
       "nbRating": 10,
       "distance": 0.5,
@@ -852,7 +1009,12 @@
         "/cliniques/cli4.png",
         "/cliniques/cli5.png",
         "/cliniques/cli6.png"
-      ]
+      ],
+      "city": "Casablanca",
+      "geolocation": {
+        "lat": 33.58846,
+        "long": -7.615138
+      }
     },
     {
       "id": 3,
@@ -862,7 +1024,10 @@
       "jourFin": "Vendredi",
       "heureDebut": "08:00",
       "heureFin": "18:00",
-      "genre": ["Health", "Wellness"],
+      "genre": [
+        "Health",
+        "Wellness"
+      ],
       "rating": 4.8,
       "nbRating": 10,
       "distance": 0.5,
@@ -881,7 +1046,12 @@
         "/cliniques/cli4.png",
         "/cliniques/cli5.png",
         "/cliniques/cli6.png"
-      ]
+      ],
+      "city": "Rabat",
+      "geolocation": {
+        "lat": 34.028807,
+        "long": -6.8268
+      }
     },
     {
       "id": 4,
@@ -891,7 +1061,10 @@
       "jourFin": "Vendredi",
       "heureDebut": "08:00",
       "heureFin": "18:00",
-      "genre": ["Health", "Wellness"],
+      "genre": [
+        "Health",
+        "Wellness"
+      ],
       "rating": 4.8,
       "nbRating": 10,
       "distance": 0.5,
@@ -910,7 +1083,12 @@
         "/cliniques/cli4.png",
         "/cliniques/cli5.png",
         "/cliniques/cli6.png"
-      ]
+      ],
+      "city": "Rabat",
+      "geolocation": {
+        "lat": 34.050556,
+        "long": -6.821277
+      }
     },
     {
       "id": 5,
@@ -920,7 +1098,10 @@
       "jourFin": "Vendredi",
       "heureDebut": "08:00",
       "heureFin": "18:00",
-      "genre": ["Health", "Wellness"],
+      "genre": [
+        "Health",
+        "Wellness"
+      ],
       "rating": 4.8,
       "nbRating": 10,
       "distance": 0.5,
@@ -936,7 +1117,12 @@
         "/cliniques/cli1.png",
         "/cliniques/cli2.png",
         "/cliniques/cli3.png"
-      ]
+      ],
+      "city": "Casablanca",
+      "geolocation": {
+        "lat": 33.557882,
+        "long": -7.619228
+      }
     },
     {
       "id": 6,
@@ -946,7 +1132,10 @@
       "jourFin": "Vendredi",
       "heureDebut": "08:00",
       "heureFin": "18:00",
-      "genre": ["Health", "Wellness"],
+      "genre": [
+        "Health",
+        "Wellness"
+      ],
       "rating": 4.8,
       "nbRating": 10,
       "distance": 0.5,
@@ -965,7 +1154,12 @@
         "/cliniques/cli4.png",
         "/cliniques/cli5.png",
         "/cliniques/cli6.png"
-      ]
+      ],
+      "city": "Rabat",
+      "geolocation": {
+        "lat": 34.021543,
+        "long": -6.856166
+      }
     },
     {
       "id": 7,
@@ -975,7 +1169,10 @@
       "jourFin": "Vendredi",
       "heureDebut": "08:00",
       "heureFin": "18:00",
-      "genre": ["Health", "Wellness"],
+      "genre": [
+        "Health",
+        "Wellness"
+      ],
       "rating": 4.8,
       "nbRating": 10,
       "distance": 0.5,
@@ -994,8 +1191,12 @@
         "/cliniques/cli4.png",
         "/cliniques/cli5.png",
         "/cliniques/cli6.png"
-      ]
+      ],
+      "city": "Rabat",
+      "geolocation": {
+        "lat": 34.029676,
+        "long": -6.863518
+      }
     }
   ]
 }
-

@@ -29,6 +29,7 @@ module.exports = {
         "nexastay-default": "0px 4px 46px -1px rgba(0, 0, 0, 0.15)",
         "nexastay-hover": "0 5px 34px 0 rgba(0, 255, 195, 0.36)",
         "card-hover": "0 5px 34px 0 rgba(0, 255, 195, 0.36)",
+        "nexastay-gradient": "0 8px 32px 0 rgba(45, 212, 191, 0.3), 0 4px 16px 0 rgba(14, 165, 233, 0.25), 0 2px 8px 0 rgba(217, 70, 239, 0.2)",
       },
       textColor: {
         "nexastay-gradient":
@@ -41,6 +42,9 @@ module.exports = {
         "float-fast": "float-fast 2.5s ease-in-out infinite",
         "drift": "drift 8s ease-in-out infinite",
         "gradient-blur": "gradient-blur 15s ease-in-out infinite",
+        fadeIn: "fadeIn 0.3s ease-in-out",
+        "fade-in": "fadeIn 0.5s ease-in-out",
+        "gradient-text": "gradient-text 3s ease infinite",
       },
       keyframes: {
         'gradient-blur': {
@@ -71,6 +75,14 @@ module.exports = {
           "25%": { transform: "translateX(20px) translateY(-10px)" },
           "50%": { transform: "translateX(0) translateY(-20px)" },
           "75%": { transform: "translateX(-20px) translateY(-10px)" },
+        },
+        fadeIn: {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "gradient-text": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
         },
       },
     },

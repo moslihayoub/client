@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ColLeftArrow from "../svgs/colored/ColLeftArrow";
 import ColMenu from "../svgs/colored/ColMenu";
 import NexaLogo from "../svgs/logos/NexaLogo";
@@ -7,6 +7,8 @@ import TrEarth from "../svgs/transparent/TrEarth";
 import TrSun from "../svgs/transparent/TrSun";
 import TrBell from "../svgs/transparent/TrBell";
 import TrSend from "../svgs/transparent/TrSend";
+import ColSend from "../svgs/colored/ColSend";
+import ColSearch from "../svgs/colored/ColSearch";
 import { useNavigate } from "react-router-dom";
 import SidebarLayout, { useSidebarContext } from "./SidebarLayout";
 import MonProfile from "../svgs/sideTitle/MonProfile";
@@ -25,13 +27,13 @@ function ProfileButton() {
             className="flex items-center gap-3 px-0 py-2 rounded-lg hover:bg-gray-100 transition-all duration-150 w-full"
             onClick={handleProfileClick}
         >
-            <div className="w-8 h-8 flex items-center justify-center">
+            <div className="w-[30px] h-[30px] flex items-center justify-center">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M16.0003 13.3337C18.9458 13.3337 21.3337 10.9458 21.3337 8.00033C21.3337 5.05481 18.9458 2.66699 16.0003 2.66699C13.0548 2.66699 10.667 5.05481 10.667 8.00033C10.667 10.9458 13.0548 13.3337 16.0003 13.3337Z" stroke="#020617" stroke-width="2" />
                     <path opacity="0.5" d="M16.0003 28.0007C21.155 28.0007 25.3337 25.6128 25.3337 22.6673C25.3337 19.7218 21.155 17.334 16.0003 17.334C10.8457 17.334 6.66699 19.7218 6.66699 22.6673C6.66699 25.6128 10.8457 28.0007 16.0003 28.0007Z" stroke="#020617" stroke-width="2" />
                 </svg>
             </div>
-            <span className="text-slate-950 text-xl font-bricolagegrotesque font-normal leading-8 flex-1 text-left">
+            <span className="text-slate-600 text-[20px] font-bricolagegrotesque font-normal leading-8 flex-1 text-left">
                 Voir le profil
             </span>
             <div className="w-6 h-6 flex items-center justify-center">
@@ -130,6 +132,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         }
     ];
 
+    const [searchValue, setSearchValue] = useState("");
+
     const handleItemClick = (onClick: () => void) => {
         onClick();
         onClose();
@@ -152,33 +156,45 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                     }`}>
                     <SidebarLayout onClose={onClose}>
                         <div className="p-6">
-                            <div className="flex flex-col gap-7">
+                            <div className="flex flex-col gap-[12px]">
                                 {/* Search Bar */}
-                                <div className="bg-white border-[1.5px] border-teal-400 border-solid rounded-[22px] px-[18px] py-[12px] flex items-center gap-4">
-                                    <div className="flex items-center gap-2 flex-1">
-                                        <div className="w-7 h-7 flex items-center justify-center">
-                                            <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M18.7978 20.9829L22.9018 25.1079M18.7978 20.9829C19.6279 20.15 20.2859 19.1617 20.7342 18.0745C21.1824 16.9872 21.4121 15.8224 21.4102 14.6464C21.4082 13.4704 21.1747 12.3063 20.7229 11.2205M18.7978 20.9829C17.1211 22.6651 14.8449 23.6123 12.4699 23.6162C10.0948 23.6202 7.81552 22.6804 6.13334 21.0038C4.45117 19.3272 3.50393 17.051 3.50001 14.6759C3.49609 12.3009 4.43581 10.0216 6.11245 8.3394C6.94263 7.50647 7.92875 6.84521 9.01449 6.39339C10.1002 5.94156 11.2643 5.70801 12.4403 5.70607C13.6163 5.70413 14.7812 5.93384 15.8684 6.38208" stroke="url(#paint0_radial_2401_9734)" stroke-width="1.75" stroke-linecap="round" />
-                                                <path d="M23.8223 3.07508C23.7535 2.88869 23.6338 2.72533 23.4768 2.60356C23.3017 2.46786 23.0886 2.39032 22.8672 2.38178C22.6459 2.37324 22.4274 2.43414 22.2423 2.55594L21.8881 2.78918L21.7089 2.89886C21.3163 3.12143 20.8809 3.25806 20.4316 3.29971C19.9822 3.34135 19.5292 3.28706 19.1024 3.14042L18.7006 3.00348L18.5703 2.96696C18.3646 2.92458 18.1509 2.94417 17.9563 3.02324C17.7617 3.1023 17.5949 3.2373 17.4771 3.41115C17.3592 3.585 17.2955 3.78991 17.2941 3.99994C17.2927 4.20998 17.3536 4.41572 17.4691 4.59115L17.7023 4.94543L17.812 5.12458C18.0346 5.51716 18.1712 5.95254 18.2129 6.4019C18.2545 6.85125 18.2002 7.30433 18.0536 7.73112L17.9166 8.13294L17.8808 8.26236C17.8383 8.46805 17.8578 8.68171 17.9368 8.87633C18.0157 9.07095 18.1506 9.23779 18.3244 9.35574C18.4982 9.4737 18.703 9.53748 18.913 9.53901C19.1231 9.54055 19.3288 9.47978 19.5043 9.36438L19.8586 9.13115L20.0377 9.02147C20.4303 8.7989 20.8657 8.66226 21.3151 8.62062C21.7644 8.57898 22.2175 8.63327 22.6443 8.77991L23.0461 8.91685L23.1764 8.95337C23.3821 8.99574 23.5958 8.97616 23.7903 8.89709C23.9849 8.81802 24.1517 8.68303 24.2696 8.50918C24.3875 8.33532 24.4511 8.13042 24.4525 7.92038C24.454 7.71034 24.3931 7.5046 24.2775 7.32918L24.0443 6.9749L23.9346 6.79574C23.7121 6.40317 23.5754 5.96779 23.5338 5.51843C23.4921 5.06907 23.5464 4.616 23.6931 4.18921L23.83 3.78739L23.8659 3.65797C23.9062 3.46342 23.891 3.26147 23.8223 3.07508Z" fill="url(#paint1_radial_2401_9734)" />
-                                                <defs>
-                                                    <radialGradient id="paint0_radial_2401_9734" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(13.2009 4.20486) rotate(90) scale(27.4654)">
-                                                        <stop stop-color="#2DD4BF" />
-                                                        <stop offset="0.509615" stop-color="#0EA5E9" />
-                                                        <stop offset="1" stop-color="#D946EF" />
-                                                    </radialGradient>
-                                                    <radialGradient id="paint1_radial_2401_9734" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(23.8797 2.08417) rotate(127.798) scale(12.0261 12.0272)">
-                                                        <stop stop-color="#2DD4BF" />
-                                                        <stop offset="0.509615" stop-color="#0EA5E9" />
-                                                        <stop offset="1" stop-color="#D946EF" />
-                                                    </radialGradient>
-                                                </defs>
-                                            </svg>
-                                        </div>
-                                        <span className="text-slate-400 text-xl font-bricolagegrotesque">Rechercher</span>
+                                <div className="bg-white h-[64px] border-[1.5px] border-slate-300 border-solid rounded-[22px] px-[12px] py-[12px] flex items-center gap-2">
+                                    <div className="w-7 h-7 flex items-center justify-center flex-shrink-0">
+                                        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M18.7978 20.9827L22.9018 25.1076M18.7978 20.9827C19.6279 20.1497 20.2859 19.1615 20.7342 18.0742C21.1824 16.987 21.4121 15.8221 21.4102 14.6461C21.4082 13.4701 21.1747 12.306 20.7229 11.2203M18.7978 20.9827C17.1211 22.6648 14.8449 23.6121 12.4699 23.616C10.0948 23.6199 7.81552 22.6802 6.13334 21.0036C4.45117 19.3269 3.50393 17.0507 3.50001 14.6757C3.49609 12.3006 4.43581 10.0213 6.11245 8.33915C6.94263 7.50623 7.92875 6.84497 9.01449 6.39314C10.1002 5.94131 11.2643 5.70776 12.4403 5.70582C13.6163 5.70388 14.7812 5.93359 15.8684 6.38183" stroke="url(#paint0_radial_3713_3309)" stroke-width="1.75" stroke-linecap="round" />
+                                            <path d="M23.8223 3.07508C23.7535 2.88869 23.6338 2.72533 23.4768 2.60356C23.3017 2.46786 23.0886 2.39032 22.8672 2.38178C22.6459 2.37324 22.4274 2.43414 22.2423 2.55594L21.8881 2.78918L21.7089 2.89886C21.3163 3.12143 20.8809 3.25806 20.4316 3.29971C19.9822 3.34135 19.5292 3.28706 19.1024 3.14042L18.7006 3.00348L18.5703 2.96696C18.3646 2.92458 18.1509 2.94417 17.9563 3.02324C17.7617 3.1023 17.5949 3.2373 17.4771 3.41115C17.3592 3.585 17.2955 3.78991 17.2941 3.99994C17.2927 4.20998 17.3536 4.41572 17.4691 4.59115L17.7023 4.94543L17.812 5.12458C18.0346 5.51716 18.1712 5.95254 18.2129 6.4019C18.2545 6.85125 18.2002 7.30433 18.0536 7.73112L17.9166 8.13294L17.8808 8.26236C17.8383 8.46805 17.8578 8.68171 17.9368 8.87633C18.0157 9.07095 18.1506 9.23779 18.3244 9.35574C18.4982 9.4737 18.703 9.53748 18.913 9.53901C19.1231 9.54055 19.3288 9.47978 19.5043 9.36438L19.8586 9.13115L20.0377 9.02147C20.4303 8.7989 20.8657 8.66226 21.3151 8.62062C21.7644 8.57898 22.2175 8.63327 22.6443 8.77991L23.0461 8.91685L23.1764 8.95337C23.3821 8.99574 23.5958 8.97616 23.7903 8.89709C23.9849 8.81802 24.1517 8.68303 24.2696 8.50918C24.3875 8.33532 24.4511 8.13042 24.4525 7.92038C24.454 7.71034 24.3931 7.5046 24.2775 7.32918L24.0443 6.9749L23.9346 6.79574C23.7121 6.40317 23.5754 5.96779 23.5338 5.51843C23.4921 5.06907 23.5464 4.616 23.6931 4.18921L23.83 3.78739L23.8659 3.65797C23.9062 3.46342 23.891 3.26147 23.8223 3.07508Z" fill="url(#paint1_radial_3713_3309)" />
+                                            <defs>
+                                                <radialGradient id="paint0_radial_3713_3309" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(13.2009 4.20461) rotate(90) scale(27.4654)">
+                                                    <stop stop-color="#2DD4BF" />
+                                                    <stop offset="0.509615" stop-color="#0EA5E9" />
+                                                    <stop offset="1" stop-color="#D946EF" />
+                                                </radialGradient>
+                                                <radialGradient id="paint1_radial_3713_3309" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(23.8797 2.08417) rotate(127.798) scale(12.0261 12.0272)">
+                                                    <stop stop-color="#2DD4BF" />
+                                                    <stop offset="0.509615" stop-color="#0EA5E9" />
+                                                    <stop offset="1" stop-color="#D946EF" />
+                                                </radialGradient>
+                                            </defs>
+                                        </svg>
+
                                     </div>
-                                    <div className="w-11 h-11 flex items-center justify-center">
-                                        <TrSend />
-                                    </div>
+                                    <input
+                                        type="text"
+                                        value={searchValue}
+                                        onChange={(e) => setSearchValue(e.target.value)}
+                                        placeholder="Rechercher"
+                                        className="flex-1 text-xl font-bricolagegrotesque text-gray-800 placeholder:text-slate-400 focus:outline-none bg-transparent"
+                                    />
+                                    <button
+                                        className="w-11 h-11 flex items-center justify-center flex-shrink-0"
+                                        disabled={searchValue.trim().length === 0}
+                                    >
+                                        {searchValue.trim().length === 0 ? (
+                                            <TrSend />
+                                        ) : (
+                                            <ColSend />
+                                        )}
+                                    </button>
                                 </div>
 
                                 {/* Accueil - Special item with Nexa logo */}
@@ -186,14 +202,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                                     className="flex items-center gap-3 px-0 py-2 rounded-lg hover:bg-gray-100 transition-all duration-150 w-full"
                                     onClick={() => handleItemClick(() => console.log("Accueil clicked"))}
                                 >
-                                    <div className="w-8 h-8 flex items-center justify-center">
+                                    <div className="w-[30px] h-[30px] flex items-center justify-center">
                                         <svg width="31" height="32" viewBox="0 0 31 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M10.5762 2.32031C13.3759 0.568678 17.2024 0.558341 20.0059 2.29785L20.0312 2.31348C21.9684 3.43606 23.7743 4.39182 25.6582 5.50684C26.6337 6.09022 27.4698 6.90371 28.1357 7.84668L28.4111 8.25879C29.1799 9.50461 29.5979 10.9497 29.6504 12.4268L29.6514 12.4326C29.7024 13.6563 29.663 14.8208 29.6758 16.1191C29.655 17.5746 29.7389 18.7825 29.5625 20.041L29.5596 20.0566L29.5586 20.0723C29.3197 22.2931 28.0374 24.4034 26.1729 25.7549C24.4375 26.8896 22.6854 27.7388 20.7852 28.8613C19.7459 29.45 18.8442 29.978 17.8594 30.2539L17.8574 30.2549C16.5666 30.6204 15.179 30.6839 13.8057 30.5186C12.3746 30.2493 11.0281 29.6069 9.71582 28.7979L9.69238 28.7842L8.80273 28.2754C7.90395 27.7673 6.98541 27.2619 6.12402 26.7705L6.11035 26.7627L6.0957 26.7549L5.64551 26.5088C4.61238 25.9236 3.69643 25.2516 3.00977 24.4092L3.00195 24.3994L2.99512 24.3906L2.76367 24.1084C1.63786 22.6719 0.989387 20.8896 1 19.1104V19.1074C1.00648 16.8083 0.99395 14.5564 1.00684 12.2705V12.2695C1.01234 11.2618 1.27388 10.2477 1.68262 9.23828C2.0447 8.50007 2.45843 7.81432 2.95996 7.21973L2.96484 7.21387C3.62575 6.4185 4.47297 5.79615 5.44727 5.21094C5.93434 4.91838 6.43978 4.64269 6.96484 4.35742C7.47539 4.08004 8.00651 3.79166 8.52344 3.48535C9.20273 3.10881 9.8807 2.71772 10.54 2.34277L10.5586 2.33203L10.5762 2.32031Z" stroke="#64748B" stroke-width="2" />
                                             <path d="M15.318 6.98787C16.0693 6.98114 16.7044 7.41755 17.3455 7.74004C17.4687 9.30134 17.3133 10.8757 17.391 12.437C17.4493 13.3223 17.4168 14.2073 17.4168 15.0922C17.4168 15.5411 17.4232 15.9838 17.4558 16.4324C17.4687 16.6602 17.4879 16.7612 17.663 16.9132C17.8767 17.1088 18.1681 17.2415 18.4337 17.3743C18.6538 17.4819 19.1202 17.6716 19.3532 17.4757C19.8394 17.0711 19.6322 16.3629 19.6901 15.8193C19.6515 13.5686 19.7811 11.3116 19.6322 9.06138C20.6684 9.6745 21.7888 10.1549 22.7345 10.9008C23.2915 11.6785 23.3562 12.6455 23.3043 13.5623C23.2459 15.4272 23.3498 17.2922 23.2722 19.1571C23.0387 19.9411 22.4689 20.5987 21.7368 20.9714C20.0076 21.9201 18.3041 22.9189 16.5748 23.8671C15.5643 24.4676 14.1328 24.2335 13.3879 23.3548C13.3167 22.7229 13.3622 22.0905 13.3622 21.4585C13.3558 19.372 13.3687 17.2859 13.3622 15.1998C13.4463 14.4665 12.5911 14.2135 12.0539 13.9606C11.5746 13.6888 11.0305 14.1378 11.1082 14.6433C11.0498 17.1406 11.1596 19.6438 11.0562 22.1412C9.8711 21.3446 8.19973 20.9844 7.55223 19.6124C7.20207 18.5441 7.39006 17.3873 7.35147 16.2808C7.3772 14.9344 7.32525 13.5816 7.40291 12.2347C7.44197 11.3812 8.08305 10.6859 8.80867 10.2814C10.2401 9.49737 11.6587 8.68826 13.0773 7.87914C13.7767 7.48713 14.4826 7.01928 15.318 6.98787Z" fill="#64748B" />
                                         </svg>
 
                                     </div>
-                                    <span className="text-slate-950 text-xl font-bricolagegrotesque font-normal leading-8 flex-1 text-left">
+                                    <span className="text-slate-600 text-xl font-bricolagegrotesque font-normal leading-8 flex-1 text-left">
                                         Accueil
                                     </span>
                                     <div className="w-6 h-6 flex items-center justify-center">
@@ -204,7 +220,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                                 </button>
 
                                 {/* Main Navigation Items */}
-                                <div className="flex flex-col gap-7">
+                                <div className="flex flex-col gap-[12px]">
                                     {/* Profile Button - Special handling */}
                                     <ProfileButton />
 
@@ -291,10 +307,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                                                 className="flex items-center gap-3 px-0 py-2 rounded-lg hover:bg-gray-100 transition-all duration-150 w-full"
                                                 onClick={() => handleItemClick(item.onClick)}
                                             >
-                                                <div className="w-8 h-8 flex items-center justify-center">
+                                                <div className="w-[30px] h-[30px] flex items-center justify-center">
                                                     {getIcon(item.icon)}
                                                 </div>
-                                                <span className={`text-slate-950 font-bricolagegrotesque text-xl font-normal leading-8 flex-1 text-left`}>
+                                                <span className={`text-slate-600 font-bricolagegrotesque text-[20px] font-normal leading-8 flex-1 text-left`}>
                                                     {item.name}
                                                 </span>
                                                 <div className="w-6 h-6 flex items-center justify-center">
@@ -311,7 +327,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                                 <div className="w-full h-px bg-slate-200"></div>
 
                                 {/* Settings Items */}
-                                <div className="flex flex-col gap-7">
+                                <div className="flex flex-col gap-[12px]">
                                     {settingsItems.map((item) => {
                                         const getSettingsIcon = (iconType: string) => {
                                             switch (iconType) {
@@ -361,10 +377,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
                                                 className="flex items-center gap-3 px-0 py-2 rounded-lg hover:bg-gray-100 transition-all duration-150 w-full"
                                                 onClick={() => handleItemClick(item.onClick)}
                                             >
-                                                <div className="w-8 h-8 flex items-center justify-center">
+                                                <div className="w-[30px] h-[30px] flex items-center justify-center">
                                                     {getSettingsIcon(item.icon)}
                                                 </div>
-                                                <span className="text-slate-950 text-xl font-outfit font-normal leading-8 flex-1 text-left">
+                                                <span className="text-slate-600 text-[20px] font-outfit font-normal leading-8 flex-1 text-left">
                                                     {item.name}
                                                 </span>
                                                 <div className="w-6 h-6 flex items-center justify-center">

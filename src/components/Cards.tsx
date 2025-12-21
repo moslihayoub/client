@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-import { ChevronRight } from 'lucide-react'
+import React, { useState, useRef, useEffect } from 'react'
+import { ChevronRight, Plus, Trash2 } from 'lucide-react'
+import { motion } from 'framer-motion'
+import { scroll, animate } from 'motion'
+import { useNoteModal } from '../contexts/NoteModalContext'
 
 interface Card {
-    type: 'Note' | 'Memory' | 'Icon' | 'Favoris' | 'Urgences'
+    type: 'Note' | 'Memory' | 'Icon' | 'Favoris' | 'Urgences' | 'Reservation'
     title: string;
     description?: string;
     images?: string[];
@@ -11,10 +14,42 @@ interface Card {
     number?: number;
     text?: string;
     onNavigate?: () => void;
+    id?: string;
+    isUserNote?: boolean;
+    reservationDate?: string;
+    reservationType?: 'Hotel' | 'Service' | 'Experience' | 'Health';
 }
 
 interface Input {
     cards: Card[];
+    onDeleteReservation?: (reservationId: string) => void;
+}
+
+interface UserNote {
+    id: string;
+    title: string;
+    description: string;
+    backgroundColor: string;
+    createdAt: number;
+}
+
+// Helper function to calculate luminance and determine text color
+function getTextColorForBackground(backgroundColor: string): 'black' | 'white' {
+    // Remove # if present
+    const hex = backgroundColor.replace('#', '');
+    
+    // Convert hex to RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    // Calculate relative luminance using the formula from WCAG
+    // https://www.w3.org/WAI/GL/wiki/Relative_luminance
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    
+    // If luminance is greater than 0.5, use black text, otherwise use white
+    // Threshold of 0.5 works well for most colors
+    return luminance > 0.5 ? 'black' : 'white';
 }
 
 // Color picker popup component
@@ -34,6 +69,7 @@ function ColorPickerPopup({
         { name: 'red', value: '#F87171' },
         { name: 'yellow', value: '#FACC15' },
         { name: 'fuchsia', value: '#D946EF' },
+        { name: 'white', value: '#FFFFFF' },
     ];
 
     if (!isOpen) return null;
@@ -51,7 +87,9 @@ function ColorPickerPopup({
                             onColorSelect(color.value);
                             onClose();
                         }}
-                        className="w-[22px] h-[22px] rounded-full"
+                        className={`w-[22px] h-[22px] rounded-full ${
+                            color.value === '#FFFFFF' ? 'border-2 border-slate-300' : ''
+                        }`}
                         style={{ backgroundColor: color.value }}
                     />
                 ))}
@@ -60,29 +98,360 @@ function ColorPickerPopup({
     );
 }
 
-function Cards({ cards }: Input) {
+// Add Note Modal
+function AddNoteModal({
+    isOpen,
+    onClose,
+    onSave
+}: {
+    isOpen: boolean;
+    onClose: () => void;
+    onSave: (note: Omit<UserNote, 'id' | 'createdAt'>) => void;
+}) {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [selectedColor, setSelectedColor] = useState('#FACC15');
+
+    const colors = [
+        { name: 'yellow', value: '#FACC15' },
+        { name: 'teal', value: '#14B8A6' },
+        { name: 'sky', value: '#0EA5E9' },
+        { name: 'red', value: '#F87171' },
+        { name: 'fuchsia', value: '#D946EF' },
+        { name: 'white', value: '#FFFFFF' },
+        { name: 'black', value: '#000000' },
+    ];
+
+    const handleSave = () => {
+        if (title.trim()) {
+            onSave({ title, description, backgroundColor: selectedColor });
+            setTitle('');
+            setDescription('');
+            setSelectedColor('#FACC15');
+            onClose();
+        }
+    };
+
+    if (!isOpen) return null;
+
     return (
-        <div className='flex flex-wrap gap-[22px] items-start justify-center w-full pb-[40px] sm:pb-[40px] md:pb-0 lg:pb-0 xl:pb-0 pt-0 px-0'>
-            {cards.map((card, index) => (
-                <CardItem key={index} card={card} />
-            ))}
+        <div 
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm animate-fadeIn" 
+            onClick={onClose}
+        >
+            <div
+                className="bg-white rounded-[24px] p-[24px] shadow-2xl w-[90%] max-w-[400px] flex flex-col gap-[20px] animate-fadeIn"
+                onClick={(e) => e.stopPropagation()}
+            >
+                <div className="flex items-center justify-between">
+                    <h2 className="text-[20px] font-bold text-slate-900 font-bricolagegrotesque">
+                        Nouvelle Note
+                    </h2>
+                    <button
+                        onClick={onClose}
+                        className="w-[32px] h-[32px] rounded-full hover:bg-slate-100 flex items-center justify-center transition-colors"
+                    >
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M15 5L5 15M5 5L15 15" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </button>
+                </div>
+
+                {/* Title Input */}
+                <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
+                    placeholder="Titre de la note"
+                    maxLength={50}
+                    className="w-full px-[16px] py-[12px] rounded-[16px] border-2 border-slate-200 focus:border-sky-500 outline-none text-[16px] font-semibold text-slate-900 font-bricolagegrotesque transition-colors"
+                />
+
+                {/* Description Input */}
+                <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Description..."
+                    maxLength={200}
+                    rows={4}
+                    className="w-full px-[16px] py-[12px] rounded-[16px] border-2 border-slate-200 focus:border-sky-500 outline-none text-[14px] text-slate-700 font-vendsans resize-none transition-colors"
+                />
+
+                {/* Color Picker */}
+                <div className="flex flex-col gap-[12px]">
+                    <p className="text-[14px] font-medium text-slate-600 font-vendsans">Couleur</p>
+                    <div className="flex gap-[12px] flex-wrap">
+                        {colors.map((color) => (
+                            <button
+                                key={color.name}
+                                onClick={() => setSelectedColor(color.value)}
+                                className={`w-[40px] h-[40px] rounded-full transition-all ${
+                                    selectedColor === color.value ? 'ring-4 ring-slate-300 scale-110' : 'hover:scale-105'
+                                } ${
+                                    color.value === '#FFFFFF' ? 'border-2 border-slate-300' : ''
+                                }`}
+                                style={{ backgroundColor: color.value }}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-[12px]">
+                    <button
+                        onClick={onClose}
+                        className="flex-1 px-[20px] py-[12px] rounded-[16px] border-2 border-slate-200 text-slate-600 font-semibold font-bricolagegrotesque hover:bg-slate-50 transition-colors"
+                    >
+                        Annuler
+                    </button>
+                    <button
+                        onClick={handleSave}
+                        disabled={!title.trim()}
+                        className={`flex-1 px-[20px] py-[12px] rounded-[16px] text-white font-semibold font-bricolagegrotesque transition-all ${
+                            title.trim()
+                                ? 'bg-nexastay-gradient hover:shadow-nexastay-hover'
+                                : 'bg-slate-300 cursor-not-allowed'
+                        }`}
+                    >
+                        Sauvegarder
+                    </button>
+                </div>
+            </div>
         </div>
-    )
+    );
 }
 
-function CardItem({ card }: { card: Card }) {
+function Cards({ cards, onDeleteReservation }: Input) {
+    const { isNoteModalOpen, openNoteModal, closeNoteModal } = useNoteModal();
+    const [userNotes, setUserNotes] = useState<UserNote[]>([]);
+    const [calendarReminders, setCalendarReminders] = useState<any[]>([]);
+
+    // Load user notes from localStorage on mount
+    useEffect(() => {
+        const savedNotes = localStorage.getItem('nexastay_user_notes');
+        if (savedNotes) {
+            try {
+                setUserNotes(JSON.parse(savedNotes));
+            } catch (error) {
+                console.error('Error loading notes:', error);
+            }
+        }
+    }, []);
+
+    // Load calendar reminders from localStorage on mount and when storage changes
+    useEffect(() => {
+        const loadReminders = () => {
+            const savedReminders = localStorage.getItem('nexastay_calendar_reminders');
+            if (savedReminders) {
+                try {
+                    const reminders = JSON.parse(savedReminders);
+                    setCalendarReminders(reminders);
+                } catch (error) {
+                    console.error('Error loading calendar reminders:', error);
+                }
+            } else {
+                setCalendarReminders([]);
+            }
+        };
+
+        loadReminders();
+
+        // Listen for storage changes (when reminders are added from Details page in other tabs)
+        const handleStorageChange = (e: StorageEvent) => {
+            if (e.key === 'nexastay_calendar_reminders') {
+                loadReminders();
+            }
+        };
+
+        // Listen for custom events (when reminders are added from Details page in same tab)
+        const handleCustomStorageChange = () => {
+            loadReminders();
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+        window.addEventListener('localStorageChange', handleCustomStorageChange);
+        
+        // Also check periodically for changes (fallback for same-tab updates)
+        const interval = setInterval(loadReminders, 1000);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('localStorageChange', handleCustomStorageChange);
+            clearInterval(interval);
+        };
+    }, []);
+
+    // Save notes to localStorage whenever they change
+    useEffect(() => {
+        localStorage.setItem('nexastay_user_notes', JSON.stringify(userNotes));
+    }, [userNotes]);
+
+    const handleAddNote = (note: Omit<UserNote, 'id' | 'createdAt'>) => {
+        if (userNotes.length >= 5) {
+            alert('Vous avez atteint la limite de 5 notes!');
+            return;
+        }
+
+        const newNote: UserNote = {
+            ...note,
+            id: Date.now().toString(),
+            createdAt: Date.now(),
+        };
+
+        setUserNotes([...userNotes, newNote]);
+    };
+
+    const handleDeleteNote = (noteId: string) => {
+        setUserNotes(userNotes.filter(note => note.id !== noteId));
+    };
+
+    const handleUpdateNote = (noteId: string, backgroundColor: string) => {
+        setUserNotes(userNotes.map(note => 
+            note.id === noteId ? { ...note, backgroundColor } : note
+        ));
+    };
+
+    // Update calendar card with reminders
+    const updatedCards = cards.map(card => {
+        if (card.type === 'Note' && card.title === 'Calendrier') {
+            // Format calendar reminders
+            let calendarDescription = '';
+            if (calendarReminders.length > 0) {
+                // Sort reminders by date (most recent first)
+                const sortedReminders = [...calendarReminders].sort((a, b) => {
+                    const dateA = new Date(a.reservationDate || a.createdAt).getTime();
+                    const dateB = new Date(b.reservationDate || b.createdAt).getTime();
+                    return dateA - dateB; // Sort by date ascending (earliest first)
+                });
+
+                // Show only the 3 most recent reminders
+                const recentReminders = sortedReminders.slice(-3).reverse(); // Get last 3 and reverse for most recent first
+                calendarDescription = recentReminders.map(reminder => {
+                    return `${reminder.date}\n${reminder.description}`;
+                }).join('\n\n');
+            } else {
+                // Default message if no reminders
+                calendarDescription = "Aucune réservation prévue.\nCliquez sur 'Réserver' pour ajouter un rappel.";
+            }
+            
+            return {
+                ...card,
+                description: calendarDescription,
+            };
+        }
+        return card;
+    });
+
+    // Filter system cards (exclude Note type)
+    const systemCards = updatedCards.filter(card => card.type !== 'Note');
+    
+    // Convert user notes to Card format
+    const userNoteCards: Card[] = userNotes.map(note => ({
+        type: 'Note' as const,
+        id: note.id,
+        title: note.title,
+        description: note.description,
+        backgroundColor: note.backgroundColor,
+        isUserNote: true,
+    }));
+
+    // Combine all cards: system cards + user notes + add button (if < 5 notes)
+    const allCards = [...systemCards, ...userNoteCards];
+
+    return (
+        <div className='flex flex-wrap gap-[22px] items-start justify-center w-full pb-[30vh] sm:pb-[30vh] md:pb-[10%] lg:pb-[10%] xl:pb-[10%] pt-0 px-0'>
+            {allCards.map((card, index) => (
+                <CardItem
+                    key={card.id || index}
+                    card={card}
+                    onDelete={card.isUserNote 
+                        ? () => handleDeleteNote(card.id!) 
+                        : card.type === 'Reservation' && onDeleteReservation
+                        ? () => onDeleteReservation(card.id!)
+                        : undefined}
+                    onUpdateColor={card.isUserNote ? (color) => handleUpdateNote(card.id!, color) : undefined}
+                />
+            ))}
+            
+            {/* Add Note Button (only show if less than 5 notes) */}
+            {userNotes.length < 5 && (
+                <button
+                    onClick={openNoteModal}
+                    className='rounded-[22px] hover:p-[2px] bg-nexastay-border transition-all duration-300 hover:shadow-nexastay-gradient overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] group'
+                >
+                    <div className='flex flex-col items-center justify-center gap-[12px] rounded-[22px] w-full h-full bg-gradient-to-br from-slate-50 to-slate-100 hover:from-slate-100 hover:to-slate-200 transition-all duration-300'>
+                        <div className='w-[48px] h-[48px] rounded-full bg-nexastay-gradient flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg'>
+                            <Plus size={28} strokeWidth={3} className='text-white' />
+                        </div>
+                        <p className='text-[14px] font-semibold text-slate-600 font-bricolagegrotesque'>
+                            Ajouter une note
+                        </p>
+                        <p className='text-[12px] text-slate-500 font-vendsans'>
+                            {userNotes.length}/5 notes
+                        </p>
+                    </div>
+                </button>
+            )}
+
+            <AddNoteModal
+                isOpen={isNoteModalOpen}
+                onClose={closeNoteModal}
+                onSave={handleAddNote}
+            />
+        </div>
+    );
+}
+
+function CardItem({ 
+    card, 
+    onDelete, 
+    onUpdateColor 
+}: { 
+    card: Card;
+    onDelete?: () => void;
+    onUpdateColor?: (color: string) => void;
+}) {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [showColorPicker, setShowColorPicker] = useState(false);
     const [touchStart, setTouchStart] = useState(0);
     const [touchEnd, setTouchEnd] = useState(0);
     const [selectedColor, setSelectedColor] = useState<string | undefined>(card.backgroundColor);
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     const handleColorSelect = (color: string) => {
         // Update card background color
         if (card.type === 'Note') {
             setSelectedColor(color);
+            if (onUpdateColor) {
+                onUpdateColor(color);
+            }
         }
     };
+
+    useEffect(() => {
+        // Check if device is mobile (below 900px - md breakpoint)
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 900);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    useEffect(() => {
+        if (cardRef.current && isMobile) {
+            // Cards fade in as they scroll into view
+            // Using offset to ensure cards fade in when they're visible and above the search bar area
+            scroll(animate(cardRef.current, { opacity: [0, 1] }), {
+                target: cardRef.current,
+                offset: ["start 80%", "start 40%"], // Fade in from 80% to 20% of viewport (well above search bar)
+            });
+        }
+    }, [isMobile]);
 
     // Touch handlers for image carousel
     const handleTouchStart = (e: React.TouchEvent) => {
@@ -112,12 +481,38 @@ function CardItem({ card }: { card: Card }) {
     // Note card
     if (card.type === 'Note') {
         const bgColor = selectedColor || card.backgroundColor || '#FACC15';
+        const textColor = getTextColorForBackground(bgColor);
+        const textColorClass = textColor === 'white' ? 'text-white' : 'text-black';
+        const descriptionColorClass = textColor === 'white' ? 'text-white/95' : 'text-slate-950';
+        
         return (
             <>
+            <div
+            ref={cardRef}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            className='rounded-[22px] hover:p-[2px] bg-nexastay-border transition-all duration-300 hover:shadow-nexastay-gradient overflow-visible w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] relative'
+            style={isMobile ? { opacity: 0 } : undefined}>
                 <div
-                    className='flex flex-col gap-[10px] rounded-[22px] overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] p-[13px]'
+                    className='flex flex-col gap-[10px] rounded-[22px] p-[13px] transition-all duration-300 w-full h-full relative'
                     style={{ backgroundColor: bgColor }}
                 >
+                    {/* Delete button (only for user notes) - Bottom Right */}
+                    {card.isUserNote && onDelete && isHovered && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (window.confirm('Êtes-vous sûr de vouloir supprimer cette note?')) {
+                                    onDelete();
+                                }
+                            }}
+                            className='absolute bottom-[8px] right-[8px] z-20 w-[32px] h-[32px] rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110'
+                        >
+                            <Trash2 size={16} className='text-white' />
+                        </button>
+                    )}
+                    
+                
                     {/* Header with icon, title, and color picker button */}
                     <div className='flex items-center gap-[6px] w-full'>
                         {/* Calendar icon for Calendrier, Heart icon for other Note cards */}
@@ -148,7 +543,7 @@ function CardItem({ card }: { card: Card }) {
                             </svg>
                         )}
 
-                        <h3 className='text-base font-bold text-black font-bricolagegrotesque leading-[16px] flex-1'>
+                        <h3 className={`text-base font-bold ${textColorClass} font-bricolagegrotesque leading-[16px] flex-1 break-words overflow-hidden min-w-0`}>
                             {card.title}
                         </h3>
                         {/* Color picker button */}
@@ -172,12 +567,13 @@ function CardItem({ card }: { card: Card }) {
 
                     {/* Description */}
                     {card.description && (
-                        <p className='flex-1 text-sm font-medium text-slate-950 font-vendsans leading-[16px] whitespace-pre-line'>
+                        <p className={`flex-1 text-sm font-medium ${descriptionColorClass} font-vendsans leading-[18px] whitespace-pre-wrap break-words overflow-hidden`}>
                             {card.description}
                         </p>
                     )}
 
-                    {/* Navigation button */}
+                    {/* Navigation button (only for system notes, not user notes) */}
+                    {!card.isUserNote && (
                     <div className='flex items-center justify-end pt-[4px]'>
                         <button
                             onClick={card.onNavigate}
@@ -186,15 +582,16 @@ function CardItem({ card }: { card: Card }) {
                             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8.61548 3.53882C8.6561 3.53882 8.69506 3.55512 8.72388 3.58374L12.4163 7.27612C12.445 7.30494 12.4611 7.34381 12.4612 7.38452C12.4612 7.42522 12.445 7.46409 12.4163 7.49292L8.72388 11.1853L8.71704 11.1931C8.70296 11.2082 8.68513 11.2208 8.66626 11.2292C8.64753 11.2375 8.62717 11.2416 8.60669 11.2419C8.58608 11.2423 8.56525 11.2389 8.54614 11.2312C8.5271 11.2235 8.5099 11.2116 8.49536 11.197C8.48081 11.1824 8.4689 11.1653 8.46118 11.1462C8.45344 11.1271 8.45008 11.1063 8.45044 11.0857C8.45081 11.0652 8.45485 11.0449 8.46313 11.0261L8.49927 10.9763L11.9368 7.53882H2.46216C2.42142 7.53882 2.38162 7.52267 2.35278 7.4939C2.32393 7.46505 2.30786 7.42532 2.30786 7.38452C2.30789 7.34388 2.32411 7.30492 2.35278 7.27612C2.38164 7.24727 2.42136 7.2312 2.46216 7.2312H11.9368L11.4114 6.70581L8.5061 3.80054C8.47779 3.77177 8.46216 3.73253 8.46216 3.69214C8.46218 3.67184 8.46626 3.65195 8.47388 3.63354L8.50708 3.58374C8.53587 3.55506 8.57484 3.53886 8.61548 3.53882Z" fill="white" stroke="white" stroke-width="0.615385" />
                             </svg>
-
                         </button>
                     </div>
+                    )}
                 </div>
                 <ColorPickerPopup
                     isOpen={showColorPicker}
                     onClose={() => setShowColorPicker(false)}
                     onColorSelect={handleColorSelect}
                 />
+                </div>
             </>
         );
     }
@@ -206,7 +603,13 @@ function CardItem({ card }: { card: Card }) {
 
         return (
             <div
-                className='relative flex rounded-[22px] overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] group'
+            ref={cardRef}
+            className='rounded-[22px] hover:p-[2px] bg-nexastay-border transition-all duration-300 hover:shadow-nexastay-gradient overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] cursor-pointer'
+            style={isMobile ? { opacity: 0 } : undefined}
+            onClick={card.onNavigate}
+            >
+                <div
+                    className='relative flex rounded-[22px] overflow-hidden w-full h-full group'
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
@@ -223,7 +626,7 @@ function CardItem({ card }: { card: Card }) {
                         <div
                             className="absolute inset-0"
                             style={{
-                                background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.22) 100%), linear-gradient(180deg, rgba(2, 6, 23, 0.45) 0%, rgba(2, 6, 23, 0.00) 28.24%, rgba(2, 6, 23, 0.00) 48.41%, rgba(2, 6, 23, 0.45) 80.69%)'
+                                background: 'linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0%, rgba(0, 0, 0, 0.22) 80%), linear-gradient(180deg, rgba(2, 6, 23, 0.45) 0%, rgba(2, 6, 23, 0.00) 28.24%, rgba(2, 6, 23, 0.00) 48.41%, rgba(2, 6, 23, 0.45) 80.69%)'
                             }}
                         />
                     </div>
@@ -292,7 +695,8 @@ function CardItem({ card }: { card: Card }) {
                                     return (
                                         <button
                                             key={i}
-                                            onClick={() => {
+                                            onClick={(e) => {
+                                                e.stopPropagation();
                                                 // Navigate to appropriate image
                                                 if (maxIndicators === 1) {
                                                     setCurrentImageIndex(0);
@@ -316,7 +720,10 @@ function CardItem({ card }: { card: Card }) {
 
                             {/* Navigation button to memory page */}
                             <button
-                                onClick={card.onNavigate}
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    if (card.onNavigate) card.onNavigate();
+                                }}
                                 className="bg-black/40 border border-white rounded-full w-[32px] h-[32px] flex items-center justify-center hover:bg-black/60 transition-all duration-200"
                             >
                                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -324,6 +731,7 @@ function CardItem({ card }: { card: Card }) {
                                 </svg>
 
                             </button>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -334,7 +742,11 @@ function CardItem({ card }: { card: Card }) {
     // Icon card (with icon, number, and text)
     if (card.type === 'Icon') {
         return (
-            <div className='bg-white rounded-[22px] overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] p-[16px] pb-[22px] pt-[4px] flex flex-col items-center justify-center shadow-md'>
+            <motion.div
+            ref={cardRef}
+            className='rounded-[22px] hover:p-[2px] bg-nexastay-border transition-all duration-300 hover:shadow-nexastay-gradient overflow-hidden w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px]'
+            style={isMobile ? { opacity: 0 } : undefined}>
+                <div className='bg-white rounded-[22px] overflow-hidden w-full h-full p-[16px] pb-[22px] pt-[4px] flex flex-col items-center justify-center shadow-md'>
                 {/* Icon */}
                 {card.icon && (
                     <div className='mb-[-6px] w-[94px] h-[94px] relative'>
@@ -353,6 +765,82 @@ function CardItem({ card }: { card: Card }) {
                         <p className='text-lg font-semibold text-slate-700 font-bricolagegrotesque leading-[28px]'>
                             {card.text}
                         </p>
+                    )}
+                </div>
+            </div>
+            </motion.div>
+        );
+    }
+
+    // Reservation card
+    if (card.type === 'Reservation') {
+        const bgColor = card.backgroundColor || '#0EA5E9';
+        return (
+            <div
+                ref={cardRef}
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+                className='rounded-[22px] hover:p-[2px] bg-nexastay-border transition-all duration-300 hover:shadow-nexastay-gradient overflow-visible w-[calc(50%-11px)] sm:w-[calc(50%-11px)] md:w-[180px] lg:w-[180px] xl:w-[180px] h-[189px] md:h-[180px] relative'
+                style={isMobile ? { opacity: 0 } : undefined}
+            >
+                <div
+                    className='flex flex-col gap-[10px] rounded-[22px] p-[13px] transition-all duration-300 w-full h-full relative'
+                    style={{ backgroundColor: bgColor }}
+                >
+                    {/* Delete button - Bottom Right */}
+                    {onDelete && isHovered && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (window.confirm('Êtes-vous sûr de vouloir annuler cette réservation?')) {
+                                    onDelete();
+                                }
+                            }}
+                            className='absolute bottom-[8px] right-[8px] z-20 w-[32px] h-[32px] rounded-full bg-red-500 hover:bg-red-600 flex items-center justify-center shadow-lg transition-all duration-200 hover:scale-110'
+                            aria-label="Supprimer la réservation"
+                        >
+                            <Trash2 size={16} className='text-white' />
+                        </button>
+                    )}
+
+                    {/* Header with calendar icon and title */}
+                    <div className='flex items-center gap-[6px] w-full'>
+                        {/* Calendar icon */}
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="flex-shrink-0">
+                            <path d="M17.29 11.968C17.2911 12.1426 17.2577 12.3158 17.1919 12.4776C17.126 12.6393 17.0289 12.7865 16.9062 12.9108C16.7834 13.035 16.6374 13.1339 16.4764 13.2017C16.3154 13.2695 16.1427 13.3049 15.968 13.306C15.7933 13.3051 15.6204 13.2697 15.4594 13.202C15.2983 13.1342 15.1521 13.0354 15.0293 12.9111C14.9064 12.7869 14.8092 12.6396 14.7433 12.4778C14.6774 12.316 14.644 12.1427 14.645 11.968C14.6441 11.7933 14.6776 11.6202 14.7436 11.4585C14.8096 11.2968 14.9068 11.1496 15.0296 11.0255C15.1525 10.9013 15.2986 10.8026 15.4596 10.7349C15.6206 10.6672 15.7934 10.6319 15.968 10.631C16.698 10.631 17.29 11.23 17.29 11.968Z" fill="white" />
+                            <path fillRule="evenodd" clipRule="evenodd" d="M18.1319 7.40796C17.2829 7.28796 16.1899 7.28796 14.8269 7.28796H9.17294C7.80994 7.28796 6.71694 7.28796 5.86794 7.40796C4.99094 7.53296 4.25994 7.79996 3.71594 8.42796C3.17294 9.05596 3.00594 9.82396 2.99994 10.721C2.99394 11.587 3.13894 12.683 3.31894 14.049L3.68394 16.821C3.82494 17.889 3.93894 18.754 4.11594 19.431C4.30094 20.135 4.57294 20.719 5.08394 21.171C5.59394 21.624 6.20394 21.82 6.91794 21.911C7.60494 22 8.46794 22 9.53294 22H14.4669C15.5319 22 16.3949 22 17.0819 21.912C17.7969 21.82 18.4049 21.624 18.9159 21.172C19.4269 20.719 19.6989 20.135 19.8839 19.431C20.0609 18.754 20.1749 17.889 20.3159 16.821L20.6809 14.049C20.8609 12.683 21.0059 11.587 20.9999 10.721C20.9929 9.82396 20.8279 9.05596 20.2839 8.42796C19.7399 7.79996 19.0089 7.53296 18.1319 7.40796ZM6.05194 8.73196C5.32594 8.83596 4.95794 9.02396 4.71194 9.30896C4.46394 9.59396 4.32794 9.98796 4.32194 10.73C4.31694 11.491 4.44794 12.494 4.63694 13.925L4.68694 14.304L5.05794 14.032C6.01794 13.329 7.43394 13.364 8.34594 14.127L11.7299 16.96C12.0499 17.228 12.6009 17.278 12.9989 17.044L13.2339 16.905C14.3589 16.243 15.8679 16.313 16.9059 17.095L18.7379 18.475C18.8279 17.98 18.9089 17.371 19.0109 16.6L19.3629 13.925C19.5519 12.495 19.6829 11.491 19.6769 10.73C19.6719 9.98796 19.5359 9.59396 19.2889 9.30996C19.0419 9.02396 18.6739 8.83596 17.9469 8.73196C17.2019 8.62596 16.2019 8.62496 14.7749 8.62496H9.22494C7.79794 8.62496 6.79694 8.62596 6.05194 8.73196Z" fill="white" />
+                            <path d="M6.88001 4.5C5.62801 4.5 4.60101 5.34 4.25901 6.454L4.23901 6.524C4.59701 6.404 4.96901 6.324 5.34701 6.271C6.31901 6.132 7.54801 6.132 8.97601 6.132H15.178C16.606 6.132 17.835 6.132 18.808 6.271C19.185 6.324 19.558 6.403 19.916 6.524L19.896 6.454C19.553 5.34 18.526 4.5 17.276 4.5H6.88001Z" fill="white" />
+                            <path d="M8.85894 2H15.1409C15.3499 2 15.5109 2 15.6509 2.015C16.1297 2.06826 16.5846 2.25251 16.9655 2.54748C17.3464 2.84246 17.6386 3.23675 17.8099 3.687H6.18994C6.3613 3.23675 6.65349 2.84246 7.03439 2.54748C7.41528 2.25251 7.87013 2.06826 8.34894 2.015C8.48894 2 8.64894 2 8.85894 2Z" fill="white" />
+                        </svg>
+
+                        <h3 className='text-sm font-bold text-white font-bricolagegrotesque leading-[16px] flex-1 line-clamp-2'>
+                            {card.title}
+                        </h3>
+                    </div>
+
+                    {/* Date */}
+                    {card.reservationDate && (
+                        <div className='flex items-center gap-[4px]'>
+                            <p className='text-xs font-semibold text-white/95 font-vendsans leading-[14px]'>
+                                📅 {card.reservationDate}
+                            </p>
+                        </div>
+                    )}
+
+                    {/* Description */}
+                    {card.description && (
+                        <p className='flex-1 text-xs font-medium text-white/90 font-vendsans leading-[15px] whitespace-pre-wrap break-words overflow-hidden line-clamp-4'>
+                            {card.description}
+                        </p>
+                    )}
+
+                    {/* Type badge */}
+                    {card.reservationType && (
+                        <div className='flex items-center justify-start pt-[2px]'>
+                            <span className='text-[10px] font-semibold text-white bg-white/25 rounded-full px-[8px] py-[3px] font-bricolagegrotesque uppercase tracking-wide'>
+                                {card.reservationType}
+                            </span>
+                        </div>
                     )}
                 </div>
             </div>

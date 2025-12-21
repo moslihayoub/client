@@ -6,9 +6,10 @@ interface MorePopupProps {
     position?: { top: number; right: number };
     onAppModeClick: () => void;
     onLanguageClick: () => void;
+    onLogout?: () => void;
 }
 
-const MorePopup: React.FC<MorePopupProps> = ({ isOpen, onClose, position, onAppModeClick, onLanguageClick }) => {
+const MorePopup: React.FC<MorePopupProps> = ({ isOpen, onClose, position, onAppModeClick, onLanguageClick, onLogout }) => {
     if (!isOpen) return null;
 
     const menuItems = [
@@ -55,6 +56,24 @@ const MorePopup: React.FC<MorePopupProps> = ({ isOpen, onClose, position, onAppM
             }
         }
     ];
+
+    if (onLogout) {
+        menuItems.push({
+            id: 'logout',
+            label: 'Se déconnecter',
+            icon: (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 7V6C9 4.34315 10.3431 3 12 3H17C18.6569 3 20 4.34315 20 6V18C20 19.6569 18.6569 21 17 21H12C10.3431 21 9 19.6569 9 18V17" stroke="#475569" strokeWidth="1.5" strokeLinecap="round"/>
+                    <path d="M4 12L14 12" stroke="#475569" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M6.5 9.5L4 12L6.5 14.5" stroke="#475569" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+            ),
+            onClick: () => {
+                onLogout();
+                onClose();
+            }
+        });
+    }
 
     return (
         <>
