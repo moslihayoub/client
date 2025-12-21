@@ -147,17 +147,17 @@ const Login: React.FC = () => {
                     <div className="absolute -left-10 -top-10 h-48 w-48 rounded-full bg-sky-500/15 blur-3xl" />
                     <div className="absolute -right-10 -bottom-16 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" />
                     <div className="relative z-10 space-y-6">
-                        <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-100">
+                        <p className="inline-flex items-center gap-2 rounded-full font-bricolagegrotesque bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-100">
                             NexaStay
-                            <span className="h-1 w-1 rounded-full bg-cyan-300" />
+                            <span className="h-1 w-1 rounded-full font-bricolagegrotesque bg-cyan-300" />
                             Connexion
                         </p>
-                        <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
+                        <h1 className="text-3xl sm:text-4xl font-bold leading-tight font-bricolagegrotesque">
                             Reprenez votre voyage
                             <span className="block text-cyan-200">avec une expérience fluide</span>
                         </h1>
-                        <p className="text-sm sm:text-base text-slate-200/80 max-w-lg">
-                            Visualisations subtiles, micro-interactions et un flux clair pour rester cohérent avec l'esthétique NexaStay.
+                        <p className="text-sm sm:text-base text-slate-200/80 max-w-lg font-vendsans">
+                            Découvrez une expérience NexaStay conçue pour vous : navigation intuitive, esthétique raffinée et accès rapide à vos souvenirs et réservations.
                         </p>
                         <div className="space-y-3 pt-2">
                             <motion.button
@@ -167,7 +167,7 @@ const Login: React.FC = () => {
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleGoogleLogin}
                                 disabled={loading}
-                                className="w-full flex items-center justify-center gap-3 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur hover:bg-white/15 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full flex items-center font-bricolagegrotesque justify-center gap-3 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur hover:bg-white/15 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -184,7 +184,7 @@ const Login: React.FC = () => {
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleAppleLogin}
                                 disabled={loading}
-                                className="w-full flex items-center justify-center gap-3 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur hover:bg-white/15 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full flex items-center font-bricolagegrotesque justify-center gap-3 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur hover:bg-white/15 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <img src="logos/apple.png" alt="Apple" className="w-6 h-6" />
                                 Continuer avec Apple
@@ -197,9 +197,9 @@ const Login: React.FC = () => {
                 <div className="order-1 lg:order-2 rounded-3xl bg-white shadow-xl shadow-slate-200/60 border border-slate-100 p-6 sm:p-10">
                     <div className="flex items-center justify-between mb-6">
                         <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Connexion</p>
-                            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">Bienvenue</h2>
-                            <p className="text-sm text-slate-500">Retrouvez vos mémoires, favoris et conversations.</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 font-bricolagegrotesque">Connexion</p>
+                            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 font-bricolagegrotesque">Bienvenue</h2>
+                            <p className="text-sm text-slate-500 font-bricolagegrotesque">Retrouvez vos mémoires, favoris et conversations.</p>
                         </div>
                         <svg width="32" height="36" viewBox="0 0 32 36" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M31.9885 18.0745C31.9751 16.6791 32.0158 15.2767 31.9616 13.8818C31.9008 12.0402 31.4144 10.2272 30.5092 8.65492C29.6988 7.27359 28.6115 6.05556 27.2875 5.20586C25.3491 3.97326 23.3566 2.83312 21.4115 1.62213C18.1491 -0.552633 13.7317 -0.53806 10.476 1.65027C9.78023 2.07537 9.08443 2.507 8.38239 2.92507C6.27485 4.27073 3.88362 5.30485 2.28979 7.36554C1.68887 8.13083 1.20918 8.9946 0.803778 9.88701C0.337992 11.1126 0.0135705 12.4085 0.00686162 13.7401C-0.0065561 16.2967 0.00686156 18.8463 0.000152763 21.403C-0.013265 23.8184 0.857928 26.2052 2.33052 28.0539C3.27599 29.3001 4.54588 30.2141 5.86945 30.9648C7.10579 31.7225 8.35508 32.4516 9.58424 33.2169C11.0166 34.1656 12.5563 34.9661 14.2383 35.2992C15.7918 35.5042 17.3924 35.4334 18.9052 34.9731C20.0807 34.6194 21.1412 33.946 22.1883 33.3089C24.0725 32.112 26.0583 31.0638 27.8889 29.7749C30.0635 28.0891 31.5764 25.4405 31.86 22.6074C32.056 21.1055 31.9683 19.59 31.9885 18.0745Z" fill="url(#paint0_radial_3760_1692)" />
@@ -220,7 +220,7 @@ const Login: React.FC = () => {
 
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                            <label className="block text-sm font-medium text-slate-700 mb-2 font-bricolagegrotesque">Email</label>
                             <input
                                 type="email"
                                 value={email}
@@ -231,7 +231,7 @@ const Login: React.FC = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-2">Mot de passe</label>
+                            <label className="block text-sm font-medium text-slate-700 mb-2 font-bricolagegrotesque">Mot de passe</label>
                             <input
                                 type="password"
                                 value={password}
@@ -243,14 +243,14 @@ const Login: React.FC = () => {
                         </div>
 
                         {error && (
-                            <div className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+                            <div className="rounded-xl font-bricolagegrotesque border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                                 {error}
                             </div>
                         )}
 
                         <motion.button
                             whileTap={{ scale: 0.98 }}
-                            className="w-full rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 py-3 text-white font-semibold shadow-lg shadow-cyan-500/30 hover:brightness-110 transition"
+                            className="w-full rounded-xl font-bricolagegrotesque bg-gradient-to-r from-cyan-500 to-blue-600 py-3 text-white font-semibold shadow-lg shadow-cyan-500/30 hover:brightness-110 transition"
                             type="submit"
                             disabled={loading}
                         >
@@ -259,10 +259,10 @@ const Login: React.FC = () => {
 
                         <div className="flex items-center justify-between text-sm text-slate-600">
                             <div className="flex items-center gap-2">
-                                <span className="h-[1px] w-10 bg-slate-200" />
+                                <span className="h-[1px] w-10 font-bricolagegrotesque bg-slate-200" />
                                 <span>Pas encore de compte ?</span>
                             </div>
-                            <Link to="/signup" className="font-semibold text-cyan-600 hover:text-cyan-700">
+                            <Link to="/signup" className="font-semibold font-bricolagegrotesque text-cyan-600 hover:text-cyan-700">
                                 Créer un compte
                             </Link>
                         </div>
@@ -275,17 +275,17 @@ const Login: React.FC = () => {
                     <div className="absolute -left-10 -top-10 h-48 w-48 rounded-full bg-sky-500/15 blur-3xl" />
                     <div className="absolute -right-10 -bottom-16 h-56 w-56 rounded-full bg-fuchsia-500/20 blur-3xl" />
                     <div className="relative z-10 space-y-6">
-                        <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-100">
+                        <p className="inline-flex items-center gap-2 rounded-full font-bricolagegrotesque bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-cyan-100">
                             NexaStay
-                            <span className="h-1 w-1 rounded-full bg-cyan-300" />
+                            <span className="h-1 w-1 rounded-full font-bricolagegrotesque bg-cyan-300" />
                             Connexion
                         </p>
-                        <h1 className="text-3xl sm:text-4xl font-bold leading-tight">
+                        <h1 className="text-3xl sm:text-4xl font-bold leading-tight font-bricolagegrotesque">
                             Reprenez votre voyage
                             <span className="block text-cyan-200">avec une expérience fluide</span>
                         </h1>
-                        <p className="text-sm sm:text-base text-slate-200/80 max-w-lg">
-                            Visualisations subtiles, micro-interactions et un flux clair pour rester cohérent avec l'esthétique NexaStay.
+                        <p className="text-sm sm:text-base text-slate-200/80 max-w-lg font-vendsans">
+                        Découvrez une expérience NexaStay conçue pour vous : navigation intuitive, esthétique raffinée et accès rapide à vos souvenirs et réservations.
                         </p>
                         <div className="space-y-3 pt-2">
                             <motion.button
@@ -295,7 +295,7 @@ const Login: React.FC = () => {
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleGoogleLogin}
                                 disabled={loading}
-                                className="w-full flex items-center justify-center gap-3 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur hover:bg-white/15 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full flex items-center font-bricolagegrotesque justify-center gap-3 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur hover:bg-white/15 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
@@ -312,7 +312,7 @@ const Login: React.FC = () => {
                                 whileTap={{ scale: 0.98 }}
                                 onClick={handleAppleLogin}
                                 disabled={loading}
-                                className="w-full flex items-center justify-center gap-3 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur hover:bg-white/15 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="w-full flex items-center font-bricolagegrotesque justify-center gap-3 rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-sm font-medium text-white/90 backdrop-blur hover:bg-white/15 transition disabled:opacity-50 disabled:cursor-not-allowed"
                             >
                                 <img src="logos/apple.png" alt="Apple" className="w-6 h-6" />
                                 Continuer avec Apple
